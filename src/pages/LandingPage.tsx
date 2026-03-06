@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import {
   Droplets,
   ArrowRight,
-  AlertTriangle,
   DollarSign,
   BarChart3,
   FileText,
