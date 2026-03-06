@@ -127,46 +127,7 @@ export default function LandingPage() {
       </section>
 
       {/* ====== 2. PROBLÈME ====== */}
-      <section id="probleme" className="bg-muted/40 py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="text-center">
-            <motion.h2 variants={fadeUp} className="text-3xl font-bold sm:text-4xl">{t("problem.title")}</motion.h2>
-            <motion.p variants={fadeUp} className="mx-auto mt-4 max-w-2xl text-muted-foreground">{t("problem.subtitle")}</motion.p>
-          </motion.div>
-
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { icon: AlertTriangle, titleKey: "problem.card1.title", descKey: "problem.card1.desc" },
-              { icon: Building2, titleKey: "problem.card2.title", descKey: "problem.card2.desc" },
-              { icon: BookOpen, titleKey: "problem.card3.title", descKey: "problem.card3.desc" },
-              { icon: DollarSign, titleKey: "problem.card4.title", descKey: "problem.card4.desc" },
-            ].map((item) => (
-              <motion.div key={item.titleKey} variants={fadeUp}>
-                <Card className="h-full shadow-card">
-                  <CardContent className="p-6">
-                    <div className="rounded-xl bg-destructive/10 p-2.5 inline-flex">
-                      <item.icon className="h-5 w-5 text-destructive" />
-                    </div>
-                    <h3 className="mt-4 font-semibold">{t(item.titleKey)}</h3>
-                    <p className="mt-2 text-sm text-muted-foreground">{t(item.descKey)}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          <div className="mt-10 flex flex-wrap justify-center gap-6 text-center">
-            <div className="rounded-xl bg-card px-8 py-4 shadow-card">
-              <p className="text-3xl font-bold text-primary">20%</p>
-              <p className="text-sm text-muted-foreground">{t("problem.stat1")}</p>
-            </div>
-            <div className="rounded-xl bg-card px-8 py-4 shadow-card">
-              <p className="text-3xl font-bold text-primary">70%</p>
-              <p className="text-sm text-muted-foreground">{t("problem.stat2")}</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WhySection />
 
       {/* ====== 3. SOLUTION ====== */}
       <section id="solution" className="py-20">
