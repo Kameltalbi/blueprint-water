@@ -14,11 +14,11 @@ export const mockMonthlyData = [
 ];
 
 export const mockUsageBreakdown = [
-  { name: "Processus industriel", value: 35, fill: "hsl(199, 89%, 48%)" },
-  { name: "Irrigation", value: 28, fill: "hsl(142, 71%, 45%)" },
-  { name: "Sanitaire", value: 15, fill: "hsl(215, 14%, 60%)" },
-  { name: "Refroidissement", value: 12, fill: "hsl(199, 70%, 65%)" },
-  { name: "Nettoyage", value: 10, fill: "hsl(43, 96%, 56%)" },
+  { name: "Processus industriel", value: 35, fill: "hsl(201, 96%, 32%)" },
+  { name: "Irrigation", value: 28, fill: "hsl(142, 72%, 29%)" },
+  { name: "Sanitaire", value: 15, fill: "hsl(220, 9%, 46%)" },
+  { name: "Refroidissement", value: 12, fill: "hsl(201, 70%, 55%)" },
+  { name: "Nettoyage", value: 10, fill: "hsl(48, 96%, 53%)" },
 ];
 
 export const mockAlerts = [

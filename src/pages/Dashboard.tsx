@@ -29,6 +29,7 @@ const kpis = [
     value: `${(totalBlue / 1000).toFixed(1)}k m³`,
     icon: Droplets,
     colorClass: "text-blue-water bg-blue-water/10",
+    borderClass: "border-l-4 border-l-blue-water",
     change: "-5.2%",
   },
   {
@@ -36,6 +37,7 @@ const kpis = [
     value: `${(totalGreen / 1000).toFixed(1)}k m³`,
     icon: CloudRain,
     colorClass: "text-green-water bg-green-water/10",
+    borderClass: "border-l-4 border-l-green-water",
     change: "+2.1%",
   },
   {
@@ -43,6 +45,7 @@ const kpis = [
     value: `${(totalGrey / 1000).toFixed(1)}k m³`,
     icon: Beaker,
     colorClass: "text-grey-water bg-grey-water/10",
+    borderClass: "border-l-4 border-l-grey-water",
     change: "-8.4%",
   },
   {
@@ -50,6 +53,7 @@ const kpis = [
     value: `${(totalAll / employees).toFixed(0)} m³`,
     icon: Users,
     colorClass: "text-primary bg-primary/10",
+    borderClass: "border-l-4 border-l-primary",
     change: "-3.1%",
   },
 ];
@@ -76,7 +80,7 @@ export default function Dashboard() {
       {/* KPIs */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {kpis.map((kpi) => (
-          <Card key={kpi.label} className="shadow-card border">
+          <Card key={kpi.label} className={`shadow-card border ${kpi.borderClass}`}>
             <CardContent className="p-5">
               <div className="flex items-center justify-between">
                 <div className={`rounded-lg p-2 ${kpi.colorClass}`}>
@@ -124,7 +128,7 @@ export default function Dashboard() {
                   <Line
                     type="monotone"
                     dataKey="blue"
-                    stroke="hsl(199, 89%, 48%)"
+                    stroke="hsl(201, 96%, 32%)"
                     strokeWidth={2}
                     dot={false}
                     name="Eau Bleue"
@@ -132,7 +136,7 @@ export default function Dashboard() {
                   <Line
                     type="monotone"
                     dataKey="green"
-                    stroke="hsl(142, 71%, 45%)"
+                    stroke="hsl(142, 72%, 29%)"
                     strokeWidth={2}
                     dot={false}
                     name="Eau Verte"
@@ -140,7 +144,7 @@ export default function Dashboard() {
                   <Line
                     type="monotone"
                     dataKey="grey"
-                    stroke="hsl(215, 14%, 60%)"
+                    stroke="hsl(220, 9%, 46%)"
                     strokeWidth={2}
                     dot={false}
                     name="Eau Grise"
