@@ -57,6 +57,16 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        "blue-water": "hsl(var(--blue-water))",
+        "green-water": "hsl(var(--green-water))",
+        "grey-water": "hsl(var(--grey-water))",
+        score: {
+          a: "hsl(var(--score-a))",
+          b: "hsl(var(--score-b))",
+          c: "hsl(var(--score-c))",
+          d: "hsl(var(--score-d))",
+          e: "hsl(var(--score-e))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
