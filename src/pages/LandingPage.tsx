@@ -344,6 +344,9 @@ export default function LandingPage() {
           <div className="mt-12">
             <PricingSection />
           </div>
+          <div className="mt-16">
+            <EstimateForm />
+          </div>
         </div>
       </section>
 
