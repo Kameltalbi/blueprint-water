@@ -35,12 +35,12 @@
     --radius: 0.625rem;
 
     /* Custom tokens */
-    --blue-water: 199 89% 48%;
-    --green-water: 142 71% 45%;
-    --grey-water: 215 14% 60%;
+    --blue-water: 201 96% 32%;
+    --green-water: 142 72% 29%;
+    --grey-water: 220 9% 46%;
     --score-a: 142 71% 45%;
-    --score-b: 160 60% 45%;
-    --score-c: 43 96% 56%;
+    --score-b: 158 64% 42%;
+    --score-c: 48 96% 53%;
     --score-d: 25 95% 53%;
     --score-e: 0 72% 51%;
 

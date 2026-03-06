@@ -29,6 +29,7 @@ const kpis = [
     value: `${(totalBlue / 1000).toFixed(1)}k m³`,
     icon: Droplets,
     colorClass: "text-blue-water bg-blue-water/10",
+    borderClass: "border-l-4 border-l-blue-water",
     change: "-5.2%",
   },
   {
@@ -36,6 +37,7 @@ const kpis = [
     value: `${(totalGreen / 1000).toFixed(1)}k m³`,
     icon: CloudRain,
     colorClass: "text-green-water bg-green-water/10",
+    borderClass: "border-l-4 border-l-green-water",
     change: "+2.1%",
   },
   {
@@ -43,6 +45,7 @@ const kpis = [
     value: `${(totalGrey / 1000).toFixed(1)}k m³`,
     icon: Beaker,
     colorClass: "text-grey-water bg-grey-water/10",
+    borderClass: "border-l-4 border-l-grey-water",
     change: "-8.4%",
   },
   {
@@ -50,6 +53,7 @@ const kpis = [
     value: `${(totalAll / employees).toFixed(0)} m³`,
     icon: Users,
     colorClass: "text-primary bg-primary/10",
+    borderClass: "border-l-4 border-l-primary",
     change: "-3.1%",
   },
 ];
