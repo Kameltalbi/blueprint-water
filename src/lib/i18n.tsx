@@ -29,34 +29,98 @@ const translations: Record<string, Record<Lang, string>> = {
   "hero.cta1": { fr: "Demander une démo", en: "Request a demo" },
   "hero.cta2": { fr: "Essayer la plateforme", en: "Try the platform" },
 
-  // Problem
-  "problem.title": { fr: "Pourquoi mesurer son empreinte eau ?", en: "Why measure your water footprint?" },
-  "problem.subtitle": {
-    fr: "La pression sur les ressources en eau s'intensifie. Les entreprises consomment souvent sans visibilité réelle.",
-    en: "Pressure on water resources is intensifying. Companies often consume without real visibility.",
+  // Why Section
+  "why.label": { fr: "Pourquoi HydroScan", en: "Why HydroScan" },
+  "why.title1": { fr: "6 raisons de mesurer\nvotre ", en: "6 reasons to measure\nyour " },
+  "why.titleHighlight": { fr: "empreinte eau", en: "water footprint" },
+  "why.subtitle": {
+    fr: "Les entreprises qui trackent leur eau aujourd'hui survivront demain. Celles qui attendent paieront le prix fort.",
+    en: "Companies tracking their water today will survive tomorrow. Those who wait will pay the price.",
   },
-  "problem.card1.title": { fr: "Ressources sous pression", en: "Resources under pressure" },
-  "problem.card1.desc": {
-    fr: "Le stress hydrique touche 40% de la population mondiale et s'aggrave chaque année.",
-    en: "Water stress affects 40% of the world's population and is worsening every year.",
+
+  "why.stat1.number": { fr: "40%", en: "40%" },
+  "why.stat1.label": { fr: "d'eau gaspillée en moyenne par les entreprises", en: "of water wasted on average by companies" },
+  "why.stat2.number": { fr: "×3", en: "×3" },
+  "why.stat2.label": { fr: "hausse du prix de l'eau industrielle d'ici 2030", en: "increase in industrial water price by 2030" },
+  "why.stat3.number": { fr: "8.5", en: "8.5" },
+  "why.stat3.label": { fr: "facteur de stress hydrique en Tunisie (AWARE)", en: "water stress factor in Tunisia (AWARE)" },
+  "why.stat4.number": { fr: "500k+", en: "500k+" },
+  "why.stat4.label": { fr: "entreprises ciblées en Afrique francophone", en: "targeted companies in francophone Africa" },
+
+  "why.reason1.title": { fr: "Réduire votre facture eau", en: "Reduce your water bill" },
+  "why.reason1.desc": {
+    fr: "Une usine moyenne consomme 5 000 m³/mois. Identifier 20% de gaspillage représente jusqu'à 36 000 TND d'économies par an — soit 12× le prix de l'abonnement.",
+    en: "An average factory consumes 5,000 m³/month. Identifying 20% waste represents up to 36,000 TND in annual savings — 12× the subscription price.",
   },
-  "problem.card2.title": { fr: "Aucune visibilité", en: "No visibility" },
-  "problem.card2.desc": {
-    fr: "La plupart des entreprises n'ont pas de suivi structuré de leur consommation d'eau.",
-    en: "Most companies lack structured monitoring of their water consumption.",
+  "why.reason1.highlight": { fr: "ROI moyen × 6 à × 12 dès la 1ère année", en: "Average ROI × 6 to × 12 from year 1" },
+
+  "why.reason2.title": { fr: "Conformité réglementaire", en: "Regulatory compliance" },
+  "why.reason2.desc": {
+    fr: "La loi tunisienne impose aux entreprises industrielles de déclarer leur consommation à l'ANPE. Les donneurs d'ordre européens exigent un Water Footprint certifié.",
+    en: "Tunisian law requires industrial companies to report consumption to ANPE. European contractors require a certified Water Footprint.",
   },
-  "problem.card3.title": { fr: "Normes ESG", en: "ESG Standards" },
-  "problem.card3.desc": {
-    fr: "Les réglementations exigent des indicateurs de performance environnementale.",
-    en: "Regulations require environmental performance indicators.",
+  "why.reason2.highlight": { fr: "Sans rapport = perte de contrats export", en: "No report = lost export contracts" },
+
+  "why.reason3.title": { fr: "Accès aux financements verts", en: "Access to green financing" },
+  "why.reason3.desc": {
+    fr: "Banque Mondiale, AFD, BAD, FODEP financent les entreprises africaines uniquement si elles mesurent leur impact hydrique. Sans mesure = sans financement.",
+    en: "World Bank, AFD, AfDB, FODEP fund African companies only if they measure their water impact. No measurement = no funding.",
   },
-  "problem.card4.title": { fr: "Coûts croissants", en: "Rising costs" },
-  "problem.card4.desc": {
-    fr: "Le prix de l'eau augmente. Optimiser, c'est aussi réduire ses charges.",
-    en: "Water prices are rising. Optimizing also means reducing costs.",
+  "why.reason3.highlight": { fr: "Subventions jusqu'à 40% via FODEP", en: "Subsidies up to 40% via FODEP" },
+
+  "why.reason4.title": { fr: "Certifications & Appels d'offres", en: "Certifications & Tenders" },
+  "why.reason4.desc": {
+    fr: "ISO 14001, ISO 14046, GRI 303 — toutes ces certifications exigent un bilan eau. Sans elles, vous êtes exclus des appels d'offres publics et des marchés européens.",
+    en: "ISO 14001, ISO 14046, GRI 303 — all require a water assessment. Without them, you're excluded from public tenders and European markets.",
   },
-  "problem.stat1": { fr: "de l'eau mondiale consommée par l'industrie", en: "of global water consumed by industry" },
-  "problem.stat2": { fr: "de l'eau douce utilisée par l'agriculture", en: "of freshwater used by agriculture" },
+  "why.reason4.highlight": { fr: "Accès aux marchés publics & européens", en: "Access to public & European markets" },
+
+  "why.reason5.title": { fr: "Anticiper le risque hydrique", en: "Anticipate water risk" },
+  "why.reason5.desc": {
+    fr: "Les barrages tunisiens sont à 30% de capacité. Le prix de l'eau industrielle a augmenté de 40% en 5 ans. Les restrictions arrivent. Êtes-vous prêt ?",
+    en: "Tunisian dams are at 30% capacity. Industrial water prices rose 40% in 5 years. Restrictions are coming. Are you ready?",
+  },
+  "why.reason5.highlight": { fr: "Stress hydrique critique en Tunisie", en: "Critical water stress in Tunisia" },
+
+  "why.reason6.title": { fr: "Image & compétitivité", en: "Image & competitiveness" },
+  "why.reason6.desc": {
+    fr: "Les grandes surfaces européennes et les investisseurs internationaux exigent une stratégie eau documentée. Sans elle, votre marque perd en crédibilité.",
+    en: "European retailers and international investors require a documented water strategy. Without it, your brand loses credibility.",
+  },
+  "why.reason6.highlight": { fr: "Avantage concurrentiel durable", en: "Sustainable competitive advantage" },
+
+  // ROI
+  "why.roi.label": { fr: "Calculateur ROI", en: "ROI Calculator" },
+  "why.roi.title": { fr: "Combien vous coûte\nvotre gaspillage eau ?", en: "How much does your\nwater waste cost?" },
+  "why.roi.desc": {
+    fr: "En moyenne, nos clients identifient 15 à 30% de consommation évitable dès le premier mois d'utilisation d'HydroScan.",
+    en: "On average, our clients identify 15 to 30% of avoidable consumption in the first month of using HydroScan.",
+  },
+  "why.roi.cta": { fr: "Calculer mon ROI", en: "Calculate my ROI" },
+  "why.roi.row1.label": { fr: "Consommation typique (usine moyenne)", en: "Typical consumption (average factory)" },
+  "why.roi.row1.value": { fr: "5 000 m³/mois", en: "5,000 m³/month" },
+  "why.roi.row2.label": { fr: "Facture eau mensuelle", en: "Monthly water bill" },
+  "why.roi.row2.value": { fr: "12 500 TND", en: "12,500 TND" },
+  "why.roi.row3.label": { fr: "Gaspillage identifié (20%)", en: "Identified waste (20%)" },
+  "why.roi.row3.value": { fr: "2 500 TND/mois", en: "2,500 TND/month" },
+  "why.roi.row4.label": { fr: "Économies annuelles", en: "Annual savings" },
+  "why.roi.row4.value": { fr: "30 000 TND/an", en: "30,000 TND/year" },
+  "why.roi.row5.label": { fr: "Abonnement HydroScan", en: "HydroScan subscription" },
+  "why.roi.row5.value": { fr: "2 800 TND/an", en: "2,800 TND/year" },
+  "why.roi.row6.label": { fr: "Retour sur investissement", en: "Return on investment" },
+  "why.roi.row6.value": { fr: "× 10 🚀", en: "× 10 🚀" },
+
+  // Pitch
+  "why.pitch.line1": { fr: "Votre entreprise consomme de l'eau.", en: "Your company consumes water." },
+  "why.pitch.line2": { fr: "Cette eau vous coûte de l'argent.", en: "That water costs you money." },
+  "why.pitch.line3": { fr: "Elle va coûter encore plus cher demain.", en: "It will cost even more tomorrow." },
+  "why.pitch.line4": { fr: "Vos clients européens vont vous la demander.", en: "Your European clients will ask for it." },
+  "why.pitch.line5": { fr: "Les banques vont l'exiger pour vous financer.", en: "Banks will require it to fund you." },
+  "why.pitch.tag1": { fr: "Réduire votre facture eau", en: "Reduce your water bill" },
+  "why.pitch.tag2": { fr: "Certifications ISO 14001", en: "ISO 14001 Certifications" },
+  "why.pitch.tag3": { fr: "Financements verts", en: "Green financing" },
+  "why.pitch.tag4": { fr: "Contrats export européens", en: "European export contracts" },
+  "why.pitch.tag5": { fr: "Conformité réglementaire", en: "Regulatory compliance" },
 
   // Solution
   "solution.title1": { fr: "Une plateforme ", en: "A " },
