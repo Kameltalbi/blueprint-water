@@ -5,14 +5,11 @@ import {
   Droplets,
   ArrowRight,
   AlertTriangle,
-  TrendingUp,
   DollarSign,
   BarChart3,
   FileText,
   Database,
   Lightbulb,
-  CloudRain,
-  Beaker,
   Factory,
   Wheat,
   UtensilsCrossed,
@@ -22,7 +19,6 @@ import {
   Globe,
   BookOpen,
   ChevronRight,
-  Users,
   Building2,
   Leaf,
   Target,
@@ -30,10 +26,11 @@ import {
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-
 import dashboardPreview from "@/assets/dashboard-preview.jpg";
 import { WaterCalculator } from "@/components/landing/WaterCalculator";
 import { PricingSection } from "@/components/landing/PricingSection";
+import { LangToggle } from "@/components/LangToggle";
+import { useI18n } from "@/lib/i18n";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -45,6 +42,8 @@ const stagger = {
 };
 
 export default function LandingPage() {
+  const { t } = useI18n();
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navbar */}
@@ -57,17 +56,18 @@ export default function LandingPage() {
             <span className="text-xl font-bold tracking-tight">HydroScan</span>
           </div>
           <div className="hidden items-center gap-8 md:flex">
-            <a href="#probleme" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Problème</a>
-            <a href="#solution" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Solution</a>
-            <a href="#fonctionnalites" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Fonctionnalités</a>
-            <a href="#tarifs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Tarifs</a>
+            <a href="#probleme" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.problem")}</a>
+            <a href="#solution" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.solution")}</a>
+            <a href="#fonctionnalites" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.features")}</a>
+            <a href="#tarifs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.pricing")}</a>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <LangToggle />
             <Link to="/dashboard">
-              <Button variant="ghost" size="sm">Connexion</Button>
+              <Button variant="ghost" size="sm">{t("nav.login")}</Button>
             </Link>
             <Button size="sm" className="gap-1.5">
-              Demander une démo <ArrowRight className="h-3.5 w-3.5" />
+              {t("nav.demo")} <ArrowRight className="h-3.5 w-3.5" />
             </Button>
           </div>
         </div>
@@ -81,31 +81,30 @@ export default function LandingPage() {
             <motion.div initial="hidden" animate="visible" variants={stagger}>
               <motion.div variants={fadeUp}>
                 <Badge variant="secondary" className="mb-4 gap-1.5 px-3 py-1">
-                  <Sparkles className="h-3 w-3" /> Conforme ISO 14046
+                  <Sparkles className="h-3 w-3" /> {t("hero.badge")}
                 </Badge>
               </motion.div>
               <motion.h1
                 variants={fadeUp}
                 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl"
               >
-                Mesurez l'
-                <span className="text-primary">empreinte eau</span>
-                {" "}de votre entreprise
+                {t("hero.title1")}
+                <span className="text-primary">{t("hero.titleHighlight")}</span>
+                {t("hero.title2")}
               </motion.h1>
               <motion.p
                 variants={fadeUp}
                 className="mt-5 max-w-lg text-lg text-muted-foreground"
               >
-                Mesurez, analysez et réduisez votre consommation d'eau grâce à une
-                plateforme conforme aux standards internationaux.
+                {t("hero.subtitle")}
               </motion.p>
               <motion.div variants={fadeUp} className="mt-8 flex flex-wrap gap-3">
                 <Button size="lg" className="gap-2 text-base">
-                  Demander une démo <ArrowRight className="h-4 w-4" />
+                  {t("hero.cta1")} <ArrowRight className="h-4 w-4" />
                 </Button>
                 <Link to="/dashboard">
                   <Button size="lg" variant="outline" className="text-base">
-                    Essayer la plateforme
+                    {t("hero.cta2")}
                   </Button>
                 </Link>
               </motion.div>
@@ -121,11 +120,7 @@ export default function LandingPage() {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="flex justify-center"
             >
-              <img
-                src={dashboardPreview}
-                alt="Aperçu du dashboard HydroScan"
-                className="w-full rounded-2xl border shadow-elevated"
-              />
+              <img src={dashboardPreview} alt="HydroScan dashboard" className="w-full rounded-2xl border shadow-elevated" />
             </motion.div>
           </div>
         </div>
@@ -134,42 +129,26 @@ export default function LandingPage() {
       {/* ====== 2. PROBLÈME ====== */}
       <section id="probleme" className="bg-muted/40 py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={stagger}
-            className="text-center"
-          >
-            <motion.h2 variants={fadeUp} className="text-3xl font-bold sm:text-4xl">
-              Pourquoi mesurer son empreinte eau ?
-            </motion.h2>
-            <motion.p variants={fadeUp} className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-              La pression sur les ressources en eau s'intensifie. Les entreprises consomment souvent sans visibilité réelle.
-            </motion.p>
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="text-center">
+            <motion.h2 variants={fadeUp} className="text-3xl font-bold sm:text-4xl">{t("problem.title")}</motion.h2>
+            <motion.p variants={fadeUp} className="mx-auto mt-4 max-w-2xl text-muted-foreground">{t("problem.subtitle")}</motion.p>
           </motion.div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={stagger}
-            className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
-          >
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { icon: AlertTriangle, title: "Ressources sous pression", desc: "Le stress hydrique touche 40% de la population mondiale et s'aggrave chaque année." },
-              { icon: Building2, title: "Aucune visibilité", desc: "La plupart des entreprises n'ont pas de suivi structuré de leur consommation d'eau." },
-              { icon: BookOpen, title: "Normes ESG", desc: "Les réglementations exigent des indicateurs de performance environnementale." },
-              { icon: DollarSign, title: "Coûts croissants", desc: "Le prix de l'eau augmente. Optimiser, c'est aussi réduire ses charges." },
+              { icon: AlertTriangle, titleKey: "problem.card1.title", descKey: "problem.card1.desc" },
+              { icon: Building2, titleKey: "problem.card2.title", descKey: "problem.card2.desc" },
+              { icon: BookOpen, titleKey: "problem.card3.title", descKey: "problem.card3.desc" },
+              { icon: DollarSign, titleKey: "problem.card4.title", descKey: "problem.card4.desc" },
             ].map((item) => (
-              <motion.div key={item.title} variants={fadeUp}>
+              <motion.div key={item.titleKey} variants={fadeUp}>
                 <Card className="h-full shadow-card">
                   <CardContent className="p-6">
                     <div className="rounded-xl bg-destructive/10 p-2.5 inline-flex">
                       <item.icon className="h-5 w-5 text-destructive" />
                     </div>
-                    <h3 className="mt-4 font-semibold">{item.title}</h3>
-                    <p className="mt-2 text-sm text-muted-foreground">{item.desc}</p>
+                    <h3 className="mt-4 font-semibold">{t(item.titleKey)}</h3>
+                    <p className="mt-2 text-sm text-muted-foreground">{t(item.descKey)}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -179,11 +158,11 @@ export default function LandingPage() {
           <div className="mt-10 flex flex-wrap justify-center gap-6 text-center">
             <div className="rounded-xl bg-card px-8 py-4 shadow-card">
               <p className="text-3xl font-bold text-primary">20%</p>
-              <p className="text-sm text-muted-foreground">de l'eau mondiale consommée par l'industrie</p>
+              <p className="text-sm text-muted-foreground">{t("problem.stat1")}</p>
             </div>
             <div className="rounded-xl bg-card px-8 py-4 shadow-card">
               <p className="text-3xl font-bold text-primary">70%</p>
-              <p className="text-sm text-muted-foreground">de l'eau douce utilisée par l'agriculture</p>
+              <p className="text-sm text-muted-foreground">{t("problem.stat2")}</p>
             </div>
           </div>
         </div>
@@ -192,42 +171,25 @@ export default function LandingPage() {
       {/* ====== 3. SOLUTION ====== */}
       <section id="solution" className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={stagger}
-            className="grid items-center gap-12 lg:grid-cols-2"
-          >
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="grid items-center gap-12 lg:grid-cols-2">
             <motion.div variants={fadeUp}>
               <h2 className="text-3xl font-bold sm:text-4xl">
-                Une plateforme <span className="text-primary">intelligente</span> pour gérer votre empreinte eau
+                {t("solution.title1")}<span className="text-primary">{t("solution.titleHighlight")}</span>{t("solution.title2")}
               </h2>
-              <p className="mt-4 text-muted-foreground">
-                HydroScan permet aux entreprises de centraliser, calculer, analyser et optimiser leur consommation d'eau selon les standards internationaux.
-              </p>
+              <p className="mt-4 text-muted-foreground">{t("solution.subtitle")}</p>
               <div className="mt-8 space-y-4">
-                {[
-                  "Centraliser les données de consommation d'eau",
-                  "Calculer l'empreinte eau selon les standards internationaux",
-                  "Analyser les usages et détecter les inefficacités",
-                  "Identifier les actions d'économie d'eau",
-                ].map((text) => (
-                  <div key={text} className="flex items-start gap-3">
+                {["solution.point1", "solution.point2", "solution.point3", "solution.point4"].map((key) => (
+                  <div key={key} className="flex items-start gap-3">
                     <div className="mt-0.5 rounded-full bg-primary/10 p-1">
                       <ChevronRight className="h-3.5 w-3.5 text-primary" />
                     </div>
-                    <span className="text-sm">{text}</span>
+                    <span className="text-sm">{t(key)}</span>
                   </div>
                 ))}
               </div>
             </motion.div>
             <motion.div variants={fadeUp}>
-              <img
-                src={dashboardPreview}
-                alt="Aperçu de la plateforme HydroScan"
-                className="rounded-2xl border shadow-elevated"
-              />
+              <img src={dashboardPreview} alt="HydroScan platform" className="rounded-2xl border shadow-elevated" />
             </motion.div>
           </motion.div>
         </div>
@@ -236,63 +198,29 @@ export default function LandingPage() {
       {/* ====== 4. FONCTIONNALITÉS ====== */}
       <section id="fonctionnalites" className="bg-muted/40 py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={stagger}
-            className="text-center"
-          >
-            <motion.h2 variants={fadeUp} className="text-3xl font-bold sm:text-4xl">
-              Fonctionnalités principales
-            </motion.h2>
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="text-center">
+            <motion.h2 variants={fadeUp} className="text-3xl font-bold sm:text-4xl">{t("features.title")}</motion.h2>
           </motion.div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={stagger}
-            className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
-          >
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              {
-                icon: Database,
-                title: "Collecte de données",
-                points: ["Saisie simple", "Import Excel / CSV", "Suivi multisites"],
-                color: "bg-primary/10 text-primary",
-              },
-              {
-                icon: Droplets,
-                title: "Calcul empreinte eau",
-                points: ["Eau bleue, verte, grise", "Indicateurs par site", "Méthode ISO 14046"],
-                color: "bg-blue-water/10 text-blue-water",
-              },
-              {
-                icon: BarChart3,
-                title: "Tableau de bord",
-                points: ["Graphiques interactifs", "Évolution mensuelle", "Comparaison multisites"],
-                color: "bg-green-water/10 text-green-water",
-              },
-              {
-                icon: FileText,
-                title: "Rapports & conformité",
-                points: ["Rapport Water Footprint", "Export GRI 303", "Rapport ISO 14046"],
-                color: "bg-accent text-accent-foreground",
-              },
+              { icon: Database, titleKey: "features.data.title", points: ["features.data.p1", "features.data.p2", "features.data.p3"], color: "bg-primary/10 text-primary" },
+              { icon: Droplets, titleKey: "features.calc.title", points: ["features.calc.p1", "features.calc.p2", "features.calc.p3"], color: "bg-blue-water/10 text-blue-water" },
+              { icon: BarChart3, titleKey: "features.dashboard.title", points: ["features.dashboard.p1", "features.dashboard.p2", "features.dashboard.p3"], color: "bg-green-water/10 text-green-water" },
+              { icon: FileText, titleKey: "features.reports.title", points: ["features.reports.p1", "features.reports.p2", "features.reports.p3"], color: "bg-accent text-accent-foreground" },
             ].map((feat) => (
-              <motion.div key={feat.title} variants={fadeUp}>
+              <motion.div key={feat.titleKey} variants={fadeUp}>
                 <Card className="h-full shadow-card hover:shadow-elevated transition-shadow">
                   <CardContent className="p-6">
                     <div className={`inline-flex rounded-xl p-2.5 ${feat.color}`}>
                       <feat.icon className="h-5 w-5" />
                     </div>
-                    <h3 className="mt-4 font-semibold">{feat.title}</h3>
+                    <h3 className="mt-4 font-semibold">{t(feat.titleKey)}</h3>
                     <ul className="mt-3 space-y-2">
                       {feat.points.map((p) => (
                         <li key={p} className="flex items-center gap-2 text-sm text-muted-foreground">
                           <div className="h-1 w-1 shrink-0 rounded-full bg-primary" />
-                          {p}
+                          {t(p)}
                         </li>
                       ))}
                     </ul>
@@ -307,28 +235,21 @@ export default function LandingPage() {
       {/* ====== 5. BÉNÉFICES ====== */}
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={stagger}
-          >
-            <motion.h2 variants={fadeUp} className="text-center text-3xl font-bold sm:text-4xl">
-              Pourquoi utiliser HydroScan ?
-            </motion.h2>
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
+            <motion.h2 variants={fadeUp} className="text-center text-3xl font-bold sm:text-4xl">{t("benefits.title")}</motion.h2>
             <motion.div variants={fadeUp} className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
               {[
-                { icon: DollarSign, text: "Réduire les coûts liés à l'eau" },
-                { icon: Leaf, text: "Améliorer la performance environnementale" },
-                { icon: ShieldCheck, text: "Répondre aux exigences ESG" },
-                { icon: Target, text: "Anticiper les risques liés à l'eau" },
-                { icon: Award, text: "Améliorer l'image de marque" },
+                { icon: DollarSign, key: "benefits.b1" },
+                { icon: Leaf, key: "benefits.b2" },
+                { icon: ShieldCheck, key: "benefits.b3" },
+                { icon: Target, key: "benefits.b4" },
+                { icon: Award, key: "benefits.b5" },
               ].map((b) => (
-                <div key={b.text} className="flex flex-col items-center rounded-xl border bg-card p-5 text-center shadow-card">
+                <div key={b.key} className="flex flex-col items-center rounded-xl border bg-card p-5 text-center shadow-card">
                   <div className="rounded-lg bg-primary/10 p-2.5">
                     <b.icon className="h-5 w-5 text-primary" />
                   </div>
-                  <p className="mt-3 text-sm font-medium">{b.text}</p>
+                  <p className="mt-3 text-sm font-medium">{t(b.key)}</p>
                 </div>
               ))}
             </motion.div>
@@ -339,22 +260,18 @@ export default function LandingPage() {
       {/* ====== 6. COMMENT ÇA MARCHE ====== */}
       <section className="bg-muted/40 py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <h2 className="text-center text-3xl font-bold sm:text-4xl">Comment ça fonctionne</h2>
-          <p className="mx-auto mt-4 max-w-xl text-center text-muted-foreground">
-            Un processus simple en 3 étapes pour maîtriser votre empreinte eau.
-          </p>
+          <h2 className="text-center text-3xl font-bold sm:text-4xl">{t("how.title")}</h2>
+          <p className="mx-auto mt-4 max-w-xl text-center text-muted-foreground">{t("how.subtitle")}</p>
           <div className="mt-12 grid gap-8 sm:grid-cols-3">
             {[
-              { step: "1", icon: Database, title: "Collectez vos données eau", desc: "Saisissez ou importez vos données de consommation par source et usage." },
-              { step: "2", icon: Droplets, title: "HydroScan calcule votre empreinte", desc: "Notre moteur de calcul analyse vos données selon la méthode ISO 14046." },
-              { step: "3", icon: Lightbulb, title: "Identifiez les actions", desc: "Recevez des recommandations pour réduire votre impact et vos coûts." },
+              { step: "1", icon: Database, titleKey: "how.step1.title", descKey: "how.step1.desc" },
+              { step: "2", icon: Droplets, titleKey: "how.step2.title", descKey: "how.step2.desc" },
+              { step: "3", icon: Lightbulb, titleKey: "how.step3.title", descKey: "how.step3.desc" },
             ].map((s) => (
               <div key={s.step} className="relative text-center">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl gradient-water text-2xl font-bold text-primary-foreground">
-                  {s.step}
-                </div>
-                <h3 className="mt-4 font-semibold">{s.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{s.desc}</p>
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl gradient-water text-2xl font-bold text-primary-foreground">{s.step}</div>
+                <h3 className="mt-4 font-semibold">{t(s.titleKey)}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{t(s.descKey)}</p>
               </div>
             ))}
           </div>
@@ -364,21 +281,21 @@ export default function LandingPage() {
       {/* ====== 7. CAS D'USAGE ====== */}
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <h2 className="text-center text-3xl font-bold sm:text-4xl">Adapté à votre secteur</h2>
+          <h2 className="text-center text-3xl font-bold sm:text-4xl">{t("sectors.title")}</h2>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { icon: Factory, sector: "Industrie", desc: "Optimisez vos processus de refroidissement et de nettoyage industriel." },
-              { icon: Wheat, sector: "Agriculture", desc: "Améliorez l'efficacité de l'irrigation et réduisez l'eau verte." },
-              { icon: UtensilsCrossed, sector: "Agroalimentaire", desc: "Maîtrisez l'eau dans vos chaînes de production alimentaire." },
-              { icon: Hotel, sector: "Hôtellerie", desc: "Suivez la consommation eau par chambre et optimisez les sanitaires." },
+              { icon: Factory, titleKey: "sectors.industry", descKey: "sectors.industry.desc" },
+              { icon: Wheat, titleKey: "sectors.agriculture", descKey: "sectors.agriculture.desc" },
+              { icon: UtensilsCrossed, titleKey: "sectors.food", descKey: "sectors.food.desc" },
+              { icon: Hotel, titleKey: "sectors.hotel", descKey: "sectors.hotel.desc" },
             ].map((s) => (
-              <Card key={s.sector} className="shadow-card hover:shadow-elevated transition-shadow">
+              <Card key={s.titleKey} className="shadow-card hover:shadow-elevated transition-shadow">
                 <CardContent className="p-6">
                   <div className="rounded-xl bg-primary/10 p-2.5 inline-flex">
                     <s.icon className="h-5 w-5 text-primary" />
                   </div>
-                  <h3 className="mt-4 font-semibold">{s.sector}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{s.desc}</p>
+                  <h3 className="mt-4 font-semibold">{t(s.titleKey)}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{t(s.descKey)}</p>
                 </CardContent>
               </Card>
             ))}
@@ -386,27 +303,24 @@ export default function LandingPage() {
         </div>
       </section>
 
-
       {/* ====== 9. STANDARDS ====== */}
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <h2 className="text-center text-3xl font-bold sm:text-4xl">Méthodologie reconnue</h2>
-          <p className="mx-auto mt-4 max-w-xl text-center text-muted-foreground">
-            HydroScan s'appuie sur les standards internationaux pour garantir la fiabilité de vos résultats.
-          </p>
+          <h2 className="text-center text-3xl font-bold sm:text-4xl">{t("standards.title")}</h2>
+          <p className="mx-auto mt-4 max-w-xl text-center text-muted-foreground">{t("standards.subtitle")}</p>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { title: "ISO 14046", desc: "Norme internationale de référence pour l'empreinte eau", icon: ShieldCheck },
-              { title: "Water Footprint Network", desc: "Réseau mondial pour la comptabilité de l'eau", icon: Globe },
-              { title: "GRI 303", desc: "Standard de reporting eau dans les rapports ESG", icon: FileText },
-              { title: "ESG Reporting", desc: "Intégration dans vos rapports de développement durable", icon: BookOpen },
+              { title: "ISO 14046", descKey: "standards.iso", icon: ShieldCheck },
+              { title: "Water Footprint Network", descKey: "standards.wfn", icon: Globe },
+              { title: "GRI 303", descKey: "standards.gri", icon: FileText },
+              { title: "ESG Reporting", descKey: "standards.esg", icon: BookOpen },
             ].map((std) => (
               <div key={std.title} className="flex flex-col items-center rounded-xl border bg-card p-6 text-center shadow-card">
                 <div className="rounded-lg bg-primary/10 p-3">
                   <std.icon className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="mt-3 font-semibold">{std.title}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{std.desc}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{t(std.descKey)}</p>
               </div>
             ))}
           </div>
@@ -416,9 +330,7 @@ export default function LandingPage() {
       {/* ====== CALCULATEUR ====== */}
       <section className="bg-muted/40 py-20">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">
-          <h2 className="mb-8 text-center text-3xl font-bold sm:text-4xl">
-            Estimez votre empreinte eau
-          </h2>
+          <h2 className="mb-8 text-center text-3xl font-bold sm:text-4xl">{t("calc.title")}</h2>
           <WaterCalculator />
         </div>
       </section>
@@ -426,10 +338,8 @@ export default function LandingPage() {
       {/* ====== 10. TARIFS ====== */}
       <section id="tarifs" className="py-20">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
-          <h2 className="text-center text-3xl font-bold sm:text-4xl">Tarification</h2>
-          <p className="mx-auto mt-4 max-w-xl text-center text-muted-foreground">
-            Des plans adaptés à la taille de votre entreprise.
-          </p>
+          <h2 className="text-center text-3xl font-bold sm:text-4xl">{t("pricing.title")}</h2>
+          <p className="mx-auto mt-4 max-w-xl text-center text-muted-foreground">{t("pricing.subtitle")}</p>
           <div className="mt-12">
             <PricingSection />
           </div>
@@ -440,19 +350,15 @@ export default function LandingPage() {
       <section className="py-20">
         <div className="mx-auto max-w-4xl px-4 sm:px-6">
           <div className="rounded-3xl gradient-water p-10 text-center sm:p-16">
-            <h2 className="text-3xl font-bold text-primary-foreground sm:text-4xl">
-              Commencez à mesurer votre empreinte eau dès aujourd'hui
-            </h2>
-            <p className="mx-auto mt-4 max-w-lg text-primary-foreground/80">
-              Rejoignez les entreprises qui prennent le contrôle de leur impact hydrique en Tunisie et en Afrique.
-            </p>
+            <h2 className="text-3xl font-bold text-primary-foreground sm:text-4xl">{t("cta.title")}</h2>
+            <p className="mx-auto mt-4 max-w-lg text-primary-foreground/80">{t("cta.subtitle")}</p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Button size="lg" variant="secondary" className="gap-2 text-base">
-                Demander une démo <ArrowRight className="h-4 w-4" />
+                {t("cta.demo")} <ArrowRight className="h-4 w-4" />
               </Button>
               <Link to="/dashboard">
                 <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 text-base">
-                  Essai gratuit
+                  {t("cta.trial")}
                 </Button>
               </Link>
             </div>
@@ -470,9 +376,7 @@ export default function LandingPage() {
               </div>
               <span className="font-bold">HydroScan</span>
             </div>
-            <p className="text-sm text-muted-foreground">
-              © 2024 HydroScan. Plateforme d'empreinte hydrique pour l'Afrique.
-            </p>
+            <p className="text-sm text-muted-foreground">{t("footer.text")}</p>
           </div>
         </div>
       </footer>
