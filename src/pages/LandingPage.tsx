@@ -29,6 +29,7 @@ import dashboardPreview from "@/assets/dashboard-preview.jpg";
 import { WaterCalculator } from "@/components/landing/WaterCalculator";
 import { PricingSection } from "@/components/landing/PricingSection";
 import { EstimateForm } from "@/components/landing/EstimateForm";
+import { WhySection } from "@/components/landing/WhySection";
 import { LangToggle } from "@/components/LangToggle";
 import { useI18n } from "@/lib/i18n";
 
