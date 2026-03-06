@@ -9,6 +9,8 @@ import {
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
+import { useI18n } from "@/lib/i18n";
+import { LangToggle } from "@/components/LangToggle";
 import {
   Sidebar,
   SidebarContent,
@@ -23,25 +25,27 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-const mainItems = [
-  { title: "Tableau de bord", url: "/dashboard", icon: LayoutDashboard },
-  { title: "Collecte de données", url: "/data-entry", icon: Droplets },
-  { title: "Empreinte hydrique", url: "/footprint", icon: TrendingUp },
-  { title: "Rapports", url: "/reports", icon: FileText },
-  { title: "Recommandations", url: "/recommendations", icon: Lightbulb },
-];
-
-const settingsItems = [
-  { title: "Organisation", url: "/organization", icon: Building2 },
-  { title: "Paramètres", url: "/settings", icon: Settings },
-];
-
 export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const location = useLocation();
+  const { t } = useI18n();
+
+  const mainItems = [
+    { title: t("sidebar.dashboard"), url: "/dashboard", icon: LayoutDashboard },
+    { title: t("sidebar.data"), url: "/data-entry", icon: Droplets },
+    { title: t("sidebar.footprint"), url: "/footprint", icon: TrendingUp },
+    { title: t("sidebar.reports"), url: "/reports", icon: FileText },
+    { title: t("sidebar.recommendations"), url: "/recommendations", icon: Lightbulb },
+  ];
+
+  const settingsItems = [
+    { title: t("sidebar.organization"), url: "/organization", icon: Building2 },
+    { title: t("sidebar.settings"), url: "/settings", icon: Settings },
+  ];
+
   const isActive = (path: string) =>
-    path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
+    path === "/dashboard" ? location.pathname === "/dashboard" : location.pathname.startsWith(path);
 
   return (
     <Sidebar collapsible="icon">
@@ -60,13 +64,13 @@ export function AppSidebar() {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Principal</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("sidebar.main")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {mainItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                    <NavLink to={item.url} end={item.url === "/"}>
+                    <NavLink to={item.url} end={item.url === "/dashboard"}>
                       <item.icon className="h-4 w-4" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
@@ -78,11 +82,11 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Configuration</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("sidebar.config")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {settingsItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton asChild isActive={isActive(item.url)}>
                     <NavLink to={item.url}>
                       <item.icon className="h-4 w-4" />
@@ -98,11 +102,12 @@ export function AppSidebar() {
 
       <SidebarFooter className="p-4">
         {!collapsed && (
-          <div className="rounded-lg bg-sidebar-accent p-3">
-            <p className="text-xs text-sidebar-foreground/70">Plan Starter</p>
-            <p className="text-sm font-medium text-sidebar-accent-foreground">
-              1 site · 1 utilisateur
-            </p>
+          <div className="space-y-2">
+            <div className="rounded-lg bg-sidebar-accent p-3">
+              <p className="text-xs text-sidebar-foreground/70">{t("sidebar.plan")}</p>
+              <p className="text-sm font-medium text-sidebar-accent-foreground">{t("sidebar.planDesc")}</p>
+            </div>
+            <LangToggle />
           </div>
         )}
       </SidebarFooter>
