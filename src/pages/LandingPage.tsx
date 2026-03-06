@@ -369,11 +369,11 @@ export default function LandingPage() {
             <h2 className="text-3xl font-bold text-primary-foreground sm:text-4xl">{t("cta.title")}</h2>
             <p className="mx-auto mt-4 max-w-lg text-primary-foreground/80">{t("cta.subtitle")}</p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Button size="lg" variant="secondary" className="gap-2 text-base">
+              <Button size="lg" className="gap-2 text-base bg-white text-primary hover:bg-white/90 font-semibold">
                 {t("cta.demo")} <ArrowRight className="h-4 w-4" />
               </Button>
               <Link to="/dashboard">
-                <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 text-base">
+                <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/20 text-base font-semibold">
                   {t("cta.trial")}
                 </Button>
               </Link>
