@@ -18,7 +18,7 @@ import {
   Globe,
   BookOpen,
   ChevronRight,
-  Building2,
+  
   Leaf,
   Target,
   Sparkles,
