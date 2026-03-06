@@ -136,7 +136,7 @@ export default function Dashboard() {
                   <Line
                     type="monotone"
                     dataKey="green"
-                    stroke="hsl(142, 71%, 45%)"
+                    stroke="hsl(142, 72%, 29%)"
                     strokeWidth={2}
                     dot={false}
                     name="Eau Verte"
