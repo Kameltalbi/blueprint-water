@@ -174,18 +174,16 @@ const translations: Record<string, Record<Lang, string>> = {
   "calc.choose": { fr: "Choisir...", en: "Choose..." },
 
   // Pricing
-  "pricing.title": { fr: "Tarification", en: "Pricing" },
+  "pricing.title": { fr: "Des solutions adaptées à chaque organisation", en: "Solutions adapted to every organization" },
   "pricing.subtitle": {
-    fr: "Des plans adaptés à la taille de votre entreprise.",
-    en: "Plans adapted to the size of your company.",
+    fr: "Choisissez la formule la plus adaptée à votre structure. Nos équipes vous accompagnent pour définir la solution optimale.",
+    en: "Choose the plan that best fits your structure. Our teams will help you define the optimal solution.",
   },
-  "pricing.starter": { fr: "Pour découvrir la plateforme", en: "Discover the platform" },
-  "pricing.pro": { fr: "Pour les PME engagées", en: "For committed SMEs" },
-  "pricing.enterprise": { fr: "Pour les grands groupes", en: "For large organizations" },
-  "pricing.popular": { fr: "Populaire", en: "Popular" },
-  "pricing.start": { fr: "Commencer", en: "Get started" },
-  "pricing.contact": { fr: "Contacter", en: "Contact us" },
-  "pricing.custom": { fr: "Sur mesure", en: "Custom" },
+  "pricing.estimate.title": { fr: "Obtenez une estimation rapide", en: "Get a quick estimate" },
+  "pricing.estimate.sector": { fr: "Secteur", en: "Sector" },
+  "pricing.estimate.sites": { fr: "Nombre de sites", en: "Number of sites" },
+  "pricing.estimate.employees": { fr: "Nombre d'employés", en: "Number of employees" },
+  "pricing.estimate.cta": { fr: "Recevoir une estimation", en: "Receive an estimate" },
 
   // CTA Final
   "cta.title": {
