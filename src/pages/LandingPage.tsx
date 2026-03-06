@@ -122,9 +122,9 @@ export default function LandingPage() {
               className="flex justify-center"
             >
               <img
-                src={heroVisual}
-                alt="HydroScan — technologie empreinte eau"
-                className="w-full max-w-md drop-shadow-2xl"
+                src={dashboardPreview}
+                alt="Aperçu du dashboard HydroScan"
+                className="w-full rounded-2xl border shadow-elevated"
               />
             </motion.div>
           </div>
