@@ -189,8 +189,20 @@ export default function LandingPage() {
                 ))}
               </div>
             </motion.div>
-            <motion.div variants={fadeUp}>
-              <img src={dashboardPreview} alt="HydroScan platform" className="rounded-2xl border shadow-elevated" />
+            <motion.div variants={fadeUp} className="grid grid-cols-2 gap-4">
+              {[
+                { icon: Database, label: t("features.data.title"), color: "text-primary bg-primary/10" },
+                { icon: Droplets, label: t("features.calc.title"), color: "text-blue-water bg-blue-water/10" },
+                { icon: BarChart3, label: t("features.dashboard.title"), color: "text-green-water bg-green-water/10" },
+                { icon: Lightbulb, label: t("how.step3.title"), color: "text-accent-foreground bg-accent" },
+              ].map((item) => (
+                <div key={item.label} className="flex flex-col items-center gap-2 rounded-xl border bg-card p-5 text-center shadow-card">
+                  <div className={`inline-flex rounded-lg p-2.5 ${item.color}`}>
+                    <item.icon className="h-5 w-5" />
+                  </div>
+                  <span className="text-sm font-medium">{item.label}</span>
+                </div>
+              ))}
             </motion.div>
           </motion.div>
         </div>
