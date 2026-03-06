@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import heroVisual from "@/assets/hero-visual.png";
+
 import dashboardPreview from "@/assets/dashboard-preview.jpg";
 import { WaterCalculator } from "@/components/landing/WaterCalculator";
 import { PricingSection } from "@/components/landing/PricingSection";
