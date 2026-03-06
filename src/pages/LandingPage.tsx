@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import heroVisual from "@/assets/hero-visual.png";
+
 import dashboardPreview from "@/assets/dashboard-preview.jpg";
 import { WaterCalculator } from "@/components/landing/WaterCalculator";
 import { PricingSection } from "@/components/landing/PricingSection";
@@ -122,9 +122,9 @@ export default function LandingPage() {
               className="flex justify-center"
             >
               <img
-                src={heroVisual}
-                alt="HydroScan — technologie empreinte eau"
-                className="w-full max-w-md drop-shadow-2xl"
+                src={dashboardPreview}
+                alt="Aperçu du dashboard HydroScan"
+                className="w-full rounded-2xl border shadow-elevated"
               />
             </motion.div>
           </div>
@@ -386,24 +386,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ====== 8. APERÇU DASHBOARD ====== */}
-      <section className="bg-muted/40 py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold sm:text-4xl">Aperçu du tableau de bord</h2>
-            <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-              Visualisez votre consommation, votre score et vos usages en un coup d'œil.
-            </p>
-          </div>
-          <div className="mt-10">
-            <img
-              src={dashboardPreview}
-              alt="Dashboard HydroScan — graphiques et KPIs"
-              className="mx-auto w-full max-w-5xl rounded-2xl border shadow-elevated"
-            />
-          </div>
-        </div>
-      </section>
 
       {/* ====== 9. STANDARDS ====== */}
       <section className="py-20">
