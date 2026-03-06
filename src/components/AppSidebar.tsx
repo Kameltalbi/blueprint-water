@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/sidebar";
 
 const mainItems = [
-  { title: "Tableau de bord", url: "/", icon: LayoutDashboard },
+  { title: "Tableau de bord", url: "/dashboard", icon: LayoutDashboard },
   { title: "Collecte de données", url: "/data-entry", icon: Droplets },
   { title: "Empreinte hydrique", url: "/footprint", icon: TrendingUp },
   { title: "Rapports", url: "/reports", icon: FileText },

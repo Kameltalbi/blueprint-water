@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppLayout } from "@/components/AppLayout";
+import LandingPage from "@/pages/LandingPage";
 import Dashboard from "@/pages/Dashboard";
 import DataEntry from "@/pages/DataEntry";
 import Footprint from "@/pages/Footprint";
@@ -13,22 +14,62 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route
+        path="/dashboard"
+        element={
+          <AppLayout>
+            <Dashboard />
+          </AppLayout>
+        }
+      />
+      <Route
+        path="/data-entry"
+        element={
+          <AppLayout>
+            <DataEntry />
+          </AppLayout>
+        }
+      />
+      <Route
+        path="/footprint"
+        element={
+          <AppLayout>
+            <Footprint />
+          </AppLayout>
+        }
+      />
+      <Route
+        path="/reports"
+        element={
+          <AppLayout>
+            <Reports />
+          </AppLayout>
+        }
+      />
+      <Route
+        path="/recommendations"
+        element={
+          <AppLayout>
+            <Recommendations />
+          </AppLayout>
+        }
+      />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <AppLayout>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/data-entry" element={<DataEntry />} />
-            <Route path="/footprint" element={<Footprint />} />
-            <Route path="/reports" element={<Reports />} />
-            <Route path="/recommendations" element={<Recommendations />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AppLayout>
+        <AppRoutes />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
