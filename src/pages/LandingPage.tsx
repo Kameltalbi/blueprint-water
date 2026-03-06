@@ -29,6 +29,7 @@ import { Link } from "react-router-dom";
 import dashboardPreview from "@/assets/dashboard-preview.jpg";
 import { WaterCalculator } from "@/components/landing/WaterCalculator";
 import { PricingSection } from "@/components/landing/PricingSection";
+import { EstimateForm } from "@/components/landing/EstimateForm";
 import { LangToggle } from "@/components/LangToggle";
 import { useI18n } from "@/lib/i18n";
 
@@ -342,6 +343,9 @@ export default function LandingPage() {
           <p className="mx-auto mt-4 max-w-xl text-center text-muted-foreground">{t("pricing.subtitle")}</p>
           <div className="mt-12">
             <PricingSection />
+          </div>
+          <div className="mt-16">
+            <EstimateForm />
           </div>
         </div>
       </section>
