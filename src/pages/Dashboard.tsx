@@ -80,7 +80,7 @@ export default function Dashboard() {
       {/* KPIs */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {kpis.map((kpi) => (
-          <Card key={kpi.label} className="shadow-card border">
+          <Card key={kpi.label} className={`shadow-card border ${kpi.borderClass}`}>
             <CardContent className="p-5">
               <div className="flex items-center justify-between">
                 <div className={`rounded-lg p-2 ${kpi.colorClass}`}>
