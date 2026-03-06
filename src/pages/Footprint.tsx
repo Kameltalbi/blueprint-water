@@ -113,9 +113,9 @@ export default function Footprint() {
                   }}
                 />
                 <Legend />
-                <Bar dataKey="blue" name="Eau Bleue" fill="hsl(199, 89%, 48%)" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="green" name="Eau Verte" fill="hsl(142, 71%, 45%)" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="grey" name="Eau Grise" fill="hsl(215, 14%, 60%)" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="blue" name="Eau Bleue" fill="hsl(201, 96%, 32%)" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="green" name="Eau Verte" fill="hsl(142, 72%, 29%)" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="grey" name="Eau Grise" fill="hsl(220, 9%, 46%)" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
