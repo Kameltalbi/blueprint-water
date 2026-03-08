@@ -36,10 +36,10 @@ export default function LandingPage() {
 
         <div className="flex items-center gap-2">
           <LangToggle />
-          <Link to="/login" className="inline-flex items-center px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg border border-border text-foreground text-xs sm:text-sm font-semibold hover:border-primary hover:text-primary transition-all">
+          <Link to="/login" className="inline-flex items-center px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg gradient-water text-primary-foreground text-xs sm:text-sm font-semibold hover:opacity-90 transition-all">
             {fr ? "Connexion" : "Login"}
           </Link>
-          <Link to="/register" className="inline-flex items-center px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg gradient-water text-primary-foreground text-xs sm:text-sm font-semibold hover:opacity-90 transition-all">
+          <Link to="/register" className="inline-flex items-center px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg border border-border text-foreground text-xs sm:text-sm font-semibold hover:border-primary hover:text-primary transition-all">
             {fr ? "Inscription" : "Sign up"}
           </Link>
         </div>
