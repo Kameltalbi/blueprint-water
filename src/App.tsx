@@ -6,10 +6,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { I18nProvider } from "@/lib/i18n";
 import { AuthProvider } from "@/hooks/useAuth";
 import { AppLayout } from "@/components/AppLayout";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import LandingPage from "@/pages/LandingPage";
 import CalculatorPage from "@/pages/CalculatorPage";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
+import ForgotPassword from "@/pages/ForgotPassword";
+import ResetPassword from "@/pages/ResetPassword";
 import Dashboard from "@/pages/Dashboard";
 import DataEntry from "@/pages/DataEntry";
 import Footprint from "@/pages/Footprint";
@@ -26,11 +29,13 @@ function AppRoutes() {
       <Route path="/calculateur" element={<CalculatorPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
-      <Route path="/data-entry" element={<AppLayout><DataEntry /></AppLayout>} />
-      <Route path="/footprint" element={<AppLayout><Footprint /></AppLayout>} />
-      <Route path="/reports" element={<AppLayout><Reports /></AppLayout>} />
-      <Route path="/recommendations" element={<AppLayout><Recommendations /></AppLayout>} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/dashboard" element={<ProtectedRoute><AppLayout><Dashboard /></AppLayout></ProtectedRoute>} />
+      <Route path="/data-entry" element={<ProtectedRoute><AppLayout><DataEntry /></AppLayout></ProtectedRoute>} />
+      <Route path="/footprint" element={<ProtectedRoute><AppLayout><Footprint /></AppLayout></ProtectedRoute>} />
+      <Route path="/reports" element={<ProtectedRoute><AppLayout><Reports /></AppLayout></ProtectedRoute>} />
+      <Route path="/recommendations" element={<ProtectedRoute><AppLayout><Recommendations /></AppLayout></ProtectedRoute>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

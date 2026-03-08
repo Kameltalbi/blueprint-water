@@ -6,8 +6,12 @@ import {
   Building2,
   Settings,
   TrendingUp,
+  LogOut,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { useLocation } from "react-router-dom";
 import { useI18n } from "@/lib/i18n";
 import { LangToggle } from "@/components/LangToggle";
