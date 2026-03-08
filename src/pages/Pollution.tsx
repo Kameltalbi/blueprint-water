@@ -235,11 +235,12 @@ export default function Pollution() {
                       <tr key={e.id} className="border-b last:border-0">
                         <td className="px-4 py-3">{e.type}</td>
                         <td className="px-4 py-3 font-medium">{e.pollutant}</td>
-                        <td className="px-4 py-3">{e.concentration} {e.unit}</td>
-                        <td className="px-4 py-3 text-muted-foreground">{e.norm} {e.unit}</td>
+                        <td className="px-4 py-3">{e.cEff} {e.unit}</td>
+                        <td className="px-4 py-3 text-muted-foreground">{e.cMax} / {e.cNat} {e.unit}</td>
                         <td className="px-4 py-3">{e.volumeM3} m³</td>
+                        <td className="px-4 py-3 font-medium">{e.wfGrey.toLocaleString("fr-FR")} m³</td>
                         <td className="px-4 py-3">
-                          {e.concentration > e.norm ? (
+                          {e.cEff > e.cMax ? (
                             <Badge variant="destructive" className="text-xs">Dépassement</Badge>
                           ) : (
                             <Badge variant="secondary" className="text-xs">Conforme</Badge>
