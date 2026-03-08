@@ -208,9 +208,11 @@ export type Database = {
           address: string | null
           country: string | null
           created_at: string
+          email: string | null
           id: string
           logo_url: string | null
           name: string
+          phone: string | null
           sector: string | null
           tva: string | null
           updated_at: string
@@ -219,9 +221,11 @@ export type Database = {
           address?: string | null
           country?: string | null
           created_at?: string
+          email?: string | null
           id?: string
           logo_url?: string | null
           name: string
+          phone?: string | null
           sector?: string | null
           tva?: string | null
           updated_at?: string
@@ -230,9 +234,11 @@ export type Database = {
           address?: string | null
           country?: string | null
           created_at?: string
+          email?: string | null
           id?: string
           logo_url?: string | null
           name?: string
+          phone?: string | null
           sector?: string | null
           tva?: string | null
           updated_at?: string
@@ -410,6 +416,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_organization_with_admin: {
+        Args: {
+          _org_address: string
+          _org_email: string
+          _org_name: string
+          _org_phone: string
+          _user_id: string
+        }
+        Returns: string
+      }
       has_role: {
         Args: {
           _org_id: string
