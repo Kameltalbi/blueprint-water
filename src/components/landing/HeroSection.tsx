@@ -52,7 +52,8 @@ export function HeroSection() {
 
         <motion.div custom={3} variants={fadeUp} className="flex gap-4 flex-wrap justify-center">
           <Link to="/calculateur" className="inline-flex items-center gap-2 rounded-[10px] px-8 py-3.5 font-semibold text-primary-foreground gradient-water shadow-[0_4px_20px_hsl(var(--ocean)/0.25)] hover:shadow-[0_8px_30px_hsl(var(--ocean)/0.35)] hover:-translate-y-0.5 transition-all">
-            💧 {fr ? "Calculer gratuitement" : "Calculate for free"}
+            {fr ? "Calculer gratuitement" : "Calculate for free"}
+          </Link>
           </Link>
           <a href="#fonctionnalites" className="inline-flex items-center rounded-[10px] px-8 py-3.5 font-medium border border-border bg-card text-foreground hover:border-primary hover:text-primary transition-all">
             {fr ? "Découvrir la plateforme" : "Discover the platform"}
