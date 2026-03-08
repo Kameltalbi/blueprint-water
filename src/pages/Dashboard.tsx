@@ -39,14 +39,17 @@ export default function Dashboard() {
         <UsagePieChart />
       </div>
 
-      {/* Benchmark + Objectives + Alerts */}
-      <div className="grid gap-6 lg:grid-cols-3">
+      {/* Heatmap + Benchmark */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        <WaterHeatmap />
         <BenchmarkWidget />
-        <div className="space-y-6">
-          <ObjectivesWidget />
-          <QuickActions />
-        </div>
+      </div>
+
+      {/* Objectives + Alerts + Actions */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        <ObjectivesWidget />
         <AlertsWidget />
+        <QuickActions />
       </div>
     </div>
   );
