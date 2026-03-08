@@ -125,7 +125,7 @@ export default function LandingPage() {
       {/* ── Footer ── */}
       <footer className="bg-foreground text-primary-foreground/50 py-12 px-[5%] flex justify-between items-center flex-wrap gap-6 text-xs">
         <a href="#" className="flex items-center gap-2 font-display text-base font-bold text-primary-foreground no-underline">
-          <div className="w-7 h-7 rounded-lg gradient-water flex items-center justify-center text-sm">💧</div>
+          <img src={hydroscanIcon} alt="HydroScan" className="w-7 h-7 rounded-lg object-contain" />
           HydroScan
         </a>
         <div className="flex gap-6 flex-wrap">

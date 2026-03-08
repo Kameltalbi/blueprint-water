@@ -90,9 +90,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg gradient-water">
-            <Droplets className="h-4 w-4 text-primary-foreground" />
-          </div>
+          <img src={hydroscanIcon} alt="HydroScan" className="h-8 w-8 shrink-0 rounded-lg object-contain" />
           {!collapsed && (
             <span className="text-lg font-bold tracking-tight text-sidebar-primary-foreground">
               HydroScan
