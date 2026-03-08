@@ -19,6 +19,7 @@ const priorityLabel = {
 export default function Recommendations() {
   return (
     <div className="space-y-6">
+      <PageMeta title="Recommandations — HydroScan" description="Découvrez les recommandations personnalisées pour réduire votre empreinte eau." />
       <div>
         <h1 className="font-display text-2xl font-bold tracking-tight">Recommandations IA</h1>
         <p className="text-muted-foreground">

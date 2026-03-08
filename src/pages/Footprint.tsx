@@ -51,6 +51,7 @@ const footprintCards = [
 export default function Footprint() {
   return (
     <div className="space-y-6">
+      <PageMeta title="Empreinte Eau — HydroScan" description="Visualisez la répartition de votre empreinte eau verte, bleue et grise." />
       <div>
         <h1 className="font-display text-2xl font-bold tracking-tight">Empreinte hydrique</h1>
         <p className="text-muted-foreground">
