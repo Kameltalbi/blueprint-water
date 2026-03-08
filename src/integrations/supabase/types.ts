@@ -14,6 +14,105 @@ export type Database = {
   }
   public: {
     Tables: {
+      assessment_entries: {
+        Row: {
+          assessment_id: string
+          calculated_blue: number
+          calculated_green: number
+          calculated_grey: number
+          created_at: string
+          id: string
+          impact_factor_id: string
+          quantity_input: number
+          weighted_total: number
+        }
+        Insert: {
+          assessment_id: string
+          calculated_blue?: number
+          calculated_green?: number
+          calculated_grey?: number
+          created_at?: string
+          id?: string
+          impact_factor_id: string
+          quantity_input?: number
+          weighted_total?: number
+        }
+        Update: {
+          assessment_id?: string
+          calculated_blue?: number
+          calculated_green?: number
+          calculated_grey?: number
+          created_at?: string
+          id?: string
+          impact_factor_id?: string
+          quantity_input?: number
+          weighted_total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessment_entries_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "assessments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assessment_entries_impact_factor_id_fkey"
+            columns: ["impact_factor_id"]
+            isOneToOne: false
+            referencedRelation: "impact_factors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assessments: {
+        Row: {
+          created_at: string
+          id: string
+          location_id: string | null
+          organization_id: string
+          project_title: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          location_id?: string | null
+          organization_id: string
+          project_title: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          location_id?: string | null
+          organization_id?: string
+          project_title?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessments_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "water_stress_indices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assessments_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       calculator_results: {
         Row: {
           blue_water: number
@@ -62,6 +161,45 @@ export type Database = {
           unit?: string | null
           user_id?: string | null
           volume?: number | null
+        }
+        Relationships: []
+      }
+      impact_factors: {
+        Row: {
+          blue_water_factor: number
+          category: string
+          created_at: string
+          green_water_factor: number
+          grey_water_factor: number
+          id: string
+          name: string
+          source_data: string | null
+          unit: string
+          updated_at: string
+        }
+        Insert: {
+          blue_water_factor?: number
+          category: string
+          created_at?: string
+          green_water_factor?: number
+          grey_water_factor?: number
+          id?: string
+          name: string
+          source_data?: string | null
+          unit?: string
+          updated_at?: string
+        }
+        Update: {
+          blue_water_factor?: number
+          category?: string
+          created_at?: string
+          green_water_factor?: number
+          grey_water_factor?: number
+          id?: string
+          name?: string
+          source_data?: string | null
+          unit?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -242,6 +380,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      water_stress_indices: {
+        Row: {
+          country: string
+          created_at: string
+          id: string
+          region_name: string
+          wsi_score: number
+        }
+        Insert: {
+          country: string
+          created_at?: string
+          id?: string
+          region_name: string
+          wsi_score?: number
+        }
+        Update: {
+          country?: string
+          created_at?: string
+          id?: string
+          region_name?: string
+          wsi_score?: number
+        }
+        Relationships: []
       }
     }
     Views: {
