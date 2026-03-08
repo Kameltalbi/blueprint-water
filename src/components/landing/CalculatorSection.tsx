@@ -505,7 +505,36 @@ export function CalculatorSection() {
 
                 {/* Actions */}
                 <div className="flex gap-3 flex-wrap justify-center pt-4">
-                  <button className="px-5 py-2.5 rounded-lg gradient-water text-primary-foreground text-xs font-semibold">
+                  {user && (
+                    <button
+                      onClick={async () => {
+                        setSaving(true);
+                        const { error } = await supabase.from("calculator_results" as any).insert({
+                          user_id: user.id,
+                          sector,
+                          product,
+                          volume: parseFloat(volume) || 0,
+                          unit,
+                          country,
+                          green_water: greenWater,
+                          blue_water: blueWater,
+                          grey_water: greyWater,
+                          total,
+                          per_unit: perUnit,
+                          score: score.grade,
+                        });
+                        setSaving(false);
+                        if (error) toast.error(fr ? "Erreur lors de la sauvegarde" : "Error saving results");
+                        else toast.success(fr ? "Résultats sauvegardés !" : "Results saved!");
+                      }}
+                      disabled={saving}
+                      className="px-5 py-2.5 rounded-lg gradient-water text-primary-foreground text-xs font-semibold flex items-center gap-1.5"
+                    >
+                      {saving && <Loader2 className="h-3 w-3 animate-spin" />}
+                      💾 {fr ? "Sauvegarder" : "Save"}
+                    </button>
+                  )}
+                  <button className="px-5 py-2.5 rounded-lg border border-primary text-primary text-xs font-semibold">
                     📄 {fr ? "Rapport complet (Pro)" : "Full report (Pro)"}
                   </button>
                   <button onClick={() => window.print()} className="px-5 py-2.5 rounded-lg border border-border text-muted-foreground text-xs font-semibold">
