@@ -1,5 +1,6 @@
 import { Droplets, ArrowRight, Calculator } from "lucide-react";
 import { Link } from "react-router-dom";
+import { PageMeta } from "@/components/PageMeta";
 import { LangToggle } from "@/components/LangToggle";
 import { useI18n } from "@/lib/i18n";
 import { HeroSection } from "@/components/landing/HeroSection";
