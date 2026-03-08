@@ -334,7 +334,7 @@ export default function LandingPage() {
                 {t("cta.demo")} <ArrowRight className="h-4 w-4" />
               </Button>
               <Link to="/dashboard">
-                <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/20 text-base font-semibold">
+                <Button size="lg" className="border-2 border-white bg-transparent text-white hover:bg-white/20 text-base font-semibold">
                   {t("cta.trial")}
                 </Button>
               </Link>
