@@ -11,6 +11,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import LandingPage from "@/pages/LandingPage";
 import CalculatorPage from "@/pages/CalculatorPage";
 import PricingPage from "@/pages/PricingPage";
+import FeaturesPage from "@/pages/FeaturesPage";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import ForgotPassword from "@/pages/ForgotPassword";
@@ -36,6 +37,7 @@ function AppRoutes() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/calculateur" element={<CalculatorPage />} />
       <Route path="/tarifs" element={<PricingPage />} />
+      <Route path="/fonctionnalites" element={<FeaturesPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />

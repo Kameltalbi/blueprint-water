@@ -30,7 +30,7 @@ export default function LandingPage() {
         <div className="hidden md:flex items-center gap-8">
           <a href="#secteurs" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Secteurs" : "Sectors"}</a>
           <Link to="/calculateur" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Calculateur" : "Calculator"}</Link>
-          <a href="#fonctionnalites" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Fonctionnalités" : "Features"}</a>
+          <Link to="/fonctionnalites" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Fonctionnalités" : "Features"}</Link>
           <Link to="/tarifs" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Tarifs" : "Pricing"}</Link>
         </div>
 
