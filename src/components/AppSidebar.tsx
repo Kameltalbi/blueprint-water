@@ -34,6 +34,8 @@ export function AppSidebar() {
   const collapsed = state === "collapsed";
   const location = useLocation();
   const { t } = useI18n();
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
 
   const mainItems = [
     { title: t("sidebar.dashboard"), url: "/dashboard", icon: LayoutDashboard },
