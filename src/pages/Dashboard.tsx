@@ -8,6 +8,7 @@ import { BenchmarkWidget } from "@/components/dashboard/BenchmarkWidget";
 import { ObjectivesWidget } from "@/components/dashboard/ObjectivesWidget";
 import { AlertsWidget } from "@/components/dashboard/AlertsWidget";
 import { QuickActions } from "@/components/dashboard/QuickActions";
+import { WaterHeatmap } from "@/components/dashboard/WaterHeatmap";
 
 export default function Dashboard() {
   const [site, setSite] = useState("all");
