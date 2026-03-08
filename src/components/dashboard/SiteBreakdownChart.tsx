@@ -2,16 +2,41 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { Building2 } from "lucide-react";
 
-const siteData = [
-  { name: "Usine Sfax", value: 7200, color: "hsl(201, 96%, 32%)" },
-  { name: "Usine Nabeul", value: 5800, color: "hsl(201, 70%, 45%)" },
-  { name: "Entrepôt Sousse", value: 3100, color: "hsl(201, 60%, 55%)" },
-  { name: "Bureau Tunis", value: 1900, color: "hsl(201, 50%, 65%)" },
+interface SiteBreakdownChartProps {
+  bySite: Record<string, number>;
+}
+
+const COLORS = [
+  "hsl(201, 96%, 32%)",
+  "hsl(201, 70%, 45%)",
+  "hsl(201, 60%, 55%)",
+  "hsl(201, 50%, 65%)",
+  "hsl(201, 40%, 75%)",
 ];
 
-const totalSite = siteData.reduce((s, d) => s + d.value, 0);
+export function SiteBreakdownChart({ bySite }: SiteBreakdownChartProps) {
+  const siteData = Object.entries(bySite)
+    .map(([name, value], i) => ({ name, value, color: COLORS[i % COLORS.length] }))
+    .sort((a, b) => b.value - a.value);
 
-export function SiteBreakdownChart() {
+  const totalSite = siteData.reduce((s, d) => s + d.value, 0);
+
+  if (siteData.length === 0) {
+    return (
+      <Card className="shadow-card">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base flex items-center gap-2">
+            <Building2 className="h-4 w-4 text-primary" />
+            Analyse par Site
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex items-center justify-center h-56 text-muted-foreground text-sm">
+          Aucune donnée disponible
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="shadow-card">
       <CardHeader className="pb-2">
@@ -19,7 +44,7 @@ export function SiteBreakdownChart() {
           <Building2 className="h-4 w-4 text-primary" />
           Analyse par Site
         </CardTitle>
-        <p className="text-xs text-muted-foreground">Consommation par lieu — identifiez les sites les plus gourmands</p>
+        <p className="text-xs text-muted-foreground">Consommation par lieu</p>
       </CardHeader>
       <CardContent>
         <div className="h-56">
@@ -28,7 +53,7 @@ export function SiteBreakdownChart() {
               <XAxis
                 type="number"
                 tick={{ fill: "hsl(215, 12%, 50%)", fontSize: 11 }}
-                tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`}
+                tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(0)}k` : `${v}`}
               />
               <YAxis
                 type="category"
@@ -53,13 +78,12 @@ export function SiteBreakdownChart() {
             </BarChart>
           </ResponsiveContainer>
         </div>
-        {/* Percentage labels */}
         <div className="mt-3 flex flex-wrap gap-3">
           {siteData.map((site) => (
             <div key={site.name} className="flex items-center gap-1.5 text-xs">
               <div className="w-2 h-2 rounded-full" style={{ backgroundColor: site.color }} />
               <span className="text-muted-foreground">{site.name}</span>
-              <span className="font-semibold">{((site.value / totalSite) * 100).toFixed(0)}%</span>
+              <span className="font-semibold">{totalSite > 0 ? ((site.value / totalSite) * 100).toFixed(0) : 0}%</span>
             </div>
           ))}
         </div>

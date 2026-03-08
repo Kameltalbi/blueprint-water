@@ -1,49 +1,52 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
-import { mockMonthlyData } from "@/lib/mock-data";
 import { Droplets } from "lucide-react";
-import { useState } from "react";
 
-const totalBlue = mockMonthlyData.reduce((s, d) => s + d.blue, 0);
-const totalGreen = mockMonthlyData.reduce((s, d) => s + d.green, 0);
-const totalGrey = mockMonthlyData.reduce((s, d) => s + d.grey, 0);
-const totalAll = totalBlue + totalGreen + totalGrey;
+interface WaterMixDonutProps {
+  bySource: Record<string, number>;
+  totalVolume: number;
+}
 
-const data = [
-  { name: "Eau Bleue", value: totalBlue, fill: "hsl(201, 96%, 32%)", percent: ((totalBlue / totalAll) * 100).toFixed(1) },
-  { name: "Eau Verte", value: totalGreen, fill: "hsl(142, 72%, 29%)", percent: ((totalGreen / totalAll) * 100).toFixed(1) },
-  { name: "Eau Grise", value: totalGrey, fill: "hsl(220, 9%, 46%)", percent: ((totalGrey / totalAll) * 100).toFixed(1) },
+const COLORS = [
+  "hsl(201, 96%, 32%)",
+  "hsl(142, 72%, 29%)",
+  "hsl(220, 9%, 46%)",
+  "hsl(48, 96%, 53%)",
+  "hsl(201, 70%, 55%)",
 ];
 
-// Simulated drill-down data
-const drillDown: Record<string, { name: string; value: number }[]> = {
-  "Eau Bleue": [
-    { name: "Réseau SONEDE", value: 9500 },
-    { name: "Forage privé", value: 5200 },
-    { name: "Dessalement", value: 4100 },
-  ],
-  "Eau Verte": [
-    { name: "Irrigation cultures", value: 7800 },
-    { name: "Pluie directe", value: 5280 },
-  ],
-  "Eau Grise": [
-    { name: "Rejets industriels", value: 3200 },
-    { name: "Eaux sanitaires", value: 2245 },
-  ],
-};
+export function WaterMixDonut({ bySource, totalVolume }: WaterMixDonutProps) {
+  const data = Object.entries(bySource).map(([name, value], i) => ({
+    name,
+    value,
+    fill: COLORS[i % COLORS.length],
+    percent: totalVolume > 0 ? ((value / totalVolume) * 100).toFixed(1) : "0",
+  }));
 
-export function WaterMixDonut() {
-  const [selected, setSelected] = useState<string | null>(null);
-  const details = selected ? drillDown[selected] : null;
+  if (data.length === 0) {
+    return (
+      <Card className="shadow-card">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base flex items-center gap-2">
+            <Droplets className="h-4 w-4 text-primary" />
+            Mix par Source
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex items-center justify-center h-64 text-muted-foreground text-sm">
+          Aucune donnée disponible
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="shadow-card">
       <CardHeader className="pb-2">
         <CardTitle className="text-base flex items-center gap-2">
           <Droplets className="h-4 w-4 text-primary" />
-          Mix de l'Empreinte
+          Mix par Source
         </CardTitle>
-        <p className="text-xs text-muted-foreground">Répartition Bleue / Verte / Grise — cliquez pour détailler</p>
+        <p className="text-xs text-muted-foreground">Répartition par source d'approvisionnement</p>
       </CardHeader>
       <CardContent>
         <div className="h-64">
@@ -57,20 +60,9 @@ export function WaterMixDonut() {
                 outerRadius={90}
                 paddingAngle={3}
                 dataKey="value"
-                cursor="pointer"
-                onClick={(_, index) => {
-                  const name = data[index].name;
-                  setSelected(selected === name ? null : name);
-                }}
               >
                 {data.map((entry, i) => (
-                  <Cell
-                    key={i}
-                    fill={entry.fill}
-                    opacity={selected && selected !== entry.name ? 0.3 : 1}
-                    stroke={selected === entry.name ? entry.fill : "transparent"}
-                    strokeWidth={selected === entry.name ? 3 : 0}
-                  />
+                  <Cell key={i} fill={entry.fill} />
                 ))}
               </Pie>
               <Tooltip
@@ -88,7 +80,7 @@ export function WaterMixDonut() {
               <Legend
                 verticalAlign="bottom"
                 iconSize={8}
-                formatter={(value, entry: any) => {
+                formatter={(value) => {
                   const d = data.find((x) => x.name === value);
                   return (
                     <span className="text-xs text-muted-foreground">
@@ -100,25 +92,6 @@ export function WaterMixDonut() {
             </PieChart>
           </ResponsiveContainer>
         </div>
-
-        {/* Drill-down details */}
-        {details && (
-          <div className="mt-4 space-y-2 rounded-lg border bg-muted/30 p-3 animate-in fade-in slide-in-from-top-2 duration-200">
-            <p className="text-xs font-semibold text-foreground">{selected} — Détail des sources</p>
-            {details.map((d) => (
-              <div key={d.name} className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">{d.name}</span>
-                <span className="font-medium">{d.value.toLocaleString("fr-FR")} m³</span>
-              </div>
-            ))}
-            <button
-              onClick={() => setSelected(null)}
-              className="text-xs text-primary hover:underline mt-1"
-            >
-              ← Retour à la vue globale
-            </button>
-          </div>
-        )}
       </CardContent>
     </Card>
   );
