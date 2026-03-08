@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Lightbulb, TrendingDown, DollarSign } from "lucide-react";
+import { PageMeta } from "@/components/PageMeta";
 import { mockRecommendations } from "@/lib/mock-data";
 
 const priorityVariant = {
