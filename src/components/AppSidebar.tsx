@@ -46,7 +46,6 @@ export function AppSidebar() {
   ];
 
   const settingsItems = [
-    { title: t("sidebar.organization"), url: "/organization", icon: Building2 },
     { title: t("sidebar.settings"), url: "/settings", icon: Settings },
   ];
 
