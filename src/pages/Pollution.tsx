@@ -27,12 +27,12 @@ interface DischargeEntry {
 }
 
 const pollutants = [
-  { name: "DBO5", norm: 30, unit: "mg/L" },
-  { name: "DCO", norm: 90, unit: "mg/L" },
-  { name: "MES", norm: 30, unit: "mg/L" },
-  { name: "Azote total", norm: 30, unit: "mg/L" },
-  { name: "Phosphore", norm: 10, unit: "mg/L" },
-  { name: "pH", norm: 8.5, unit: "" },
+  { name: "DBO5", cMax: 30, cNat: 2, unit: "mg/L" },
+  { name: "DCO", cMax: 90, cNat: 5, unit: "mg/L" },
+  { name: "MES", cMax: 30, cNat: 5, unit: "mg/L" },
+  { name: "Azote total", cMax: 30, cNat: 1, unit: "mg/L" },
+  { name: "Phosphore", cMax: 10, cNat: 0.1, unit: "mg/L" },
+  { name: "Métaux lourds", cMax: 0.5, cNat: 0.01, unit: "mg/L" },
 ];
 
 const dischargeTypes = [
