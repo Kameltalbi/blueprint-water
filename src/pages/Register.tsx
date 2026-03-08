@@ -221,6 +221,11 @@ export default function Register() {
             {fr ? "Se connecter" : "Log in"}
           </Link>
         </p>
+        <p className="text-center text-sm text-muted-foreground">
+          <Link to="/" className="font-semibold text-primary hover:underline">
+            {fr ? "← Retour à l'accueil" : "← Back to home"}
+          </Link>
+        </p>
       </div>
     </div>
   );
