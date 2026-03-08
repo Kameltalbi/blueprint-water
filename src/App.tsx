@@ -16,8 +16,12 @@ import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
 import Dashboard from "@/pages/Dashboard";
 import DataEntry from "@/pages/DataEntry";
+import SupplyChain from "@/pages/SupplyChain";
+import Pollution from "@/pages/Pollution";
 import Footprint from "@/pages/Footprint";
+import StressMap from "@/pages/StressMap";
 import Reports from "@/pages/Reports";
+import ActionPlan from "@/pages/ActionPlan";
 import Recommendations from "@/pages/Recommendations";
 import Organization from "@/pages/Organization";
 import Settings from "@/pages/Settings";
@@ -36,8 +40,12 @@ function AppRoutes() {
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/dashboard" element={<ProtectedRoute><AppLayout><Dashboard /></AppLayout></ProtectedRoute>} />
       <Route path="/data-entry" element={<ProtectedRoute><AppLayout><DataEntry /></AppLayout></ProtectedRoute>} />
+      <Route path="/supply-chain" element={<ProtectedRoute><AppLayout><SupplyChain /></AppLayout></ProtectedRoute>} />
+      <Route path="/pollution" element={<ProtectedRoute><AppLayout><Pollution /></AppLayout></ProtectedRoute>} />
       <Route path="/footprint" element={<ProtectedRoute><AppLayout><Footprint /></AppLayout></ProtectedRoute>} />
+      <Route path="/stress-map" element={<ProtectedRoute><AppLayout><StressMap /></AppLayout></ProtectedRoute>} />
       <Route path="/reports" element={<ProtectedRoute><AppLayout><Reports /></AppLayout></ProtectedRoute>} />
+      <Route path="/action-plan" element={<ProtectedRoute><AppLayout><ActionPlan /></AppLayout></ProtectedRoute>} />
       <Route path="/recommendations" element={<ProtectedRoute><AppLayout><Recommendations /></AppLayout></ProtectedRoute>} />
       <Route path="/organization" element={<ProtectedRoute><AppLayout><Organization /></AppLayout></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />

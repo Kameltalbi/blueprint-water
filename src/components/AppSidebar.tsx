@@ -3,10 +3,14 @@ import {
   Droplets,
   FileText,
   Lightbulb,
-  Building2,
   Settings,
   TrendingUp,
   LogOut,
+  Package,
+  FlaskConical,
+  MapPin,
+  Target,
+  Building2,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
@@ -37,20 +41,50 @@ export function AppSidebar() {
   const { signOut } = useAuth();
   const navigate = useNavigate();
 
-  const mainItems = [
+  const dashboardItems = [
     { title: t("sidebar.dashboard"), url: "/dashboard", icon: LayoutDashboard },
-    { title: t("sidebar.data"), url: "/data-entry", icon: Droplets },
-    { title: t("sidebar.footprint"), url: "/footprint", icon: TrendingUp },
-    { title: t("sidebar.reports"), url: "/reports", icon: FileText },
-    { title: t("sidebar.recommendations"), url: "/recommendations", icon: Lightbulb },
   ];
 
-  const settingsItems = [
+  const inputItems = [
+    { title: t("sidebar.consumption"), url: "/data-entry", icon: Droplets },
+    { title: t("sidebar.supply"), url: "/supply-chain", icon: Package },
+    { title: t("sidebar.pollution"), url: "/pollution", icon: FlaskConical },
+  ];
+
+  const analysisItems = [
+    { title: t("sidebar.footprint"), url: "/footprint", icon: TrendingUp },
+    { title: t("sidebar.stressMap"), url: "/stress-map", icon: MapPin },
+    { title: t("sidebar.reports"), url: "/reports", icon: FileText },
+    { title: t("sidebar.actionPlan"), url: "/action-plan", icon: Target },
+  ];
+
+  const configItems = [
+    { title: t("sidebar.recommendations"), url: "/recommendations", icon: Lightbulb },
     { title: t("sidebar.settings"), url: "/settings", icon: Settings },
   ];
 
   const isActive = (path: string) =>
     path === "/dashboard" ? location.pathname === "/dashboard" : location.pathname.startsWith(path);
+
+  const renderGroup = (label: string, items: typeof dashboardItems) => (
+    <SidebarGroup>
+      <SidebarGroupLabel>{label}</SidebarGroupLabel>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          {items.map((item) => (
+            <SidebarMenuItem key={item.url}>
+              <SidebarMenuButton asChild isActive={isActive(item.url)}>
+                <NavLink to={item.url} end={item.url === "/dashboard"}>
+                  <item.icon className="h-4 w-4" />
+                  {!collapsed && <span>{item.title}</span>}
+                </NavLink>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
+  );
 
   return (
     <Sidebar collapsible="icon">
@@ -68,41 +102,10 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>{t("sidebar.main")}</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {mainItems.map((item) => (
-                <SidebarMenuItem key={item.url}>
-                  <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                    <NavLink to={item.url} end={item.url === "/dashboard"}>
-                      <item.icon className="h-4 w-4" />
-                      {!collapsed && <span>{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>{t("sidebar.config")}</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {settingsItems.map((item) => (
-                <SidebarMenuItem key={item.url}>
-                  <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                    <NavLink to={item.url}>
-                      <item.icon className="h-4 w-4" />
-                      {!collapsed && <span>{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {renderGroup(t("sidebar.overview"), dashboardItems)}
+        {renderGroup(t("sidebar.inputSection"), inputItems)}
+        {renderGroup(t("sidebar.analysisSection"), analysisItems)}
+        {renderGroup(t("sidebar.config"), configItems)}
       </SidebarContent>
 
       <SidebarFooter className="p-4">
