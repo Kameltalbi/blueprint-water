@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Droplets, CloudRain, Beaker } from "lucide-react";
+import { PageMeta } from "@/components/PageMeta";
 import {
   BarChart,
   Bar,
