@@ -1,10 +1,9 @@
-import { Droplets } from "lucide-react";
+import { Droplets, ArrowRight, Calculator } from "lucide-react";
 import { Link } from "react-router-dom";
 import { LangToggle } from "@/components/LangToggle";
 import { useI18n } from "@/lib/i18n";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { SectorsSection } from "@/components/landing/SectorsSection";
-import { CalculatorSection } from "@/components/landing/CalculatorSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { PricingSection } from "@/components/landing/PricingSection";
 import { WhySection } from "@/components/landing/WhySection";
@@ -26,14 +25,14 @@ export default function LandingPage() {
 
         <div className="hidden md:flex items-center gap-8">
           <a href="#secteurs" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Secteurs" : "Sectors"}</a>
-          <a href="#calculateur" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Calculateur" : "Calculator"}</a>
+          <Link to="/calculateur" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Calculateur" : "Calculator"}</Link>
           <a href="#fonctionnalites" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Fonctionnalités" : "Features"}</a>
           <a href="#tarifs" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Tarifs" : "Pricing"}</a>
         </div>
 
         <div className="flex items-center gap-2">
           <LangToggle />
-          <Link to="/dashboard" className="hidden sm:inline-flex items-center px-5 py-2 rounded-lg gradient-water text-primary-foreground text-sm font-semibold hover:opacity-90 transition-all">
+          <Link to="/calculateur" className="hidden sm:inline-flex items-center px-5 py-2 rounded-lg gradient-water text-primary-foreground text-sm font-semibold hover:opacity-90 transition-all">
             {fr ? "Calculer gratuitement →" : "Calculate for free →"}
           </Link>
         </div>
@@ -42,7 +41,53 @@ export default function LandingPage() {
       {/* ── Sections ── */}
       <HeroSection />
       <SectorsSection />
-      <CalculatorSection />
+
+      {/* ── Calculator CTA (replaces inline calculator) ── */}
+      <section id="calculateur" className="py-24 px-[5%] bg-background">
+        <div className="mx-auto max-w-[800px] text-center">
+          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 border border-emerald-200 text-green-water text-xs font-bold px-4 py-1 mb-5">
+            <span>✦</span> {fr ? "100 % Gratuit · Sans inscription" : "100% Free · No signup"}
+          </div>
+          <h2 className="font-display text-[clamp(1.8rem,4vw,2.8rem)] font-extrabold text-foreground leading-tight mb-4">
+            {fr ? "Calculez votre Empreinte Eau" : "Calculate your Water Footprint"}
+          </h2>
+          <p className="text-muted-foreground text-sm max-w-[520px] mx-auto mb-8">
+            {fr
+              ? "Analyse complète Eau Verte / Bleue / Grise en 4 étapes. Résultats instantanés, conformes à ISO 14046 et Water Footprint Network."
+              : "Complete Green / Blue / Grey Water analysis in 4 steps. Instant results, ISO 14046 and Water Footprint Network compliant."}
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link
+              to="/calculateur"
+              className="inline-flex items-center gap-2 px-8 py-3.5 gradient-water text-primary-foreground rounded-[10px] font-bold text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all"
+            >
+              <Calculator className="h-4 w-4" />
+              {fr ? "Lancer le calculateur →" : "Launch calculator →"}
+            </Link>
+            <a
+              href="#fonctionnalites"
+              className="inline-flex items-center gap-2 px-8 py-3.5 border border-border text-muted-foreground rounded-[10px] font-semibold text-sm hover:border-primary hover:text-primary transition-all"
+            >
+              {fr ? "En savoir plus" : "Learn more"}
+            </a>
+          </div>
+          <div className="mt-10 grid grid-cols-3 gap-6 max-w-[480px] mx-auto">
+            <div>
+              <p className="font-display text-2xl font-extrabold text-primary">4</p>
+              <p className="text-xs text-muted-foreground">{fr ? "Étapes simples" : "Simple steps"}</p>
+            </div>
+            <div>
+              <p className="font-display text-2xl font-extrabold text-primary">500+</p>
+              <p className="text-xs text-muted-foreground">{fr ? "Coefficients WFN" : "WFN Coefficients"}</p>
+            </div>
+            <div>
+              <p className="font-display text-2xl font-extrabold text-primary">ISO</p>
+              <p className="text-xs text-muted-foreground">14046</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <WhySection />
       <FeaturesSection />
       <PricingSection />
@@ -60,9 +105,9 @@ export default function LandingPage() {
             : "Join 2,847 companies already managing their water footprint with HydroScan."}
         </p>
         <div className="flex flex-wrap justify-center gap-3">
-          <a href="#calculateur" className="inline-block px-8 py-3.5 bg-card text-primary rounded-[10px] font-bold text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all">
+          <Link to="/calculateur" className="inline-block px-8 py-3.5 bg-card text-primary rounded-[10px] font-bold text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all">
             💧 {fr ? "Calculer gratuitement" : "Calculate for free"}
-          </a>
+          </Link>
           <a href="#tarifs" className="inline-block px-8 py-3.5 border-2 border-primary-foreground/50 text-primary-foreground rounded-[10px] font-semibold text-sm hover:border-primary-foreground hover:bg-primary-foreground/10 transition-all">
             {fr ? "Voir les plans Pro" : "See Pro plans"}
           </a>

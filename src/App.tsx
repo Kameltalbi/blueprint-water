@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { I18nProvider } from "@/lib/i18n";
 import { AppLayout } from "@/components/AppLayout";
 import LandingPage from "@/pages/LandingPage";
+import CalculatorPage from "@/pages/CalculatorPage";
 import Dashboard from "@/pages/Dashboard";
 import DataEntry from "@/pages/DataEntry";
 import Footprint from "@/pages/Footprint";
@@ -19,6 +20,7 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+      <Route path="/calculateur" element={<CalculatorPage />} />
       <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
       <Route path="/data-entry" element={<AppLayout><DataEntry /></AppLayout>} />
       <Route path="/footprint" element={<AppLayout><Footprint /></AppLayout>} />
