@@ -25,6 +25,7 @@ export default function PricingPage() {
         <div className="hidden md:flex items-center gap-8">
           <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Accueil" : "Home"}</Link>
           <Link to="/calculateur" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Calculateur" : "Calculator"}</Link>
+          <Link to="/fonctionnalites" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Fonctionnalités" : "Features"}</Link>
           <Link to="/tarifs" className="text-sm font-medium text-primary transition-colors">{fr ? "Tarifs" : "Pricing"}</Link>
         </div>
 
