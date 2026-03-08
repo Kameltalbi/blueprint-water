@@ -4,7 +4,7 @@ import { useI18n } from "@/lib/i18n";
 import hydroscanLogo from "@/assets/logo_hydroscan.png";
 
 interface LandingHeaderProps {
-  activePage?: "home" | "calculateur" | "fonctionnalites" | "tarifs" | "apropos" | "ressources";
+  activePage?: "home" | "calculateur" | "fonctionnalites" | "tarifs" | "apropos" | "ressources" | "contact";
 }
 
 export function LandingHeader({ activePage = "home" }: LandingHeaderProps) {
