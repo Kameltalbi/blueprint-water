@@ -3,6 +3,7 @@ import { Droplets, ArrowLeft } from "lucide-react";
 import { LangToggle } from "@/components/LangToggle";
 import { useI18n } from "@/lib/i18n";
 import { CalculatorSection } from "@/components/landing/CalculatorSection";
+import { PageMeta } from "@/components/PageMeta";
 
 export default function CalculatorPage() {
   const { lang } = useI18n();
@@ -10,6 +11,7 @@ export default function CalculatorPage() {
 
   return (
     <div className="min-h-screen bg-card font-sans">
+      <PageMeta title="Calculateur d'Empreinte Eau — HydroScan" description="Calculez gratuitement votre empreinte eau verte, bleue et grise en 4 étapes. Conforme ISO 14046." />
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[5%] py-4 bg-card/95 backdrop-blur-xl border-b border-border">
         <Link to="/" className="flex items-center gap-2 font-display text-xl font-extrabold text-foreground no-underline">

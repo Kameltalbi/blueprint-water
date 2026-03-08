@@ -1,4 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PageMeta } from "@/components/PageMeta";
 import { User, Building2, Users, Shield } from "lucide-react";
 import ProfileTab from "@/components/settings/ProfileTab";
 import OrganizationTab from "@/components/settings/OrganizationTab";
@@ -8,6 +9,7 @@ import PermissionsTab from "@/components/settings/PermissionsTab";
 export default function Settings() {
   return (
     <div className="space-y-6">
+      <PageMeta title="Paramètres — HydroScan" description="Gérez votre profil, votre organisation et les accès de votre équipe." />
       <div>
         <h1 className="font-display text-2xl font-bold tracking-tight">Paramètres</h1>
         <p className="text-muted-foreground">Gérez votre profil, votre organisation et vos préférences</p>

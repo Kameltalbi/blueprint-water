@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { PageMeta } from "@/components/PageMeta";
 import { DashboardFilters } from "@/components/dashboard/DashboardFilters";
 import { KpiCards } from "@/components/dashboard/KpiCards";
 import { ConsumptionChart } from "@/components/dashboard/ConsumptionChart";
@@ -14,6 +15,7 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
+      <PageMeta title="Tableau de bord — HydroScan" description="Suivez votre consommation d'eau et vos indicateurs de performance en temps réel." />
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>

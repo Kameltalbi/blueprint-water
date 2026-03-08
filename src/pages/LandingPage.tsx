@@ -1,5 +1,6 @@
 import { Droplets, ArrowRight, Calculator } from "lucide-react";
 import { Link } from "react-router-dom";
+import { PageMeta } from "@/components/PageMeta";
 import { LangToggle } from "@/components/LangToggle";
 import { useI18n } from "@/lib/i18n";
 import { HeroSection } from "@/components/landing/HeroSection";
@@ -14,6 +15,10 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-card font-sans">
+      <PageMeta
+        title="HydroScan — Calculez votre Empreinte Eau"
+        description="Plateforme universelle de calcul d'empreinte eau pour l'agriculture, l'industrie et l'agroalimentaire. Conforme ISO 14046."
+      />
       {/* ── Navbar ── */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[5%] py-4 bg-card/95 backdrop-blur-xl border-b border-border">
         <a href="#" className="flex items-center gap-2 font-display text-xl font-extrabold text-foreground no-underline">
@@ -32,10 +37,10 @@ export default function LandingPage() {
 
         <div className="flex items-center gap-2">
           <LangToggle />
-          <Link to="/login" className="hidden sm:inline-flex items-center px-5 py-2 rounded-lg border border-border text-foreground text-sm font-semibold hover:border-primary hover:text-primary transition-all">
+          <Link to="/login" className="inline-flex items-center px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg border border-border text-foreground text-xs sm:text-sm font-semibold hover:border-primary hover:text-primary transition-all">
             {fr ? "Connexion" : "Login"}
           </Link>
-          <Link to="/register" className="hidden sm:inline-flex items-center px-5 py-2 rounded-lg gradient-water text-primary-foreground text-sm font-semibold hover:opacity-90 transition-all">
+          <Link to="/register" className="inline-flex items-center px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg gradient-water text-primary-foreground text-xs sm:text-sm font-semibold hover:opacity-90 transition-all">
             {fr ? "Inscription" : "Sign up"}
           </Link>
         </div>

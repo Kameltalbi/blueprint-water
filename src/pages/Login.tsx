@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
@@ -7,11 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Droplets, Loader2 } from "lucide-react";
+import { PageMeta } from "@/components/PageMeta";
 
 export default function Login() {
   const { lang } = useI18n();
   const fr = lang === "fr";
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = (location.state as { from?: string })?.from || "/dashboard";
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,12 +33,13 @@ export default function Login() {
         description: error.message,
       });
     } else {
-      navigate("/dashboard");
+      navigate(from, { replace: true });
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
+      <PageMeta title="Connexion — HydroScan" description="Connectez-vous à votre compte HydroScan pour gérer votre empreinte eau." />
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <Link to="/" className="inline-flex items-center gap-2 font-display text-2xl font-extrabold text-foreground mb-2">

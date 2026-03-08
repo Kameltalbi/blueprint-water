@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      calculator_results: {
+        Row: {
+          blue_water: number
+          country: string | null
+          created_at: string
+          green_water: number
+          grey_water: number
+          id: string
+          per_unit: number
+          product: string | null
+          score: string | null
+          sector: string
+          total: number
+          unit: string | null
+          user_id: string | null
+          volume: number | null
+        }
+        Insert: {
+          blue_water?: number
+          country?: string | null
+          created_at?: string
+          green_water?: number
+          grey_water?: number
+          id?: string
+          per_unit?: number
+          product?: string | null
+          score?: string | null
+          sector: string
+          total?: number
+          unit?: string | null
+          user_id?: string | null
+          volume?: number | null
+        }
+        Update: {
+          blue_water?: number
+          country?: string | null
+          created_at?: string
+          green_water?: number
+          grey_water?: number
+          id?: string
+          per_unit?: number
+          product?: string | null
+          score?: string | null
+          sector?: string
+          total?: number
+          unit?: string | null
+          user_id?: string | null
+          volume?: number | null
+        }
+        Relationships: []
+      }
       organizations: {
         Row: {
           address: string | null
