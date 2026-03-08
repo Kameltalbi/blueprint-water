@@ -12,9 +12,9 @@ export function LandingHeader({ activePage = "home" }: LandingHeaderProps) {
   const fr = lang === "fr";
 
   const navLinks = [
+    { to: "/a-propos", labelFr: "À propos", labelEn: "About", key: "apropos" as const },
     { to: "/fonctionnalites", labelFr: "Fonctionnalités", labelEn: "Features", key: "fonctionnalites" as const },
     { to: "/tarifs", labelFr: "Tarifs", labelEn: "Pricing", key: "tarifs" as const },
-    { to: "/a-propos", labelFr: "À propos", labelEn: "About", key: "apropos" as const },
     { to: "/ressources", labelFr: "Ressources", labelEn: "Resources", key: "ressources" as const },
   ];
 
