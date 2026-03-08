@@ -11,6 +11,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import LandingPage from "@/pages/LandingPage";
 import CalculatorPage from "@/pages/CalculatorPage";
 import PricingPage from "@/pages/PricingPage";
+import FeaturesPage from "@/pages/FeaturesPage";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import ForgotPassword from "@/pages/ForgotPassword";
