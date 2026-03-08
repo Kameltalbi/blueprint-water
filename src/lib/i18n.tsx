@@ -263,8 +263,8 @@ const translations: Record<string, Record<Lang, string>> = {
 
   // Footer
   "footer.text": {
-    fr: "© 2024 HydroScan. Plateforme d'empreinte hydrique pour l'Afrique.",
-    en: "© 2024 HydroScan. Water footprint platform for Africa.",
+    fr: "© 2026 HydroScan. Plateforme d'empreinte hydrique pour l'Afrique.",
+    en: "© 2026 HydroScan. Water footprint platform for Africa.",
   },
 
   // Sidebar & App

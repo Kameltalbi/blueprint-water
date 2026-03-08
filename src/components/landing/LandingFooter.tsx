@@ -19,7 +19,7 @@ export function LandingFooter() {
         <a href="#" className="hover:text-primary-foreground transition-colors">Blog</a>
         <a href="#" className="hover:text-primary-foreground transition-colors">API Docs</a>
       </div>
-      <span>© 2024 HydroScan · ISO 14046</span>
+      <span>© 2026 HydroScan · ISO 14046</span>
     </footer>
   );
 }
