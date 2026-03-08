@@ -19,6 +19,7 @@ import Footprint from "@/pages/Footprint";
 import Reports from "@/pages/Reports";
 import Recommendations from "@/pages/Recommendations";
 import Organization from "@/pages/Organization";
+import Settings from "@/pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ function AppRoutes() {
       <Route path="/reports" element={<ProtectedRoute><AppLayout><Reports /></AppLayout></ProtectedRoute>} />
       <Route path="/recommendations" element={<ProtectedRoute><AppLayout><Recommendations /></AppLayout></ProtectedRoute>} />
       <Route path="/organization" element={<ProtectedRoute><AppLayout><Organization /></AppLayout></ProtectedRoute>} />
+      <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
