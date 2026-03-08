@@ -16,27 +16,36 @@ export type Database = {
     Tables: {
       organizations: {
         Row: {
+          address: string | null
           country: string | null
           created_at: string
           id: string
+          logo_url: string | null
           name: string
           sector: string | null
+          tva: string | null
           updated_at: string
         }
         Insert: {
+          address?: string | null
           country?: string | null
           created_at?: string
           id?: string
+          logo_url?: string | null
           name: string
           sector?: string | null
+          tva?: string | null
           updated_at?: string
         }
         Update: {
+          address?: string | null
           country?: string | null
           created_at?: string
           id?: string
+          logo_url?: string | null
           name?: string
           sector?: string | null
+          tva?: string | null
           updated_at?: string
         }
         Relationships: []
