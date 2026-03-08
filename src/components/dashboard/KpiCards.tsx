@@ -25,7 +25,7 @@ export function KpiCards({ totalVolume, consumption }: KpiCardsProps) {
     return acc;
   }, {});
 
-  const topSource = Object.entries(bySource).sort((a, b) => b[1] - a[1])[0];
+  const topSource = Object.entries(bySource).sort((a, b) => (b[1] as number) - (a[1] as number))[0];
 
   const kpis = [
     {
