@@ -15,7 +15,7 @@ export function LandingFooter() {
         <a href="#" className="hover:text-primary-foreground transition-colors">{fr ? "Mentions légales" : "Legal"}</a>
         <a href="#" className="hover:text-primary-foreground transition-colors">{fr ? "Confidentialité" : "Privacy"}</a>
         <a href="#" className="hover:text-primary-foreground transition-colors">CGU</a>
-        <a href="#" className="hover:text-primary-foreground transition-colors">Contact</a>
+        <Link to="/contact" className="hover:text-primary-foreground transition-colors">Contact</Link>
         <a href="#" className="hover:text-primary-foreground transition-colors">Blog</a>
         <a href="#" className="hover:text-primary-foreground transition-colors">API Docs</a>
       </div>
