@@ -37,6 +37,7 @@ function AppRoutes() {
       <Route path="/footprint" element={<ProtectedRoute><AppLayout><Footprint /></AppLayout></ProtectedRoute>} />
       <Route path="/reports" element={<ProtectedRoute><AppLayout><Reports /></AppLayout></ProtectedRoute>} />
       <Route path="/recommendations" element={<ProtectedRoute><AppLayout><Recommendations /></AppLayout></ProtectedRoute>} />
+      <Route path="/organization" element={<ProtectedRoute><AppLayout><Organization /></AppLayout></ProtectedRoute>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
