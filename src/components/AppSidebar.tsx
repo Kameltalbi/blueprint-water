@@ -11,7 +11,7 @@ import {
   LogOut,
   Home,
 } from "lucide-react";
-import hydroscanIcon from "@/assets/hydroscan-icon.png";
+import hydroscanLogoWhite from "@/assets/hydroscan-logo-white.png";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
