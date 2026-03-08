@@ -1,10 +1,9 @@
-import { Droplets } from "lucide-react";
+import { Droplets, ArrowRight, Calculator } from "lucide-react";
 import { Link } from "react-router-dom";
 import { LangToggle } from "@/components/LangToggle";
 import { useI18n } from "@/lib/i18n";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { SectorsSection } from "@/components/landing/SectorsSection";
-import { CalculatorSection } from "@/components/landing/CalculatorSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { PricingSection } from "@/components/landing/PricingSection";
 import { WhySection } from "@/components/landing/WhySection";
