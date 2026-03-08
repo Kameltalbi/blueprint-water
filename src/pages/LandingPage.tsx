@@ -1,4 +1,6 @@
-import { Droplets, ArrowRight, Calculator } from "lucide-react";
+import { ArrowRight, Calculator } from "lucide-react";
+import hydroscanIcon from "@/assets/hydroscan-icon.png";
+import hydroscanLogo from "@/assets/hydroscan-logo.png";
 import { Link } from "react-router-dom";
 import { PageMeta } from "@/components/PageMeta";
 import { LangToggle } from "@/components/LangToggle";
@@ -22,9 +24,7 @@ export default function LandingPage() {
       {/* ── Navbar ── */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[5%] py-4 bg-card/95 backdrop-blur-xl border-b border-border">
         <a href="#" className="flex items-center gap-2 font-display text-xl font-extrabold text-foreground no-underline">
-          <div className="w-9 h-9 rounded-[10px] gradient-water flex items-center justify-center text-primary-foreground text-base">
-            💧
-          </div>
+          <img src={hydroscanIcon} alt="HydroScan" className="w-9 h-9 rounded-[10px] object-contain" />
           Hydro<em className="not-italic text-primary">Scan</em>
         </a>
 
@@ -125,7 +125,7 @@ export default function LandingPage() {
       {/* ── Footer ── */}
       <footer className="bg-foreground text-primary-foreground/50 py-12 px-[5%] flex justify-between items-center flex-wrap gap-6 text-xs">
         <a href="#" className="flex items-center gap-2 font-display text-base font-bold text-primary-foreground no-underline">
-          <div className="w-7 h-7 rounded-lg gradient-water flex items-center justify-center text-sm">💧</div>
+          <img src={hydroscanIcon} alt="HydroScan" className="w-7 h-7 rounded-lg object-contain" />
           HydroScan
         </a>
         <div className="flex gap-6 flex-wrap">
