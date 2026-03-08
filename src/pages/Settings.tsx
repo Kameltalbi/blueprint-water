@@ -1,4 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PageMeta } from "@/components/PageMeta";
 import { User, Building2, Users, Shield } from "lucide-react";
 import ProfileTab from "@/components/settings/ProfileTab";
 import OrganizationTab from "@/components/settings/OrganizationTab";
