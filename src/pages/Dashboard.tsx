@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { PageMeta } from "@/components/PageMeta";
 import { DashboardFilters } from "@/components/dashboard/DashboardFilters";
 import { KpiCards } from "@/components/dashboard/KpiCards";
 import { ConsumptionChart } from "@/components/dashboard/ConsumptionChart";
