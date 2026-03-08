@@ -12,6 +12,8 @@ import LandingPage from "@/pages/LandingPage";
 import CalculatorPage from "@/pages/CalculatorPage";
 import PricingPage from "@/pages/PricingPage";
 import FeaturesPage from "@/pages/FeaturesPage";
+import AboutPage from "@/pages/AboutPage";
+import ResourcesPage from "@/pages/ResourcesPage";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import ForgotPassword from "@/pages/ForgotPassword";
@@ -38,6 +40,8 @@ function AppRoutes() {
       <Route path="/calculateur" element={<CalculatorPage />} />
       <Route path="/tarifs" element={<PricingPage />} />
       <Route path="/fonctionnalites" element={<FeaturesPage />} />
+      <Route path="/a-propos" element={<AboutPage />} />
+      <Route path="/ressources" element={<ResourcesPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
