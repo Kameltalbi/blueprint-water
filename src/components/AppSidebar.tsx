@@ -93,7 +93,7 @@ export function AppSidebar() {
           <img
             src={hydroscanLogoWhite}
             alt="HydroScan"
-            className={collapsed ? "h-8 w-8 object-contain" : "h-12 w-auto object-contain"}
+            className={collapsed ? "h-8 w-8 object-contain" : "h-16 w-auto object-contain"}
           />
         </div>
       </SidebarHeader>
