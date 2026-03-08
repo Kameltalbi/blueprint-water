@@ -37,6 +37,7 @@ function AppRoutes() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/calculateur" element={<CalculatorPage />} />
       <Route path="/tarifs" element={<PricingPage />} />
+      <Route path="/fonctionnalites" element={<FeaturesPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
