@@ -59,14 +59,22 @@ export default function Pollution() {
       return;
     }
     const pol = pollutants.find((p) => p.name === pollutant);
+    const cEffVal = parseFloat(concentration);
+    const volVal = parseFloat(volume);
+    const cMaxVal = pol?.cMax || 30;
+    const cNatVal = pol?.cNat || 0;
+    const denom = cMaxVal - cNatVal;
+    const wfGrey = denom > 0 ? (cEffVal * volVal) / denom : 0;
     setEntries([...entries, {
       id: Date.now(),
       type: dischargeType,
       pollutant,
-      concentration: parseFloat(concentration),
-      volumeM3: parseFloat(volume),
-      norm: pol?.norm || 30,
+      cEff: cEffVal,
+      volumeM3: volVal,
+      cMax: cMaxVal,
+      cNat: cNatVal,
       unit: pol?.unit || "mg/L",
+      wfGrey: Math.round(wfGrey * 100) / 100,
     }]);
     setDischargeType("");
     setPollutant("");
