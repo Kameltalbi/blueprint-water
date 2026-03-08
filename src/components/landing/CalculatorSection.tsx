@@ -59,6 +59,8 @@ const defaultPollutants = [
 export function CalculatorSection() {
   const { lang } = useI18n();
   const fr = lang === "fr";
+  const { user } = useAuth();
+  const [saving, setSaving] = useState(false);
 
   const [step, setStep] = useState(0); // 0-4
 
