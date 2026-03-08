@@ -36,7 +36,7 @@ export default function Login() {
         description: error.message,
       });
     } else {
-      navigate("/dashboard");
+      navigate(from, { replace: true });
     }
   };
 
