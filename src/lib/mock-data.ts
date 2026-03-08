@@ -40,6 +40,18 @@ export const mockAlerts = [
     message: "Rapport mensuel prêt à être généré",
     date: "2024-03-13",
   },
+  {
+    id: 4,
+    type: "warning" as const,
+    message: "Échéance déclaration ANPE dans 15 jours",
+    date: "2024-03-12",
+  },
+  {
+    id: 5,
+    type: "critical" as const,
+    message: "Dépassement norme DBO — Site Sfax",
+    date: "2024-03-11",
+  },
 ];
 
 export const mockRecommendations = [
@@ -80,6 +92,40 @@ export const mockRecommendations = [
     category: "Recyclage",
   },
 ];
+
+// Benchmark data
+export const mockBenchmark = {
+  sectorAverage: 185, // m³ per employee
+  sectorBest: 62,
+  sectorWorst: 420,
+  yourValue: 155,
+  sectorName: "Agroalimentaire",
+  percentile: 35, // top 35%
+};
+
+// Sites data
+export const mockSites = [
+  { id: "all", name: "Tous les sites" },
+  { id: "sfax", name: "Usine Sfax" },
+  { id: "nabeul", name: "Usine Nabeul" },
+  { id: "tunis", name: "Bureau Tunis" },
+  { id: "sousse", name: "Entrepôt Sousse" },
+];
+
+// Objectives
+export const mockObjectives = [
+  { label: "Réduction empreinte totale", target: -15, current: -8.2, unit: "%" },
+  { label: "Recyclage eau industrielle", target: 30, current: 18, unit: "%" },
+  { label: "Score performance", target: "B", current: "C", unit: "" },
+];
+
+// Water intensity (m³ per 1000 TND revenue)
+export const mockIntensity = {
+  current: 12.4,
+  previous: 14.1,
+  change: -12.1,
+  unit: "m³ / k TND",
+};
 
 export function getWaterScore(totalM3: number, employees: number): { grade: string; color: string } {
   const perEmployee = totalM3 / employees;
