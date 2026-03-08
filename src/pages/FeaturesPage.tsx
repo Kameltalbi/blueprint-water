@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { PageMeta } from "@/components/PageMeta";
-import { LangToggle } from "@/components/LangToggle";
 import { useI18n } from "@/lib/i18n";
-import hydroscanLogo from "@/assets/logo_hydroscan.png";
+import { LandingHeader } from "@/components/landing/LandingHeader";
+import { LandingFooter } from "@/components/landing/LandingFooter";
 import {
   Droplets,
   Zap,
@@ -33,12 +33,8 @@ export default function FeaturesPage() {
     {
       icon: <Droplets className="h-7 w-7" />,
       badge: "🎯",
-      title: fr
-        ? "Calcul conforme à la norme internationale ISO 14046"
-        : "ISO 14046 compliant calculation",
-      hook: fr
-        ? "La seule méthode reconnue mondialement, intégrée nativement."
-        : "The only globally recognized method, natively integrated.",
+      title: fr ? "Calcul conforme à la norme internationale ISO 14046" : "ISO 14046 compliant calculation",
+      hook: fr ? "La seule méthode reconnue mondialement, intégrée nativement." : "The only globally recognized method, natively integrated.",
       body: fr
         ? "HydroScan applique strictement la méthodologie du Water Footprint Network (Hoekstra et al., 2011), référence mondiale adoptée par l'ISO 14046. Vos trois composantes — Eau Verte, Bleue et Grise — sont calculées séparément, avec précision géographique et temporelle."
         : "HydroScan strictly applies the Water Footprint Network methodology (Hoekstra et al., 2011), the global reference adopted by ISO 14046. Your three components — Green, Blue and Grey Water — are calculated separately, with geographic and temporal precision.",
@@ -63,12 +59,8 @@ export default function FeaturesPage() {
     {
       icon: <Zap className="h-7 w-7" />,
       badge: "⚡",
-      title: fr
-        ? "De la saisie au résultat en moins de 5 minutes"
-        : "From input to result in under 5 minutes",
-      hook: fr
-        ? "Fini les semaines de traitement manuel. Votre empreinte, maintenant."
-        : "No more weeks of manual processing. Your footprint, now.",
+      title: fr ? "De la saisie au résultat en moins de 5 minutes" : "From input to result in under 5 minutes",
+      hook: fr ? "Fini les semaines de traitement manuel. Votre empreinte, maintenant." : "No more weeks of manual processing. Your footprint, now.",
       body: fr
         ? "HydroScan automatise l'intégralité du parcours de calcul : saisie guidée, sélection des données de référence, application des formules, génération des résultats. Aucune expertise en modélisation requise — le moteur de calcul travaille pour vous."
         : "HydroScan automates the entire calculation process: guided input, reference data selection, formula application, results generation. No modeling expertise required — the calculation engine works for you.",
@@ -93,12 +85,8 @@ export default function FeaturesPage() {
     {
       icon: <BarChart3 className="h-7 w-7" />,
       badge: "📊",
-      title: fr
-        ? "Savoir où vous en êtes par rapport à votre secteur"
-        : "Know where you stand compared to your sector",
-      hook: fr
-        ? "Un chiffre seul ne veut rien dire. Contextualisez votre performance."
-        : "A number alone means nothing. Contextualize your performance.",
+      title: fr ? "Savoir où vous en êtes par rapport à votre secteur" : "Know where you stand compared to your sector",
+      hook: fr ? "Un chiffre seul ne veut rien dire. Contextualisez votre performance." : "A number alone means nothing. Contextualize your performance.",
       body: fr
         ? "HydroScan intègre une base de données de référence anonymisée, construite par secteur d'activité et par région géographique. Dès l'obtention de vos résultats, vous savez si votre empreinte vous place dans le tiers inférieur, médian ou supérieur de votre secteur — et dans quelle composante vous avez le plus à gagner."
         : "HydroScan integrates an anonymized reference database, built by industry sector and geographic region. As soon as you get your results, you know whether your footprint places you in the lower, median or upper third of your sector — and which component has the most room for improvement.",
@@ -123,12 +111,8 @@ export default function FeaturesPage() {
     {
       icon: <FileText className="h-7 w-7" />,
       badge: "📄",
-      title: fr
-        ? "Des rapports prêts à soumettre, en un clic"
-        : "Reports ready to submit, in one click",
-      hook: fr
-        ? "Word, PDF, mise en page soignée — il ne reste plus qu'à envoyer."
-        : "Word, PDF, polished layout — just send it.",
+      title: fr ? "Des rapports prêts à soumettre, en un clic" : "Reports ready to submit, in one click",
+      hook: fr ? "Word, PDF, mise en page soignée — il ne reste plus qu'à envoyer." : "Word, PDF, polished layout — just send it.",
       body: fr
         ? "HydroScan génère automatiquement des rapports complets et structurés, formatés selon les standards attendus par vos clients, partenaires et auditeurs. Chaque rapport intègre la méthodologie appliquée, les données sources utilisées, les résultats détaillés par composante, et les recommandations de réduction."
         : "HydroScan automatically generates complete, structured reports formatted to the standards expected by your clients, partners and auditors. Each report includes the applied methodology, source data used, detailed results by component, and reduction recommendations.",
@@ -155,12 +139,8 @@ export default function FeaturesPage() {
     {
       icon: <Map className="h-7 w-7" />,
       badge: "🗺️",
-      title: fr
-        ? "Des recommandations personnalisées, priorisées par impact réel"
-        : "Personalized recommendations, prioritized by real impact",
-      hook: fr
-        ? "Savoir quoi faire, dans quel ordre, avec quel budget."
-        : "Know what to do, in what order, with what budget.",
+      title: fr ? "Des recommandations personnalisées, priorisées par impact réel" : "Personalized recommendations, prioritized by real impact",
+      hook: fr ? "Savoir quoi faire, dans quel ordre, avec quel budget." : "Know what to do, in what order, with what budget.",
       body: fr
         ? "Une fois votre empreinte calculée, HydroScan active son moteur de recommandations. En croisant vos résultats avec les données de votre secteur, votre localisation géographique et les seuils de durabilité locaux, l'IA identifie les leviers d'action les plus efficaces pour votre situation spécifique — et les priorise selon trois critères : impact sur l'empreinte, coût de mise en œuvre, et délai d'obtention des résultats."
         : "Once your footprint is calculated, HydroScan activates its recommendation engine. By cross-referencing your results with sector data, geographic location and local sustainability thresholds, the AI identifies the most effective action levers for your specific situation — prioritized by three criteria: footprint impact, implementation cost, and time to results.",
@@ -187,12 +167,8 @@ export default function FeaturesPage() {
     {
       icon: <TrendingUp className="h-7 w-7" />,
       badge: "📈",
-      title: fr
-        ? "Suivez votre progression et prouvez vos efforts"
-        : "Track your progress and prove your efforts",
-      hook: fr
-        ? "Ce qui ne se mesure pas ne s'améliore pas. Ce qui ne se documente pas n'existe pas."
-        : "What isn't measured can't improve. What isn't documented doesn't exist.",
+      title: fr ? "Suivez votre progression et prouvez vos efforts" : "Track your progress and prove your efforts",
+      hook: fr ? "Ce qui ne se mesure pas ne s'améliore pas. Ce qui ne se documente pas n'existe pas." : "What isn't measured can't improve. What isn't documented doesn't exist.",
       body: fr
         ? "HydroScan conserve l'historique complet de vos calculs et génère automatiquement des indicateurs de progression. Comparez vos empreintes d'une période à l'autre, mesurez l'impact de vos actions, et produisez des preuves documentées de vos progrès pour vos rapports RSE, vos clients ou vos parties prenantes."
         : "HydroScan keeps a complete history of your calculations and automatically generates progress indicators. Compare your footprints from one period to another, measure the impact of your actions, and produce documented proof of your progress for CSR reports, clients or stakeholders.",
@@ -249,42 +225,10 @@ export default function FeaturesPage() {
     <div className="min-h-screen bg-card font-sans">
       <PageMeta
         title={fr ? "Fonctionnalités — HydroScan" : "Features — HydroScan"}
-        description={
-          fr
-            ? "Découvrez les fonctionnalités de HydroScan : calcul ISO 14046, résultats instantanés, benchmarks, rapports, plan d'action IA et suivi."
-            : "Discover HydroScan features: ISO 14046 calculation, instant results, benchmarks, reports, AI action plan and tracking."
-        }
+        description={fr ? "Découvrez les fonctionnalités de HydroScan : calcul ISO 14046, résultats instantanés, benchmarks, rapports, plan d'action IA et suivi." : "Discover HydroScan features: ISO 14046 calculation, instant results, benchmarks, reports, AI action plan and tracking."}
       />
 
-      {/* ── Navbar ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[5%] py-4 bg-card/95 backdrop-blur-xl border-b border-border">
-        <Link to="/" className="flex items-center gap-2 no-underline">
-          <img src={hydroscanLogo} alt="HydroScan" className="h-12 object-contain" />
-        </Link>
-        <div className="hidden md:flex items-center gap-8">
-          <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-            {fr ? "Accueil" : "Home"}
-          </Link>
-          <Link to="/calculateur" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-            {fr ? "Calculateur" : "Calculator"}
-          </Link>
-          <Link to="/fonctionnalites" className="text-sm font-medium text-primary transition-colors">
-            {fr ? "Fonctionnalités" : "Features"}
-          </Link>
-          <Link to="/tarifs" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-            {fr ? "Tarifs" : "Pricing"}
-          </Link>
-        </div>
-        <div className="flex items-center gap-2">
-          <LangToggle />
-          <Link to="/login" className="inline-flex items-center px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg gradient-water text-primary-foreground text-xs sm:text-sm font-semibold hover:opacity-90 transition-all">
-            {fr ? "Connexion" : "Login"}
-          </Link>
-          <Link to="/register" className="inline-flex items-center px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg text-white text-xs sm:text-sm font-semibold hover:opacity-90 transition-all" style={{ backgroundColor: '#015486' }}>
-            {fr ? "Inscription" : "Sign up"}
-          </Link>
-        </div>
-      </nav>
+      <LandingHeader activePage="fonctionnalites" />
 
       {/* ── Hero ── */}
       <section className="pt-32 pb-20 px-[5%] text-center bg-card">
@@ -321,10 +265,7 @@ export default function FeaturesPage() {
 
       {/* ── Introduction ── */}
       <section className="py-12 px-[5%] bg-background">
-        <motion.p
-          initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-          className="mx-auto max-w-[720px] text-center text-muted-foreground text-base leading-relaxed"
-        >
+        <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="mx-auto max-w-[720px] text-center text-muted-foreground text-base leading-relaxed">
           {fr
             ? "L'eau douce est la ressource la plus menacée de la prochaine décennie. HydroScan vous donne les outils pour mesurer votre impact réel, le situer dans son contexte géographique, et agir là où ça compte vraiment."
             : "Freshwater is the most threatened resource of the next decade. HydroScan gives you the tools to measure your real impact, put it in geographic context, and act where it truly matters."}
@@ -357,7 +298,6 @@ export default function FeaturesPage() {
                 variants={stagger}
                 className={`grid gap-10 lg:gap-16 items-start ${idx % 2 === 1 ? "lg:grid-cols-[1.1fr_1fr]" : "lg:grid-cols-[1fr_1.1fr]"}`}
               >
-                {/* Text */}
                 <motion.div variants={fadeUp} className={idx % 2 === 1 ? "lg:order-2" : ""}>
                   <div className={`inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-xs font-bold mb-4 ${f.color}`}>
                     <span>{f.badge}</span>
@@ -376,7 +316,6 @@ export default function FeaturesPage() {
                   </ul>
                 </motion.div>
 
-                {/* Why card */}
                 <motion.div variants={fadeUp} className={idx % 2 === 1 ? "lg:order-1" : ""}>
                   <div className="rounded-2xl border border-border bg-background p-6 lg:p-8">
                     <p className="text-xs font-bold tracking-wider uppercase text-primary mb-3">
@@ -389,16 +328,11 @@ export default function FeaturesPage() {
                         {idx === 0 ? "ISO 14046" : idx === 1 ? "< 5 min" : idx === 2 ? "12+" : idx === 3 ? "1 clic" : idx === 4 ? "80+" : "24/7"}
                       </span>
                       <span className="text-xs text-muted-foreground">
-                        {idx === 0
-                          ? (fr ? "Norme certifiée" : "Certified standard")
-                          : idx === 1
-                          ? (fr ? "Temps de calcul" : "Calculation time")
-                          : idx === 2
-                          ? (fr ? "Secteurs couverts" : "Sectors covered")
-                          : idx === 3
-                          ? (fr ? "Export rapport" : "Report export")
-                          : idx === 4
-                          ? (fr ? "Actions concrètes" : "Concrete actions")
+                        {idx === 0 ? (fr ? "Norme certifiée" : "Certified standard")
+                          : idx === 1 ? (fr ? "Temps de calcul" : "Calculation time")
+                          : idx === 2 ? (fr ? "Secteurs couverts" : "Sectors covered")
+                          : idx === 3 ? (fr ? "Export rapport" : "Report export")
+                          : idx === 4 ? (fr ? "Actions concrètes" : "Concrete actions")
                           : (fr ? "Suivi continu" : "Continuous tracking")}
                       </span>
                     </div>
@@ -415,19 +349,11 @@ export default function FeaturesPage() {
         <div className="mx-auto max-w-[1100px]">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-14">
             <h2 className="font-display text-[clamp(1.8rem,3.5vw,2.6rem)] font-extrabold text-foreground leading-tight">
-              {fr
-                ? "Une plateforme construite sur la science, pas sur des approximations"
-                : "A platform built on science, not approximations"}
+              {fr ? "Une plateforme construite sur la science, pas sur des approximations" : "A platform built on science, not approximations"}
             </h2>
           </motion.div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={stagger}
-            className="grid gap-6 md:grid-cols-3"
-          >
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="grid gap-6 md:grid-cols-3">
             {pillars.map((p, i) => (
               <motion.div key={i} variants={fadeUp} className="rounded-2xl border border-border bg-card p-7">
                 <div className="flex items-center gap-3 mb-4">
@@ -446,16 +372,10 @@ export default function FeaturesPage() {
       <section className="gradient-water py-24 px-[5%] text-center text-primary-foreground">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger} className="mx-auto max-w-[640px]">
           <motion.h2 variants={fadeUp} className="font-display text-[clamp(2rem,4vw,3.2rem)] font-extrabold mb-4">
-            {fr ? (
-              <>Prêt à connaître votre<br />empreinte eau réelle ?</>
-            ) : (
-              <>Ready to know your<br />real water footprint?</>
-            )}
+            {fr ? (<>Prêt à connaître votre<br />empreinte eau réelle ?</>) : (<>Ready to know your<br />real water footprint?</>)}
           </motion.h2>
           <motion.p variants={fadeUp} className="opacity-85 max-w-[480px] mx-auto mb-10 text-sm">
-            {fr
-              ? "Rejoignez les entreprises qui mesurent, comparent et agissent — avec les bons outils."
-              : "Join the companies that measure, compare and act — with the right tools."}
+            {fr ? "Rejoignez les entreprises qui mesurent, comparent et agissent — avec les bons outils." : "Join the companies that measure, compare and act — with the right tools."}
           </motion.p>
           <motion.div variants={fadeUp} className="flex flex-wrap justify-center gap-3">
             <Link to="/calculateur" className="inline-flex items-center gap-2 px-8 py-3.5 text-white rounded-[10px] font-bold text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all" style={{ backgroundColor: '#015486' }}>
@@ -471,21 +391,7 @@ export default function FeaturesPage() {
         </motion.div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="bg-foreground text-primary-foreground/50 py-12 px-[5%] flex justify-between items-center flex-wrap gap-6 text-xs">
-        <Link to="/" className="flex items-center gap-2 no-underline">
-          <img src={hydroscanLogo} alt="HydroScan" className="h-8 object-contain brightness-0 invert" />
-        </Link>
-        <div className="flex gap-6 flex-wrap">
-          <a href="#" className="hover:text-primary-foreground transition-colors">{fr ? "Mentions légales" : "Legal"}</a>
-          <a href="#" className="hover:text-primary-foreground transition-colors">{fr ? "Confidentialité" : "Privacy"}</a>
-          <a href="#" className="hover:text-primary-foreground transition-colors">CGU</a>
-          <a href="#" className="hover:text-primary-foreground transition-colors">Contact</a>
-          <a href="#" className="hover:text-primary-foreground transition-colors">Blog</a>
-          <a href="#" className="hover:text-primary-foreground transition-colors">API Docs</a>
-        </div>
-        <span>© 2024 HydroScan · ISO 14046</span>
-      </footer>
+      <LandingFooter />
     </div>
   );
 }

@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
-import hydroscanIcon from "@/assets/hydroscan-icon.png";
-import { LangToggle } from "@/components/LangToggle";
 import { useI18n } from "@/lib/i18n";
 import { CalculatorSection } from "@/components/landing/CalculatorSection";
+import { LandingHeader } from "@/components/landing/LandingHeader";
+import { LandingFooter } from "@/components/landing/LandingFooter";
 import { PageMeta } from "@/components/PageMeta";
 
 export default function CalculatorPage() {
@@ -13,26 +12,9 @@ export default function CalculatorPage() {
   return (
     <div className="min-h-screen bg-card font-sans">
       <PageMeta title="Calculateur d'Empreinte Eau — HydroScan" description="Calculez gratuitement votre empreinte eau verte, bleue et grise en 4 étapes. Conforme ISO 14046." />
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[5%] py-4 bg-card/95 backdrop-blur-xl border-b border-border">
-        <Link to="/" className="flex items-center gap-2 font-display text-xl font-extrabold text-foreground no-underline">
-          <img src={hydroscanIcon} alt="HydroScan" className="w-9 h-9 rounded-[10px] object-contain" />
-          Hydro<em className="not-italic text-primary">Scan</em>
-        </Link>
 
-        <div className="flex items-center gap-2">
-          <LangToggle />
-          <Link
-            to="/"
-            className="hidden sm:inline-flex items-center gap-2 px-5 py-2 rounded-lg border border-border text-sm font-medium text-muted-foreground hover:text-primary hover:border-primary transition-all"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            {fr ? "Retour à l'accueil" : "Back to home"}
-          </Link>
-        </div>
-      </nav>
+      <LandingHeader activePage="calculateur" />
 
-      {/* Calculator */}
       <div className="pt-20">
         <CalculatorSection />
       </div>
@@ -49,20 +31,14 @@ export default function CalculatorPage() {
         </p>
         <Link
           to="/dashboard"
-          className="inline-block px-8 py-3.5 bg-card text-primary rounded-[10px] font-bold text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all"
+          className="inline-block px-8 py-3.5 text-white rounded-[10px] font-bold text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all"
+          style={{ backgroundColor: '#015486' }}
         >
           {fr ? "Accéder au tableau de bord →" : "Go to dashboard →"}
         </Link>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-foreground text-primary-foreground/50 py-8 px-[5%] flex justify-between items-center flex-wrap gap-4 text-xs">
-        <Link to="/" className="flex items-center gap-2 font-display text-base font-bold text-primary-foreground no-underline">
-          <div className="w-7 h-7 rounded-lg gradient-water flex items-center justify-center text-sm">💧</div>
-          HydroScan
-        </Link>
-        <span>© 2024 HydroScan · ISO 14046</span>
-      </footer>
+      <LandingFooter />
     </div>
   );
 }

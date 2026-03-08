@@ -1,18 +1,17 @@
-import { ArrowRight, Calculator } from "lucide-react";
-import hydroscanIcon from "@/assets/hydroscan-icon.png";
+import { Calculator } from "lucide-react";
 import hydroscanLogo from "@/assets/logo_hydroscan.png";
 import { Link } from "react-router-dom";
 import { PageMeta } from "@/components/PageMeta";
-import { LangToggle } from "@/components/LangToggle";
 import { useI18n } from "@/lib/i18n";
+import { LandingHeader } from "@/components/landing/LandingHeader";
+import { LandingFooter } from "@/components/landing/LandingFooter";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { SectorsSection } from "@/components/landing/SectorsSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
-
 import { WhySection } from "@/components/landing/WhySection";
 
 export default function LandingPage() {
-  const { t, lang } = useI18n();
+  const { lang } = useI18n();
   const fr = lang === "fr";
 
   return (
@@ -21,35 +20,14 @@ export default function LandingPage() {
         title="HydroScan — Calculez votre Empreinte Eau"
         description="Plateforme universelle de calcul d'empreinte eau pour l'agriculture, l'industrie et l'agroalimentaire. Conforme ISO 14046."
       />
-      {/* ── Navbar ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[5%] py-4 bg-card/95 backdrop-blur-xl border-b border-border">
-        <a href="#" className="flex items-center gap-2 no-underline">
-          <img src={hydroscanLogo} alt="HydroScan" className="h-12 object-contain" />
-        </a>
 
-        <div className="hidden md:flex items-center gap-8">
-          <a href="#secteurs" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Secteurs" : "Sectors"}</a>
-          <Link to="/calculateur" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Calculateur" : "Calculator"}</Link>
-          <Link to="/fonctionnalites" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Fonctionnalités" : "Features"}</Link>
-          <Link to="/tarifs" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Tarifs" : "Pricing"}</Link>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <LangToggle />
-          <Link to="/login" className="inline-flex items-center px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg gradient-water text-primary-foreground text-xs sm:text-sm font-semibold hover:opacity-90 transition-all">
-            {fr ? "Connexion" : "Login"}
-          </Link>
-          <Link to="/register" className="inline-flex items-center px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg text-white text-xs sm:text-sm font-semibold hover:opacity-90 transition-all" style={{ backgroundColor: '#015486' }}>
-            {fr ? "Inscription" : "Sign up"}
-          </Link>
-        </div>
-      </nav>
+      <LandingHeader activePage="home" />
 
       {/* ── Sections ── */}
       <HeroSection />
       <SectorsSection />
 
-      {/* ── Calculator CTA (replaces inline calculator) ── */}
+      {/* ── Calculator CTA ── */}
       <section id="calculateur" className="py-24 px-[5%] bg-background">
         <div className="mx-auto max-w-[800px] text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 border border-emerald-200 text-green-water text-xs font-bold px-4 py-1 mb-5">
@@ -71,13 +49,13 @@ export default function LandingPage() {
               <Calculator className="h-4 w-4" />
               {fr ? "Lancer le calculateur →" : "Launch calculator →"}
             </Link>
-            <a
-              href="#fonctionnalites"
+            <Link
+              to="/fonctionnalites"
               className="inline-flex items-center gap-2 px-8 py-3.5 text-white rounded-[10px] font-semibold text-sm hover:opacity-90 transition-all"
               style={{ backgroundColor: '#015486' }}
             >
               {fr ? "En savoir plus" : "Learn more"}
-            </a>
+            </Link>
           </div>
           <div className="mt-10 grid grid-cols-3 gap-6 max-w-[480px] mx-auto">
             <div>
@@ -121,21 +99,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="bg-foreground text-primary-foreground/50 py-12 px-[5%] flex justify-between items-center flex-wrap gap-6 text-xs">
-        <a href="#" className="flex items-center gap-2 no-underline">
-          <img src={hydroscanLogo} alt="HydroScan" className="h-8 object-contain brightness-0 invert" />
-        </a>
-        <div className="flex gap-6 flex-wrap">
-          <a href="#" className="hover:text-primary-foreground transition-colors">{fr ? "Mentions légales" : "Legal"}</a>
-          <a href="#" className="hover:text-primary-foreground transition-colors">{fr ? "Confidentialité" : "Privacy"}</a>
-          <a href="#" className="hover:text-primary-foreground transition-colors">CGU</a>
-          <a href="#" className="hover:text-primary-foreground transition-colors">Contact</a>
-          <a href="#" className="hover:text-primary-foreground transition-colors">Blog</a>
-          <a href="#" className="hover:text-primary-foreground transition-colors">API Docs</a>
-        </div>
-        <span>© 2024 HydroScan · ISO 14046</span>
-      </footer>
+      <LandingFooter />
     </div>
   );
 }
