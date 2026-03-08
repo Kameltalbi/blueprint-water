@@ -11,10 +11,10 @@ interface DashboardFiltersProps {
 }
 
 const periods = [
-  { value: "2024", label: "2024" },
-  { value: "2023", label: "2023" },
-  { value: "q4-2024", label: "T4 2024" },
-  { value: "q3-2024", label: "T3 2024" },
+  { value: "2026", label: "2026" },
+  { value: "2025", label: "2025" },
+  { value: "q1-2026", label: "T1 2026" },
+  { value: "q4-2025", label: "T4 2025" },
 ];
 
 export function DashboardFilters({ site, setSite, period, setPeriod }: DashboardFiltersProps) {
