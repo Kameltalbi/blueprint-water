@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
@@ -6,30 +6,29 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Droplets, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
-export default function Login() {
+export default function ResetPassword() {
   const { lang } = useI18n();
   const fr = lang === "fr";
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.updateUser({ password });
     setLoading(false);
 
     if (error) {
-      toast({
-        variant: "destructive",
-        title: fr ? "Erreur de connexion" : "Login error",
-        description: error.message,
-      });
+      toast({ variant: "destructive", title: "Erreur", description: error.message });
     } else {
+      toast({
+        title: fr ? "Mot de passe mis à jour" : "Password updated",
+        description: fr ? "Vous pouvez maintenant vous connecter." : "You can now log in.",
+      });
       navigate("/dashboard");
     }
   };
@@ -43,27 +42,13 @@ export default function Login() {
             Hydro<em className="not-italic text-primary">Scan</em>
           </Link>
           <h1 className="mt-4 font-display text-3xl font-bold text-foreground">
-            {fr ? "Connexion" : "Login"}
+            {fr ? "Nouveau mot de passe" : "New password"}
           </h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            {fr ? "Accédez à votre tableau de bord" : "Access your dashboard"}
-          </p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-5 bg-card p-8 rounded-2xl border border-border shadow-sm">
+        <form onSubmit={handleSubmit} className="space-y-5 bg-card p-8 rounded-2xl border border-border shadow-sm">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="nom@entreprise.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">{fr ? "Mot de passe" : "Password"}</Label>
+            <Label htmlFor="password">{fr ? "Nouveau mot de passe" : "New password"}</Label>
             <Input
               id="password"
               type="password"
@@ -71,27 +56,14 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              minLength={6}
             />
           </div>
           <Button type="submit" className="w-full gradient-water text-primary-foreground" disabled={loading}>
             {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-            {fr ? "Se connecter" : "Log in"}
+            {fr ? "Mettre à jour" : "Update password"}
           </Button>
         </form>
-
-        <div className="text-center space-y-2">
-          <p className="text-sm text-muted-foreground">
-            <Link to="/forgot-password" className="font-semibold text-primary hover:underline">
-              {fr ? "Mot de passe oublié ?" : "Forgot password?"}
-            </Link>
-          </p>
-          <p className="text-sm text-muted-foreground">
-            {fr ? "Pas encore de compte ?" : "Don't have an account?"}{" "}
-            <Link to="/register" className="font-semibold text-primary hover:underline">
-              {fr ? "Créer un compte" : "Sign up"}
-            </Link>
-          </p>
-        </div>
       </div>
     </div>
   );

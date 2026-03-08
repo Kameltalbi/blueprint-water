@@ -279,6 +279,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "sidebar.config": { fr: "Configuration", en: "Configuration" },
   "sidebar.plan": { fr: "Plan Starter", en: "Starter Plan" },
   "sidebar.planDesc": { fr: "1 site · 1 utilisateur", en: "1 site · 1 user" },
+  "sidebar.logout": { fr: "Déconnexion", en: "Log out" },
 };
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);

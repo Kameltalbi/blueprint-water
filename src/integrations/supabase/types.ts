@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      organizations: {
+        Row: {
+          country: string | null
+          created_at: string
+          id: string
+          name: string
+          sector: string | null
+          updated_at: string
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          sector?: string | null
+          updated_at?: string
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          sector?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -41,15 +68,141 @@ export type Database = {
         }
         Relationships: []
       }
+      sites: {
+        Row: {
+          created_at: string
+          id: string
+          location: string | null
+          name: string
+          organization_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          location?: string | null
+          name: string
+          organization_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          location?: string | null
+          name?: string
+          organization_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sites_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          organization_id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          organization_id: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          organization_id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      water_consumption: {
+        Row: {
+          created_at: string
+          id: string
+          organization_id: string
+          period: string
+          recorded_date: string
+          site_id: string | null
+          source: string
+          usage: string
+          user_id: string
+          volume_m3: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          organization_id: string
+          period: string
+          recorded_date?: string
+          site_id?: string | null
+          source: string
+          usage: string
+          user_id: string
+          volume_m3: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          organization_id?: string
+          period?: string
+          recorded_date?: string
+          site_id?: string | null
+          source?: string
+          usage?: string
+          user_id?: string
+          volume_m3?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "water_consumption_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "water_consumption_site_id_fkey"
+            columns: ["site_id"]
+            isOneToOne: false
+            referencedRelation: "sites"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _org_id: string
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_org_member: {
+        Args: { _org_id: string; _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "member" | "viewer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -176,6 +329,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "member", "viewer"],
+    },
   },
 } as const
