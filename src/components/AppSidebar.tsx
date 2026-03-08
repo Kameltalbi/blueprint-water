@@ -1,16 +1,15 @@
 import {
   LayoutDashboard,
   Droplets,
-  FileText,
-  Lightbulb,
-  Settings,
-  TrendingUp,
-  LogOut,
   Package,
   FlaskConical,
   MapPin,
-  Target,
+  FileBarChart,
+  Sprout,
   Building2,
+  Settings,
+  LogOut,
+  Home,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/hooks/useAuth";
@@ -31,6 +30,7 @@ import {
   SidebarHeader,
   SidebarFooter,
   useSidebar,
+  SidebarSeparator,
 } from "@/components/ui/sidebar";
 
 export function AppSidebar() {
@@ -41,49 +41,48 @@ export function AppSidebar() {
   const { signOut } = useAuth();
   const navigate = useNavigate();
 
-  const dashboardItems = [
+  const topItems = [
+    { title: t("sidebar.home"), url: "/", icon: Home },
     { title: t("sidebar.dashboard"), url: "/dashboard", icon: LayoutDashboard },
   ];
 
-  const inputItems = [
-    { title: t("sidebar.consumption"), url: "/data-entry", icon: Droplets },
-    { title: t("sidebar.supply"), url: "/supply-chain", icon: Package },
-    { title: t("sidebar.pollution"), url: "/pollution", icon: FlaskConical },
+  const measureItems = [
+    { title: t("sidebar.directConsumption"), url: "/data-entry", icon: Droplets },
+    { title: t("sidebar.supplyChain"), url: "/supply-chain", icon: Package },
+    { title: t("sidebar.discharges"), url: "/pollution", icon: FlaskConical },
   ];
 
   const analysisItems = [
-    { title: t("sidebar.footprint"), url: "/footprint", icon: TrendingUp },
     { title: t("sidebar.stressMap"), url: "/stress-map", icon: MapPin },
-    { title: t("sidebar.reports"), url: "/reports", icon: FileText },
-    { title: t("sidebar.actionPlan"), url: "/action-plan", icon: Target },
+    { title: t("sidebar.reportsExports"), url: "/reports", icon: FileBarChart },
+    { title: t("sidebar.actionPlan"), url: "/action-plan", icon: Sprout },
   ];
 
-  const configItems = [
-    { title: t("sidebar.recommendations"), url: "/recommendations", icon: Lightbulb },
+  const settingsItems = [
+    { title: t("sidebar.sitesLocation"), url: "/organization", icon: Building2 },
     { title: t("sidebar.settings"), url: "/settings", icon: Settings },
   ];
 
   const isActive = (path: string) =>
-    path === "/dashboard" ? location.pathname === "/dashboard" : location.pathname.startsWith(path);
+    path === "/" ? location.pathname === "/" :
+    path === "/dashboard" ? location.pathname === "/dashboard" :
+    location.pathname.startsWith(path);
 
-  const renderGroup = (label: string, items: typeof dashboardItems) => (
-    <SidebarGroup>
-      <SidebarGroupLabel>{label}</SidebarGroupLabel>
-      <SidebarGroupContent>
-        <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.url}>
-              <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                <NavLink to={item.url} end={item.url === "/dashboard"}>
-                  <item.icon className="h-4 w-4" />
-                  {!collapsed && <span>{item.title}</span>}
-                </NavLink>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarGroupContent>
-    </SidebarGroup>
+  const renderItems = (items: typeof topItems) => (
+    <SidebarGroupContent>
+      <SidebarMenu>
+        {items.map((item) => (
+          <SidebarMenuItem key={item.url}>
+            <SidebarMenuButton asChild isActive={isActive(item.url)}>
+              <NavLink to={item.url} end={item.url === "/" || item.url === "/dashboard"}>
+                <item.icon className="h-4 w-4" />
+                {!collapsed && <span>{item.title}</span>}
+              </NavLink>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        ))}
+      </SidebarMenu>
+    </SidebarGroupContent>
   );
 
   return (
@@ -102,10 +101,28 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
-        {renderGroup(t("sidebar.overview"), dashboardItems)}
-        {renderGroup(t("sidebar.inputSection"), inputItems)}
-        {renderGroup(t("sidebar.analysisSection"), analysisItems)}
-        {renderGroup(t("sidebar.config"), configItems)}
+        <SidebarGroup>{renderItems(topItems)}</SidebarGroup>
+
+        <SidebarSeparator />
+
+        <SidebarGroup>
+          <SidebarGroupLabel>{t("sidebar.measures")}</SidebarGroupLabel>
+          {renderItems(measureItems)}
+        </SidebarGroup>
+
+        <SidebarSeparator />
+
+        <SidebarGroup>
+          <SidebarGroupLabel>{t("sidebar.analyses")}</SidebarGroupLabel>
+          {renderItems(analysisItems)}
+        </SidebarGroup>
+
+        <SidebarSeparator />
+
+        <SidebarGroup>
+          <SidebarGroupLabel>{t("sidebar.settingsSection")}</SidebarGroupLabel>
+          {renderItems(settingsItems)}
+        </SidebarGroup>
       </SidebarContent>
 
       <SidebarFooter className="p-4">
