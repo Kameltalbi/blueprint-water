@@ -20,19 +20,21 @@ interface DischargeEntry {
   id: number;
   type: string;
   pollutant: string;
-  concentration: number;
+  cEff: number;      // concentration in effluent
   volumeM3: number;
-  norm: number;
+  cMax: number;       // max acceptable
+  cNat: number;       // natural background
   unit: string;
+  wfGrey: number;     // calculated WF_grey = Ceff × V / (Cmax - Cnat)
 }
 
 const pollutants = [
-  { name: "DBO5", norm: 30, unit: "mg/L" },
-  { name: "DCO", norm: 90, unit: "mg/L" },
-  { name: "MES", norm: 30, unit: "mg/L" },
-  { name: "Azote total", norm: 30, unit: "mg/L" },
-  { name: "Phosphore", norm: 10, unit: "mg/L" },
-  { name: "pH", norm: 8.5, unit: "" },
+  { name: "DBO5", cMax: 30, cNat: 2, unit: "mg/L" },
+  { name: "DCO", cMax: 90, cNat: 5, unit: "mg/L" },
+  { name: "MES", cMax: 30, cNat: 5, unit: "mg/L" },
+  { name: "Azote total", cMax: 30, cNat: 1, unit: "mg/L" },
+  { name: "Phosphore", cMax: 10, cNat: 0.1, unit: "mg/L" },
+  { name: "Métaux lourds", cMax: 0.5, cNat: 0.01, unit: "mg/L" },
 ];
 
 const dischargeTypes = [
@@ -57,14 +59,22 @@ export default function Pollution() {
       return;
     }
     const pol = pollutants.find((p) => p.name === pollutant);
+    const cEffVal = parseFloat(concentration);
+    const volVal = parseFloat(volume);
+    const cMaxVal = pol?.cMax || 30;
+    const cNatVal = pol?.cNat || 0;
+    const denom = cMaxVal - cNatVal;
+    const wfGrey = denom > 0 ? (cEffVal * volVal) / denom : 0;
     setEntries([...entries, {
       id: Date.now(),
       type: dischargeType,
       pollutant,
-      concentration: parseFloat(concentration),
-      volumeM3: parseFloat(volume),
-      norm: pol?.norm || 30,
+      cEff: cEffVal,
+      volumeM3: volVal,
+      cMax: cMaxVal,
+      cNat: cNatVal,
       unit: pol?.unit || "mg/L",
+      wfGrey: Math.round(wfGrey * 100) / 100,
     }]);
     setDischargeType("");
     setPollutant("");
@@ -77,10 +87,15 @@ export default function Pollution() {
     setEntries(entries.filter((e) => e.id !== id));
   };
 
-  // Grey water calculation: volume * (concentration / norm)
-  const totalGreyWater = entries.reduce((s, e) => s + (e.volumeM3 * (e.concentration / e.norm)), 0);
-  const nonCompliant = entries.filter((e) => e.concentration > e.norm).length;
+  // WFN Grey water: WF_grey = Ceff × V / (Cmax - Cnat) — retain critical pollutant
+  // Total = sum of all entries (each entry is one pollutant measurement)
+  const totalGreyWater = entries.reduce((s, e) => s + e.wfGrey, 0);
+  const nonCompliant = entries.filter((e) => e.cEff > e.cMax).length;
   const complianceRate = entries.length > 0 ? Math.round(((entries.length - nonCompliant) / entries.length) * 100) : 0;
+  // Critical pollutant (WFN: the one with highest WF_grey)
+  const criticalPollutant = entries.length > 0
+    ? entries.reduce((max, e) => e.wfGrey > max.wfGrey ? e : max)
+    : null;
 
   return (
     <>
@@ -107,8 +122,13 @@ export default function Pollution() {
             </CardHeader>
             <CardContent>
               <p className="text-xs text-muted-foreground">
-                {totalGreyWater > 0 ? "Eau grise calculée (volume × concentration/norme)" : t("pollution.noData")}
+                {totalGreyWater > 0 ? "WF_gris = Ceff × V / (Cmax − Cnat)" : t("pollution.noData")}
               </p>
+              {criticalPollutant && (
+                <p className="text-xs mt-1 font-medium text-destructive">
+                  Polluant critique : {criticalPollutant.pollutant} ({criticalPollutant.wfGrey.toLocaleString("fr-FR")} m³)
+                </p>
+              )}
             </CardContent>
           </Card>
           <Card>
@@ -161,7 +181,7 @@ export default function Pollution() {
                     <SelectContent>
                       {pollutants.map((p) => (
                         <SelectItem key={p.name} value={p.name}>
-                          {p.name} (norme: {p.norm} {p.unit})
+                          {p.name} (Cmax: {p.cMax} {p.unit}, Cnat: {p.cNat})
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -208,9 +228,10 @@ export default function Pollution() {
                     <tr className="border-b bg-muted/50">
                       <th className="px-4 py-3 text-left font-medium text-muted-foreground">Type</th>
                       <th className="px-4 py-3 text-left font-medium text-muted-foreground">Polluant</th>
-                      <th className="px-4 py-3 text-left font-medium text-muted-foreground">Concentration</th>
-                      <th className="px-4 py-3 text-left font-medium text-muted-foreground">Norme</th>
+                      <th className="px-4 py-3 text-left font-medium text-muted-foreground">Ceff</th>
+                      <th className="px-4 py-3 text-left font-medium text-muted-foreground">Cmax / Cnat</th>
                       <th className="px-4 py-3 text-left font-medium text-muted-foreground">Volume</th>
+                      <th className="px-4 py-3 text-left font-medium text-muted-foreground">WF gris</th>
                       <th className="px-4 py-3 text-left font-medium text-muted-foreground">Statut</th>
                       <th className="px-4 py-3 text-right font-medium text-muted-foreground">Actions</th>
                     </tr>
@@ -220,11 +241,12 @@ export default function Pollution() {
                       <tr key={e.id} className="border-b last:border-0">
                         <td className="px-4 py-3">{e.type}</td>
                         <td className="px-4 py-3 font-medium">{e.pollutant}</td>
-                        <td className="px-4 py-3">{e.concentration} {e.unit}</td>
-                        <td className="px-4 py-3 text-muted-foreground">{e.norm} {e.unit}</td>
+                        <td className="px-4 py-3">{e.cEff} {e.unit}</td>
+                        <td className="px-4 py-3 text-muted-foreground">{e.cMax} / {e.cNat} {e.unit}</td>
                         <td className="px-4 py-3">{e.volumeM3} m³</td>
+                        <td className="px-4 py-3 font-medium">{e.wfGrey.toLocaleString("fr-FR")} m³</td>
                         <td className="px-4 py-3">
-                          {e.concentration > e.norm ? (
+                          {e.cEff > e.cMax ? (
                             <Badge variant="destructive" className="text-xs">Dépassement</Badge>
                           ) : (
                             <Badge variant="secondary" className="text-xs">Conforme</Badge>
