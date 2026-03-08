@@ -12,7 +12,7 @@ import { WaterHeatmap } from "@/components/dashboard/WaterHeatmap";
 
 export default function Dashboard() {
   const [site, setSite] = useState("all");
-  const [period, setPeriod] = useState("2024");
+  const [period, setPeriod] = useState("2026");
 
   return (
     <div className="space-y-6">

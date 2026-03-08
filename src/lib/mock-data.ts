@@ -26,31 +26,31 @@ export const mockAlerts = [
     id: 1,
     type: "warning" as const,
     message: "Consommation en hausse de 23% par rapport au mois précédent",
-    date: "2024-03-15",
+    date: "2026-03-07",
   },
   {
     id: 2,
     type: "critical" as const,
     message: "Fuite potentielle détectée — Site Nabeul",
-    date: "2024-03-14",
+    date: "2026-03-06",
   },
   {
     id: 3,
     type: "info" as const,
     message: "Rapport mensuel prêt à être généré",
-    date: "2024-03-13",
+    date: "2026-03-05",
   },
   {
     id: 4,
     type: "warning" as const,
     message: "Échéance déclaration ANPE dans 15 jours",
-    date: "2024-03-12",
+    date: "2026-03-04",
   },
   {
     id: 5,
     type: "critical" as const,
     message: "Dépassement norme DBO — Site Sfax",
-    date: "2024-03-11",
+    date: "2026-03-03",
   },
 ];
 
