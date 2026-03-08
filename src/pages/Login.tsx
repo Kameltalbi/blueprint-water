@@ -40,6 +40,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <PageMeta title="Connexion — HydroScan" description="Connectez-vous à votre compte HydroScan pour gérer votre empreinte eau." />
+      <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <Link to="/" className="inline-flex items-center gap-2 font-display text-2xl font-extrabold text-foreground mb-2">
             <div className="w-10 h-10 rounded-xl gradient-water flex items-center justify-center text-lg">💧</div>
