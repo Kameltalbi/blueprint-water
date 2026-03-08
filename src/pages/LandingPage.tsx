@@ -1,4 +1,6 @@
-import { Droplets, ArrowRight, Calculator } from "lucide-react";
+import { ArrowRight, Calculator } from "lucide-react";
+import hydroscanIcon from "@/assets/hydroscan-icon.png";
+import hydroscanLogo from "@/assets/hydroscan-logo.png";
 import { Link } from "react-router-dom";
 import { PageMeta } from "@/components/PageMeta";
 import { LangToggle } from "@/components/LangToggle";
