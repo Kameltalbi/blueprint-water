@@ -20,10 +20,12 @@ interface DischargeEntry {
   id: number;
   type: string;
   pollutant: string;
-  concentration: number;
+  cEff: number;      // concentration in effluent
   volumeM3: number;
-  norm: number;
+  cMax: number;       // max acceptable
+  cNat: number;       // natural background
   unit: string;
+  wfGrey: number;     // calculated WF_grey = Ceff × V / (Cmax - Cnat)
 }
 
 const pollutants = [
