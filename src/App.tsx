@@ -18,6 +18,7 @@ import DataEntry from "@/pages/DataEntry";
 import Footprint from "@/pages/Footprint";
 import Reports from "@/pages/Reports";
 import Recommendations from "@/pages/Recommendations";
+import Organization from "@/pages/Organization";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ function AppRoutes() {
       <Route path="/footprint" element={<ProtectedRoute><AppLayout><Footprint /></AppLayout></ProtectedRoute>} />
       <Route path="/reports" element={<ProtectedRoute><AppLayout><Reports /></AppLayout></ProtectedRoute>} />
       <Route path="/recommendations" element={<ProtectedRoute><AppLayout><Recommendations /></AppLayout></ProtectedRoute>} />
+      <Route path="/organization" element={<ProtectedRoute><AppLayout><Organization /></AppLayout></ProtectedRoute>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
