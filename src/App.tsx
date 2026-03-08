@@ -43,6 +43,7 @@ function AppRoutes() {
       <Route path="/fonctionnalites" element={<FeaturesPage />} />
       <Route path="/a-propos" element={<AboutPage />} />
       <Route path="/ressources" element={<ResourcesPage />} />
+      <Route path="/contact" element={<ContactPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
