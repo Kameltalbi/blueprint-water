@@ -3,6 +3,8 @@ import { Droplets, ArrowLeft } from "lucide-react";
 import { LangToggle } from "@/components/LangToggle";
 import { useI18n } from "@/lib/i18n";
 import { CalculatorSection } from "@/components/landing/CalculatorSection";
+import { PageMeta } from "@/components/PageMeta";
+import { CalculatorSection } from "@/components/landing/CalculatorSection";
 
 export default function CalculatorPage() {
   const { lang } = useI18n();
