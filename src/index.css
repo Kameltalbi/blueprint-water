@@ -140,6 +140,17 @@
   }
 }
 
+/* ======= Prose styles for articles ======= */
+.prose-hydroscan h4 {
+  @apply font-display text-base font-bold text-foreground mt-6 mb-2;
+}
+.prose-hydroscan p {
+  @apply text-sm text-muted-foreground leading-relaxed mb-3;
+}
+.prose-hydroscan strong {
+  @apply text-foreground font-semibold;
+}
+
 /* ======= Landing page styles ======= */
 @layer components {
   /* Hero */
