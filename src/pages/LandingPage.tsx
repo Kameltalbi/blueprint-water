@@ -24,7 +24,7 @@ export default function LandingPage() {
       {/* ── Navbar ── */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[5%] py-4 bg-card/95 backdrop-blur-xl border-b border-border">
         <a href="#" className="flex items-center gap-2 no-underline">
-          <img src={hydroscanLogo} alt="HydroScan" className="h-14 object-contain" />
+          <img src={hydroscanLogo} alt="HydroScan" className="h-20 object-contain" />
         </a>
 
         <div className="hidden md:flex items-center gap-8">
