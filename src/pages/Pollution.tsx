@@ -122,8 +122,13 @@ export default function Pollution() {
             </CardHeader>
             <CardContent>
               <p className="text-xs text-muted-foreground">
-                {totalGreyWater > 0 ? "Eau grise calculée (volume × concentration/norme)" : t("pollution.noData")}
+                {totalGreyWater > 0 ? "WF_gris = Ceff × V / (Cmax − Cnat)" : t("pollution.noData")}
               </p>
+              {criticalPollutant && (
+                <p className="text-xs mt-1 font-medium text-destructive">
+                  Polluant critique : {criticalPollutant.pollutant} ({criticalPollutant.wfGrey.toLocaleString("fr-FR")} m³)
+                </p>
+              )}
             </CardContent>
           </Card>
           <Card>
