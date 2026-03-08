@@ -8,6 +8,7 @@ import { BenchmarkWidget } from "@/components/dashboard/BenchmarkWidget";
 import { ObjectivesWidget } from "@/components/dashboard/ObjectivesWidget";
 import { AlertsWidget } from "@/components/dashboard/AlertsWidget";
 import { QuickActions } from "@/components/dashboard/QuickActions";
+import { WaterHeatmap } from "@/components/dashboard/WaterHeatmap";
 
 export default function Dashboard() {
   const [site, setSite] = useState("all");
@@ -38,14 +39,17 @@ export default function Dashboard() {
         <UsagePieChart />
       </div>
 
-      {/* Benchmark + Objectives + Alerts */}
-      <div className="grid gap-6 lg:grid-cols-3">
+      {/* Heatmap + Benchmark */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        <WaterHeatmap />
         <BenchmarkWidget />
-        <div className="space-y-6">
-          <ObjectivesWidget />
-          <QuickActions />
-        </div>
+      </div>
+
+      {/* Objectives + Alerts + Actions */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        <ObjectivesWidget />
         <AlertsWidget />
+        <QuickActions />
       </div>
     </div>
   );
