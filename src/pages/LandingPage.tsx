@@ -98,7 +98,6 @@ export default function LandingPage() {
 
       <WhySection />
       <FeaturesSection />
-      <PricingSection />
 
       {/* ── CTA Final ── */}
       <section className="gradient-water py-24 px-[5%] text-center text-primary-foreground">
