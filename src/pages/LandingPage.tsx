@@ -73,7 +73,8 @@ export default function LandingPage() {
             </Link>
             <a
               href="#fonctionnalites"
-              className="inline-flex items-center gap-2 px-8 py-3.5 border border-border text-muted-foreground rounded-[10px] font-semibold text-sm hover:border-primary hover:text-primary transition-all"
+              className="inline-flex items-center gap-2 px-8 py-3.5 text-white rounded-[10px] font-semibold text-sm hover:opacity-90 transition-all"
+              style={{ backgroundColor: '#015486' }}
             >
               {fr ? "En savoir plus" : "Learn more"}
             </a>
