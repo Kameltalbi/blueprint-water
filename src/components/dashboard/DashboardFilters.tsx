@@ -1,13 +1,13 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Download, Filter } from "lucide-react";
-import { mockSites } from "@/lib/mock-data";
 
 interface DashboardFiltersProps {
   site: string;
   setSite: (v: string) => void;
   period: string;
   setPeriod: (v: string) => void;
+  sites: { id: string; name: string }[];
 }
 
 const periods = [
@@ -17,7 +17,7 @@ const periods = [
   { value: "q4-2025", label: "T4 2025" },
 ];
 
-export function DashboardFilters({ site, setSite, period, setPeriod }: DashboardFiltersProps) {
+export function DashboardFilters({ site, setSite, period, setPeriod, sites }: DashboardFiltersProps) {
   return (
     <div className="flex flex-wrap items-center gap-3">
       <div className="flex items-center gap-2">
@@ -27,7 +27,7 @@ export function DashboardFilters({ site, setSite, period, setPeriod }: Dashboard
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {mockSites.map((s) => (
+            {sites.map((s) => (
               <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
             ))}
           </SelectContent>

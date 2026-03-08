@@ -4,9 +4,7 @@ import { PageMeta } from "@/components/PageMeta";
 import { FileText, Download, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
+import { useUserRole, useWaterConsumption } from "@/hooks/useOrgData";
 
 function downloadCSV(data: any[], filename: string) {
   if (!data.length) return;
@@ -69,35 +67,8 @@ const reportTemplates = [
 ];
 
 export default function Reports() {
-  const { user } = useAuth();
-
-  const { data: userRole } = useQuery({
-    queryKey: ["userRole", user?.id],
-    queryFn: async () => {
-      const { data } = await supabase
-        .from("user_roles")
-        .select("organization_id")
-        .eq("user_id", user!.id)
-        .limit(1)
-        .single();
-      return data;
-    },
-    enabled: !!user,
-  });
-
-  const { data: consumptionData = [], isLoading } = useQuery({
-    queryKey: ["waterConsumptionAll", userRole?.organization_id],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("water_consumption")
-        .select("*")
-        .eq("organization_id", userRole!.organization_id)
-        .order("recorded_date", { ascending: false });
-      if (error) throw error;
-      return data;
-    },
-    enabled: !!userRole?.organization_id,
-  });
+  const { data: userRole } = useUserRole();
+  const { data: consumptionData = [], isLoading } = useWaterConsumption(userRole?.organization_id);
 
   const handleCSV = () => {
     if (!consumptionData.length) {
