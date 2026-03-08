@@ -8,7 +8,7 @@ import { useI18n } from "@/lib/i18n";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { SectorsSection } from "@/components/landing/SectorsSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
-import { PricingSection } from "@/components/landing/PricingSection";
+
 import { WhySection } from "@/components/landing/WhySection";
 
 export default function LandingPage() {
