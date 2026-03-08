@@ -31,7 +31,7 @@ export default function LandingPage() {
           <a href="#secteurs" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Secteurs" : "Sectors"}</a>
           <Link to="/calculateur" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Calculateur" : "Calculator"}</Link>
           <a href="#fonctionnalites" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Fonctionnalités" : "Features"}</a>
-          <a href="#tarifs" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Tarifs" : "Pricing"}</a>
+          <Link to="/tarifs" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{fr ? "Tarifs" : "Pricing"}</Link>
         </div>
 
         <div className="flex items-center gap-2">
