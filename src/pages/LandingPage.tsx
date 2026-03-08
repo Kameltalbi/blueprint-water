@@ -41,7 +41,53 @@ export default function LandingPage() {
       {/* ── Sections ── */}
       <HeroSection />
       <SectorsSection />
-      <CalculatorSection />
+
+      {/* ── Calculator CTA (replaces inline calculator) ── */}
+      <section id="calculateur" className="py-24 px-[5%] bg-background">
+        <div className="mx-auto max-w-[800px] text-center">
+          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 border border-emerald-200 text-green-water text-xs font-bold px-4 py-1 mb-5">
+            <span>✦</span> {fr ? "100 % Gratuit · Sans inscription" : "100% Free · No signup"}
+          </div>
+          <h2 className="font-display text-[clamp(1.8rem,4vw,2.8rem)] font-extrabold text-foreground leading-tight mb-4">
+            {fr ? "Calculez votre Empreinte Eau" : "Calculate your Water Footprint"}
+          </h2>
+          <p className="text-muted-foreground text-sm max-w-[520px] mx-auto mb-8">
+            {fr
+              ? "Analyse complète Eau Verte / Bleue / Grise en 4 étapes. Résultats instantanés, conformes à ISO 14046 et Water Footprint Network."
+              : "Complete Green / Blue / Grey Water analysis in 4 steps. Instant results, ISO 14046 and Water Footprint Network compliant."}
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link
+              to="/calculateur"
+              className="inline-flex items-center gap-2 px-8 py-3.5 gradient-water text-primary-foreground rounded-[10px] font-bold text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all"
+            >
+              <Calculator className="h-4 w-4" />
+              {fr ? "Lancer le calculateur →" : "Launch calculator →"}
+            </Link>
+            <a
+              href="#fonctionnalites"
+              className="inline-flex items-center gap-2 px-8 py-3.5 border border-border text-muted-foreground rounded-[10px] font-semibold text-sm hover:border-primary hover:text-primary transition-all"
+            >
+              {fr ? "En savoir plus" : "Learn more"}
+            </a>
+          </div>
+          <div className="mt-10 grid grid-cols-3 gap-6 max-w-[480px] mx-auto">
+            <div>
+              <p className="font-display text-2xl font-extrabold text-primary">4</p>
+              <p className="text-xs text-muted-foreground">{fr ? "Étapes simples" : "Simple steps"}</p>
+            </div>
+            <div>
+              <p className="font-display text-2xl font-extrabold text-primary">500+</p>
+              <p className="text-xs text-muted-foreground">{fr ? "Coefficients WFN" : "WFN Coefficients"}</p>
+            </div>
+            <div>
+              <p className="font-display text-2xl font-extrabold text-primary">ISO</p>
+              <p className="text-xs text-muted-foreground">14046</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <WhySection />
       <FeaturesSection />
       <PricingSection />
