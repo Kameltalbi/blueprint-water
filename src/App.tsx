@@ -19,6 +19,7 @@ import Footprint from "@/pages/Footprint";
 import Reports from "@/pages/Reports";
 import Recommendations from "@/pages/Recommendations";
 import Organization from "@/pages/Organization";
+import Settings from "@/pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
