@@ -228,9 +228,10 @@ export default function Pollution() {
                     <tr className="border-b bg-muted/50">
                       <th className="px-4 py-3 text-left font-medium text-muted-foreground">Type</th>
                       <th className="px-4 py-3 text-left font-medium text-muted-foreground">Polluant</th>
-                      <th className="px-4 py-3 text-left font-medium text-muted-foreground">Concentration</th>
-                      <th className="px-4 py-3 text-left font-medium text-muted-foreground">Norme</th>
+                      <th className="px-4 py-3 text-left font-medium text-muted-foreground">Ceff</th>
+                      <th className="px-4 py-3 text-left font-medium text-muted-foreground">Cmax / Cnat</th>
                       <th className="px-4 py-3 text-left font-medium text-muted-foreground">Volume</th>
+                      <th className="px-4 py-3 text-left font-medium text-muted-foreground">WF gris</th>
                       <th className="px-4 py-3 text-left font-medium text-muted-foreground">Statut</th>
                       <th className="px-4 py-3 text-right font-medium text-muted-foreground">Actions</th>
                     </tr>
