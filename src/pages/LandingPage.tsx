@@ -105,9 +105,9 @@ export default function LandingPage() {
             : "Join 2,847 companies already managing their water footprint with HydroScan."}
         </p>
         <div className="flex flex-wrap justify-center gap-3">
-          <a href="#calculateur" className="inline-block px-8 py-3.5 bg-card text-primary rounded-[10px] font-bold text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all">
+          <Link to="/calculateur" className="inline-block px-8 py-3.5 bg-card text-primary rounded-[10px] font-bold text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all">
             💧 {fr ? "Calculer gratuitement" : "Calculate for free"}
-          </a>
+          </Link>
           <a href="#tarifs" className="inline-block px-8 py-3.5 border-2 border-primary-foreground/50 text-primary-foreground rounded-[10px] font-semibold text-sm hover:border-primary-foreground hover:bg-primary-foreground/10 transition-all">
             {fr ? "Voir les plans Pro" : "See Pro plans"}
           </a>
