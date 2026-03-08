@@ -20,6 +20,7 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+      <Route path="/calculateur" element={<CalculatorPage />} />
       <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
       <Route path="/data-entry" element={<AppLayout><DataEntry /></AppLayout>} />
       <Route path="/footprint" element={<AppLayout><Footprint /></AppLayout>} />
