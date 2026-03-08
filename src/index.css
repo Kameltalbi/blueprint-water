@@ -113,6 +113,7 @@
 @layer base {
   * {
     @apply border-border;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   }
   body {
     @apply bg-background text-foreground antialiased;
