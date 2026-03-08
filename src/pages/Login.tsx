@@ -43,9 +43,8 @@ export default function Login() {
       <PageMeta title="Connexion — HydroScan" description="Connectez-vous à votre compte HydroScan pour gérer votre empreinte eau." />
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
-          <Link to="/" className="inline-flex items-center gap-2 font-display text-2xl font-extrabold text-foreground mb-2">
-            <div className="w-10 h-10 rounded-xl gradient-water flex items-center justify-center text-lg">💧</div>
-            Hydro<em className="not-italic text-primary">Scan</em>
+          <Link to="/" className="inline-block mb-2">
+            <img src={hydroscanLogo} alt="HydroScan" className="h-12 mx-auto object-contain" />
           </Link>
           <h1 className="mt-4 font-display text-3xl font-bold text-foreground">
             {fr ? "Connexion" : "Login"}
