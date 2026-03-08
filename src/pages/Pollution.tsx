@@ -176,7 +176,7 @@ export default function Pollution() {
                     <SelectContent>
                       {pollutants.map((p) => (
                         <SelectItem key={p.name} value={p.name}>
-                          {p.name} (norme: {p.norm} {p.unit})
+                          {p.name} (Cmax: {p.cMax} {p.unit}, Cnat: {p.cNat})
                         </SelectItem>
                       ))}
                     </SelectContent>
