@@ -19,7 +19,7 @@ export default function Recommendations() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Recommandations IA</h1>
+        <h1 className="font-display text-2xl font-bold tracking-tight">Recommandations IA</h1>
         <p className="text-muted-foreground">
           Suggestions d'optimisation basées sur l'analyse de vos données
         </p>

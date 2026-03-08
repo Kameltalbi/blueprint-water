@@ -33,7 +33,7 @@ export default function Reports() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Rapports</h1>
+          <h1 className="font-display text-2xl font-bold tracking-tight">Rapports</h1>
           <p className="text-muted-foreground">
             Générez et téléchargez vos rapports d'empreinte hydrique
           </p>

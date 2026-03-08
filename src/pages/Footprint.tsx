@@ -51,7 +51,7 @@ export default function Footprint() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Empreinte hydrique</h1>
+        <h1 className="font-display text-2xl font-bold tracking-tight">Empreinte hydrique</h1>
         <p className="text-muted-foreground">
           Analyse détaillée selon la méthodologie ISO 14046
         </p>
