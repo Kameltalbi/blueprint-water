@@ -87,10 +87,15 @@ export default function Pollution() {
     setEntries(entries.filter((e) => e.id !== id));
   };
 
-  // Grey water calculation: volume * (concentration / norm)
-  const totalGreyWater = entries.reduce((s, e) => s + (e.volumeM3 * (e.concentration / e.norm)), 0);
-  const nonCompliant = entries.filter((e) => e.concentration > e.norm).length;
+  // WFN Grey water: WF_grey = Ceff × V / (Cmax - Cnat) — retain critical pollutant
+  // Total = sum of all entries (each entry is one pollutant measurement)
+  const totalGreyWater = entries.reduce((s, e) => s + e.wfGrey, 0);
+  const nonCompliant = entries.filter((e) => e.cEff > e.cMax).length;
   const complianceRate = entries.length > 0 ? Math.round(((entries.length - nonCompliant) / entries.length) * 100) : 0;
+  // Critical pollutant (WFN: the one with highest WF_grey)
+  const criticalPollutant = entries.length > 0
+    ? entries.reduce((max, e) => e.wfGrey > max.wfGrey ? e : max)
+    : null;
 
   return (
     <>
