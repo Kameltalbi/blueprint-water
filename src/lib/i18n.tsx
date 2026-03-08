@@ -269,17 +269,54 @@ const translations: Record<string, Record<Lang, string>> = {
 
   // Sidebar & App
   "sidebar.dashboard": { fr: "Tableau de bord", en: "Dashboard" },
-  "sidebar.data": { fr: "Collecte de données", en: "Data Collection" },
-  "sidebar.footprint": { fr: "Empreinte hydrique", en: "Water Footprint" },
-  "sidebar.reports": { fr: "Rapports", en: "Reports" },
-  "sidebar.recommendations": { fr: "Recommandations", en: "Recommendations" },
-  "sidebar.organization": { fr: "Organisation", en: "Organization" },
+  "sidebar.consumption": { fr: "Mes Consommations", en: "My Consumption" },
+  "sidebar.supply": { fr: "Approvisionnements", en: "Supply Chain" },
+  "sidebar.pollution": { fr: "Sources de Pollution", en: "Pollution Sources" },
+  "sidebar.footprint": { fr: "Analytique détaillée", en: "Detailed Analytics" },
+  "sidebar.stressMap": { fr: "Carte d'Impact", en: "Impact Map" },
+  "sidebar.reports": { fr: "Rapports RSE", en: "CSR Reports" },
+  "sidebar.actionPlan": { fr: "Plan d'Action", en: "Action Plan" },
+  "sidebar.recommendations": { fr: "Référentiel", en: "Reference Data" },
   "sidebar.settings": { fr: "Paramètres", en: "Settings" },
-  "sidebar.main": { fr: "Principal", en: "Main" },
+  "sidebar.overview": { fr: "Synthèse", en: "Overview" },
+  "sidebar.inputSection": { fr: "Inventaire & Saisie", en: "Inputs" },
+  "sidebar.analysisSection": { fr: "Analyse & Rapports", en: "Analysis & Reports" },
   "sidebar.config": { fr: "Configuration", en: "Configuration" },
   "sidebar.plan": { fr: "Plan Starter", en: "Starter Plan" },
   "sidebar.planDesc": { fr: "1 site · 1 utilisateur", en: "1 site · 1 user" },
   "sidebar.logout": { fr: "Déconnexion", en: "Log out" },
+
+  // Supply Chain page
+  "supply.title": { fr: "Approvisionnements", en: "Supply Chain" },
+  "supply.subtitle": { fr: "Eau virtuelle importée via vos matières premières", en: "Virtual water imported through raw materials" },
+  "supply.import": { fr: "Importer CSV", en: "Import CSV" },
+  "supply.add": { fr: "Ajouter un achat", en: "Add purchase" },
+  "supply.virtualWater": { fr: "Eau virtuelle totale", en: "Total virtual water" },
+  "supply.materials": { fr: "Matières saisies", en: "Materials entered" },
+  "supply.suppliers": { fr: "Fournisseurs", en: "Suppliers" },
+  "supply.noData": { fr: "Aucune donnée saisie", en: "No data entered" },
+  "supply.emptyTitle": { fr: "Aucun approvisionnement saisi", en: "No supply data yet" },
+  "supply.emptyDesc": { fr: "Ajoutez vos achats de matières premières pour calculer l'eau virtuelle (indirecte) de votre chaîne d'approvisionnement.", en: "Add your raw material purchases to calculate the virtual (indirect) water of your supply chain." },
+
+  // Pollution page
+  "pollution.title": { fr: "Sources de Pollution", en: "Pollution Sources" },
+  "pollution.subtitle": { fr: "Rejets d'eaux usées pour le calcul de l'Eau Grise", en: "Wastewater discharges for Grey Water calculation" },
+  "pollution.add": { fr: "Ajouter un rejet", en: "Add discharge" },
+  "pollution.greyWater": { fr: "Eau grise totale", en: "Total grey water" },
+  "pollution.sources": { fr: "Sources de rejet", en: "Discharge sources" },
+  "pollution.compliance": { fr: "Conformité ANPE", en: "ANPE Compliance" },
+  "pollution.noData": { fr: "Aucune donnée saisie", en: "No data entered" },
+  "pollution.emptyTitle": { fr: "Aucun rejet saisi", en: "No discharge data yet" },
+  "pollution.emptyDesc": { fr: "Enregistrez vos rejets d'eaux usées pour calculer votre empreinte Eau Grise et vérifier la conformité réglementaire.", en: "Record your wastewater discharges to calculate your Grey Water footprint and check regulatory compliance." },
+
+  // Stress Map page
+  "stressMap.title": { fr: "Carte d'Impact Hydrique", en: "Water Impact Map" },
+  "stressMap.subtitle": { fr: "Visualisez l'impact pondéré selon la rareté locale de l'eau (WSI)", en: "Visualize impact weighted by local water scarcity (WSI)" },
+
+  // Action Plan page
+  "actionPlan.title": { fr: "Plan d'Action", en: "Action Plan" },
+  "actionPlan.subtitle": { fr: "Actions concrètes pour réduire votre empreinte eau et optimiser vos coûts", en: "Concrete actions to reduce your water footprint and optimize costs" },
+  "actionPlan.actions": { fr: "Actions recommandées", en: "Recommended actions" },
 };
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
