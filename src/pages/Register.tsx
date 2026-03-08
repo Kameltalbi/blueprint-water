@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
-import hydroscanLogoWhite from "@/assets/hydroscan-logo-white.png";
+import hydroscanLogo from "@/assets/logo_hydroscan.png";
 
 export default function Register() {
   const { lang } = useI18n();
