@@ -14,10 +14,6 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as { from?: string })?.from || "/dashboard";
-export default function Login() {
-  const { lang } = useI18n();
-  const fr = lang === "fr";
-  const navigate = useNavigate();
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
