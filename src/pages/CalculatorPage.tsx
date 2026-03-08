@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Droplets, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+import hydroscanIcon from "@/assets/hydroscan-icon.png";
 import { LangToggle } from "@/components/LangToggle";
 import { useI18n } from "@/lib/i18n";
 import { CalculatorSection } from "@/components/landing/CalculatorSection";
