@@ -32,8 +32,11 @@ export default function LandingPage() {
 
         <div className="flex items-center gap-2">
           <LangToggle />
-          <Link to="/calculateur" className="hidden sm:inline-flex items-center px-5 py-2 rounded-lg gradient-water text-primary-foreground text-sm font-semibold hover:opacity-90 transition-all">
-            {fr ? "Calculer gratuitement →" : "Calculate for free →"}
+          <Link to="/login" className="hidden sm:inline-flex items-center px-5 py-2 rounded-lg border border-border text-foreground text-sm font-semibold hover:border-primary hover:text-primary transition-all">
+            {fr ? "Connexion" : "Login"}
+          </Link>
+          <Link to="/register" className="hidden sm:inline-flex items-center px-5 py-2 rounded-lg gradient-water text-primary-foreground text-sm font-semibold hover:opacity-90 transition-all">
+            {fr ? "Inscription" : "Sign up"}
           </Link>
         </div>
       </nav>
