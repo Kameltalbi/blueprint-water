@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
-import hydroscanLogoWhite from "@/assets/hydroscan-logo-white.png";
+import hydroscanLogo from "@/assets/logo_hydroscan.png";
 
 export default function Register() {
   const { lang } = useI18n();
@@ -97,7 +97,7 @@ export default function Register() {
       <div className="w-full max-w-lg space-y-6">
         <div className="text-center">
           <Link to="/" className="inline-block mb-4">
-            <img src={hydroscanLogoWhite} alt="HydroScan" className="h-14 mx-auto dark:invert-0 invert" />
+            <img src={hydroscanLogo} alt="HydroScan" className="h-12 mx-auto object-contain" />
           </Link>
           <h1 className="font-display text-3xl font-bold text-foreground">
             {fr ? "Créer un compte" : "Create account"}
