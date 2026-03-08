@@ -118,6 +118,7 @@ export default function Reports() {
 
   return (
     <div className="space-y-6">
+      <PageMeta title="Rapports — HydroScan" description="Générez et exportez vos rapports d'empreinte hydrique." />
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display text-2xl font-bold tracking-tight">Rapports</h1>

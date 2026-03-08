@@ -111,6 +111,7 @@ export default function DataEntry() {
 
   return (
     <div className="space-y-6">
+      <PageMeta title="Collecte de données — HydroScan" description="Saisissez vos données de consommation d'eau pour un suivi précis." />
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display text-2xl font-bold tracking-tight">Collecte de données</h1>
