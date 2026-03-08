@@ -15,6 +15,10 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-card font-sans">
+      <PageMeta
+        title="HydroScan — Calculez votre Empreinte Eau"
+        description="Plateforme universelle de calcul d'empreinte eau pour l'agriculture, l'industrie et l'agroalimentaire. Conforme ISO 14046."
+      />
       {/* ── Navbar ── */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[5%] py-4 bg-card/95 backdrop-blur-xl border-b border-border">
         <a href="#" className="flex items-center gap-2 font-display text-xl font-extrabold text-foreground no-underline">
