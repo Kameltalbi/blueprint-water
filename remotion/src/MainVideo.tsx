@@ -7,57 +7,56 @@ import { Scene2Landing } from "./scenes/Scene2Landing";
 import { Scene3Calculator } from "./scenes/Scene3Calculator";
 import { Scene4Features } from "./scenes/Scene4Features";
 import { Scene5Dashboard } from "./scenes/Scene5Dashboard";
-import { Scene6Pricing } from "./scenes/Scene6Pricing";
-import { Scene7CTA } from "./scenes/Scene7CTA";
+import { Scene6Stress } from "./scenes/Scene6Stress";
+import { Scene7Benchmark } from "./scenes/Scene7Benchmark";
+import { Scene8Pricing } from "./scenes/Scene8Pricing";
+import { Scene9CTA } from "./scenes/Scene9CTA";
 
 export const MainVideo = () => {
+  const t = (p: any) => (
+    <TransitionSeries.Transition
+      presentation={p}
+      timing={springTiming({ config: { damping: 200 }, durationInFrames: 20 })}
+    />
+  );
+
   return (
     <AbsoluteFill style={{ backgroundColor: "#0B1622" }}>
       <TransitionSeries>
-        <TransitionSeries.Sequence durationInFrames={150}>
+        <TransitionSeries.Sequence durationInFrames={120}>
           <Scene1Intro />
         </TransitionSeries.Sequence>
-        <TransitionSeries.Transition
-          presentation={fade()}
-          timing={springTiming({ config: { damping: 200 }, durationInFrames: 20 })}
-        />
-        <TransitionSeries.Sequence durationInFrames={150}>
+        {t(fade())}
+        <TransitionSeries.Sequence durationInFrames={180}>
           <Scene2Landing />
         </TransitionSeries.Sequence>
-        <TransitionSeries.Transition
-          presentation={slide({ direction: "from-right" })}
-          timing={springTiming({ config: { damping: 200 }, durationInFrames: 20 })}
-        />
-        <TransitionSeries.Sequence durationInFrames={150}>
+        {t(slide({ direction: "from-right" }))}
+        <TransitionSeries.Sequence durationInFrames={180}>
           <Scene3Calculator />
         </TransitionSeries.Sequence>
-        <TransitionSeries.Transition
-          presentation={fade()}
-          timing={springTiming({ config: { damping: 200 }, durationInFrames: 20 })}
-        />
-        <TransitionSeries.Sequence durationInFrames={150}>
+        {t(fade())}
+        <TransitionSeries.Sequence durationInFrames={180}>
           <Scene4Features />
         </TransitionSeries.Sequence>
-        <TransitionSeries.Transition
-          presentation={slide({ direction: "from-left" })}
-          timing={springTiming({ config: { damping: 200 }, durationInFrames: 20 })}
-        />
-        <TransitionSeries.Sequence durationInFrames={150}>
+        {t(slide({ direction: "from-left" }))}
+        <TransitionSeries.Sequence durationInFrames={180}>
           <Scene5Dashboard />
         </TransitionSeries.Sequence>
-        <TransitionSeries.Transition
-          presentation={fade()}
-          timing={springTiming({ config: { damping: 200 }, durationInFrames: 20 })}
-        />
-        <TransitionSeries.Sequence durationInFrames={120}>
-          <Scene6Pricing />
+        {t(fade())}
+        <TransitionSeries.Sequence durationInFrames={180}>
+          <Scene6Stress />
         </TransitionSeries.Sequence>
-        <TransitionSeries.Transition
-          presentation={fade()}
-          timing={springTiming({ config: { damping: 200 }, durationInFrames: 20 })}
-        />
+        {t(slide({ direction: "from-right" }))}
+        <TransitionSeries.Sequence durationInFrames={180}>
+          <Scene7Benchmark />
+        </TransitionSeries.Sequence>
+        {t(fade())}
+        <TransitionSeries.Sequence durationInFrames={150}>
+          <Scene8Pricing />
+        </TransitionSeries.Sequence>
+        {t(fade())}
         <TransitionSeries.Sequence durationInFrames={120}>
-          <Scene7CTA />
+          <Scene9CTA />
         </TransitionSeries.Sequence>
       </TransitionSeries>
     </AbsoluteFill>

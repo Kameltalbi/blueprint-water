@@ -1,6 +1,6 @@
 import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Img, staticFile } from "remotion";
 
-export const Scene3Calculator = () => {
+export const Scene7Benchmark = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const float = Math.sin(frame * 0.025) * 4;
@@ -17,17 +17,17 @@ export const Scene3Calculator = () => {
           borderRadius: 16, overflow: "hidden",
           boxShadow: "0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)",
         }}>
-          <Img src={staticFile("images/page-calculator.png")} style={{ width: 1100, display: "block" }} />
+          <Img src={staticFile("images/page-dashboard3.png")} style={{ width: 1100, display: "block" }} />
         </div>
       </div>
 
       <div style={{ flex: "0 0 440px", display: "flex", flexDirection: "column", gap: 16 }}>
         <div style={{
           opacity: interpolate(frame, [0, 20], [0, 1], { extrapolateRight: "clamp" }),
-          fontSize: 13, fontWeight: 700, color: "#10B981", fontFamily: "sans-serif",
+          fontSize: 13, fontWeight: 700, color: "#06B6D4", fontFamily: "sans-serif",
           letterSpacing: 3, textTransform: "uppercase",
         }}>
-          Calculateur
+          Benchmarks & Alertes
         </div>
         <div style={{
           opacity: interpolate(frame, [10, 30], [0, 1], { extrapolateRight: "clamp" }),
@@ -35,23 +35,23 @@ export const Scene3Calculator = () => {
           fontSize: 36, fontWeight: 800, color: "white", fontFamily: "sans-serif",
           lineHeight: 1.15, letterSpacing: -1,
         }}>
-          Calcul d'empreinte eau en 4 étapes
+          Suivi objectifs & benchmark sectoriel
         </div>
         <div style={{
           opacity: interpolate(frame, [20, 40], [0, 1], { extrapolateRight: "clamp" }),
           fontSize: 16, color: "#94A3B8", fontFamily: "sans-serif", lineHeight: 1.7,
         }}>
-          Le calculateur gratuit permet à tout visiteur d'estimer son empreinte eau (Verte, Bleue, Grise) sans inscription. Il intègre 58 matériaux, les coefficients WFN & Ecoinvent, et la pondération WSI de 17 pays pour une analyse géographique précise.
+          Le tableau de bord intègre un benchmark sectoriel (Top 35% agroalimentaire), un suivi des objectifs de réduction avec jauges visuelles, et un système d'alertes en temps réel : fuites détectées, hausses de consommation et échéances réglementaires ANPE.
         </div>
 
-        {["1. Secteur & produit", "2. Matières premières", "3. Processus industriels", "4. Effluents & résultats"].map((text, i) => (
+        {["Benchmark sectoriel", "Objectifs de réduction", "Alertes critiques", "Potentiel d'économie"].map((text, i) => (
           <div key={i} style={{
             opacity: interpolate(frame, [40 + i * 8, 55 + i * 8], [0, 1], { extrapolateRight: "clamp" }),
-            transform: `translateX(${interpolate(spring({ frame: frame - 40 - i * 8, fps, config: { damping: 18 } }), [0, 1], [30, 0])}px)`,
-            display: "flex", alignItems: "center", gap: 12,
-            fontSize: 15, color: "#CBD5E1", fontFamily: "sans-serif",
+            transform: `translateX(${interpolate(spring({ frame: frame - 40 - i * 8, fps, config: { damping: 18 } }), [0, 1], [25, 0])}px)`,
+            background: "rgba(6,182,212,0.1)", border: "1px solid rgba(6,182,212,0.2)",
+            borderRadius: 8, padding: "6px 14px", fontSize: 13, color: "#22D3EE",
+            fontFamily: "sans-serif", fontWeight: 600, width: "fit-content",
           }}>
-            <div style={{ width: 8, height: 8, borderRadius: 4, background: "#10B981", flexShrink: 0 }} />
             {text}
           </div>
         ))}
