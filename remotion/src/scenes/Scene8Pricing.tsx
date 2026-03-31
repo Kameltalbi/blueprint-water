@@ -1,6 +1,6 @@
 import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Img, staticFile } from "remotion";
 
-export const Scene2Landing = () => {
+export const Scene8Pricing = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const float = Math.sin(frame * 0.025) * 4;
@@ -10,40 +10,28 @@ export const Scene2Landing = () => {
       background: "linear-gradient(150deg, #0B1622 0%, #0F2035 100%)",
       display: "flex", flexDirection: "row", alignItems: "center", padding: "60px 80px",
     }}>
-      <div style={{ flex: "0 0 420px", display: "flex", flexDirection: "column", gap: 16 }}>
+      <div style={{ flex: "0 0 400px", display: "flex", flexDirection: "column", gap: 16 }}>
         <div style={{
           opacity: interpolate(frame, [0, 20], [0, 1], { extrapolateRight: "clamp" }),
-          fontSize: 13, fontWeight: 700, color: "#0EA5E9", fontFamily: "sans-serif",
+          fontSize: 13, fontWeight: 700, color: "#EC4899", fontFamily: "sans-serif",
           letterSpacing: 3, textTransform: "uppercase",
         }}>
-          Page d'accueil
+          Tarification
         </div>
         <div style={{
           opacity: interpolate(frame, [10, 30], [0, 1], { extrapolateRight: "clamp" }),
           transform: `translateY(${interpolate(spring({ frame: frame - 10, fps, config: { damping: 20 } }), [0, 1], [30, 0])}px)`,
-          fontSize: 38, fontWeight: 800, color: "white", fontFamily: "sans-serif",
+          fontSize: 36, fontWeight: 800, color: "white", fontFamily: "sans-serif",
           lineHeight: 1.15, letterSpacing: -1,
         }}>
-          Vitrine publique HydroScan
+          Modèle Freemium en 3 plans
         </div>
         <div style={{
           opacity: interpolate(frame, [20, 40], [0, 1], { extrapolateRight: "clamp" }),
           fontSize: 16, color: "#94A3B8", fontFamily: "sans-serif", lineHeight: 1.7,
         }}>
-          La page d'accueil présente HydroScan aux visiteurs : une section Hero avec les statistiques clés (2 847 entreprises, 12 secteurs, 500+ coefficients), un aperçu des fonctionnalités et un accès direct au calculateur gratuit.
+          HydroScan propose un modèle Freemium : le calculateur est 100% gratuit et sans inscription. Les plans Pro (99 DT/mois) et Entreprise (299 DT/mois) ajoutent le tableau de bord complet, les rapports certifiés, le benchmark sectoriel et le support prioritaire.
         </div>
-
-        {["Certification ISO 14046", "12 secteurs industriels", "Accès calculateur gratuit"].map((text, i) => (
-          <div key={i} style={{
-            opacity: interpolate(frame, [40 + i * 8, 55 + i * 8], [0, 1], { extrapolateRight: "clamp" }),
-            transform: `translateX(${interpolate(spring({ frame: frame - 40 - i * 8, fps, config: { damping: 18 } }), [0, 1], [20, 0])}px)`,
-            background: "rgba(14,165,233,0.1)", border: "1px solid rgba(14,165,233,0.2)",
-            borderRadius: 8, padding: "6px 14px", fontSize: 13, color: "#0EA5E9",
-            fontFamily: "sans-serif", fontWeight: 600, width: "fit-content",
-          }}>
-            {text}
-          </div>
-        ))}
       </div>
 
       <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center", marginLeft: 40 }}>
@@ -53,7 +41,7 @@ export const Scene2Landing = () => {
           borderRadius: 16, overflow: "hidden",
           boxShadow: "0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)",
         }}>
-          <Img src={staticFile("images/page-landing.png")} style={{ width: 1100, display: "block" }} />
+          <Img src={staticFile("images/page-pricing.png")} style={{ width: 1100, display: "block" }} />
         </div>
       </div>
     </AbsoluteFill>
