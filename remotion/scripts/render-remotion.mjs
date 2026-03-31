@@ -28,7 +28,7 @@ await renderMedia({
   composition,
   serveUrl: bundled,
   codec: "h264",
-  outputLocation: "/mnt/documents/HydroScan_Video_Presentation.mp4",
+  outputLocation: "/mnt/documents/HydroScan_Demo_Walkthrough.mp4",
   puppeteerInstance: browser,
   muted: true,
   concurrency: 1,
