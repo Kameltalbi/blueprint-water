@@ -10,14 +10,20 @@ import { AlertsWidget } from "@/components/dashboard/AlertsWidget";
 import { BenchmarkWidget } from "@/components/dashboard/BenchmarkWidget";
 import { ConsumptionChart } from "@/components/dashboard/ConsumptionChart";
 import { useUserRole, useSites, useWaterConsumption } from "@/hooks/useOrgData";
-import { Loader2 } from "lucide-react";
+import { Loader2, Info } from "lucide-react";
+import { demoConsumption, demoSites } from "@/lib/demo-data";
 
 export default function Dashboard() {
   const [site, setSite] = useState("all");
   const [period, setPeriod] = useState("2026");
   const { data: userRole, isLoading: roleLoading } = useUserRole();
-  const { data: sites = [] } = useSites(userRole?.organization_id);
-  const { data: rawConsumption = [], isLoading: dataLoading } = useWaterConsumption(userRole?.organization_id);
+  const { data: realSites = [] } = useSites(userRole?.organization_id);
+  const { data: realConsumption = [], isLoading: dataLoading } = useWaterConsumption(userRole?.organization_id);
+
+  // Use demo data if no real data
+  const isDemo = realConsumption.length === 0;
+  const rawConsumption = isDemo ? demoConsumption : realConsumption;
+  const sites = isDemo ? demoSites : realSites;
 
   // Filter consumption by selected site
   const consumption = site === "all"
@@ -63,6 +69,13 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       <PageMeta title="Tableau de bord — HydroScan" description="Suivez votre consommation d'eau et vos indicateurs de performance en temps réel." />
+
+      {isDemo && (
+        <div className="flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/5 px-4 py-2.5 text-sm text-primary">
+          <Info className="h-4 w-4 shrink-0" />
+          <span>Données de démonstration — Ajoutez vos propres données via <strong>Consommation Directe</strong> pour voir vos vrais indicateurs.</span>
+        </div>
+      )}
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
