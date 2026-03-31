@@ -1,72 +1,77 @@
-import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
+import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Img, staticFile } from "remotion";
 
 export const Scene1Intro = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const bgScale = interpolate(frame, [0, 210], [1.05, 1], { extrapolateRight: "clamp" });
+  const logoScale = spring({ frame, fps, config: { damping: 15, stiffness: 80 } });
+  const logoOpacity = interpolate(frame, [0, 20], [0, 1], { extrapolateRight: "clamp" });
   
-  const logoOpacity = interpolate(frame, [10, 40], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const logoY = interpolate(frame, [10, 40], [30, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const titleY = interpolate(
+    spring({ frame: frame - 20, fps, config: { damping: 20 } }),
+    [0, 1], [60, 0]
+  );
+  const titleOpacity = interpolate(frame, [20, 40], [0, 1], { extrapolateRight: "clamp" });
 
-  const titleOpacity = interpolate(frame, [35, 65], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const titleY = interpolate(frame, [35, 65], [40, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const subtitleOpacity = interpolate(frame, [45, 65], [0, 1], { extrapolateRight: "clamp" });
+  const subtitleY = interpolate(
+    spring({ frame: frame - 45, fps, config: { damping: 20 } }),
+    [0, 1], [40, 0]
+  );
 
-  const subtitleOpacity = interpolate(frame, [60, 90], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const badgeOpacity = interpolate(frame, [70, 90], [0, 1], { extrapolateRight: "clamp" });
+  const badgeScale = spring({ frame: frame - 70, fps, config: { damping: 12 } });
 
-  const tagOpacity = interpolate(frame, [90, 110], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const tagScale = spring({ frame: frame - 90, fps, config: { damping: 15, stiffness: 200 } });
-
-  // Floating circles
-  const c1Y = Math.sin(frame * 0.03) * 20;
-  const c2Y = Math.cos(frame * 0.025) * 15;
+  const float = Math.sin(frame * 0.03) * 5;
 
   return (
-    <AbsoluteFill style={{ background: "linear-gradient(135deg, #0F1724 0%, #015486 50%, #0EA5E9 100%)", transform: `scale(${bgScale})` }}>
-      {/* Decorative circles */}
-      <div style={{ position: "absolute", right: 200, top: 150 + c1Y, width: 400, height: 400, borderRadius: "50%", background: "rgba(14,165,233,0.08)", transform: `translateY(${c1Y}px)` }} />
-      <div style={{ position: "absolute", left: 100, bottom: 100 + c2Y, width: 250, height: 250, borderRadius: "50%", background: "rgba(255,255,255,0.03)" }} />
-      
-      {/* Content */}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", padding: "0 120px" }}>
-        {/* Logo */}
-        <div style={{ opacity: logoOpacity, transform: `translateY(${logoY}px)`, fontSize: 28, fontWeight: 800, color: "white", letterSpacing: 6, fontFamily: "sans-serif", marginBottom: 40 }}>
-          HYDROSCAN
-        </div>
+    <AbsoluteFill style={{
+      background: "linear-gradient(135deg, #0B1622 0%, #0D2137 40%, #0A1929 100%)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column",
+    }}>
+      <div style={{
+        position: "absolute",
+        width: 600, height: 600, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(14,165,233,0.08) 0%, transparent 70%)",
+        top: -100, right: -100, transform: `translateY(${float}px)`,
+      }} />
+      <div style={{
+        position: "absolute",
+        width: 400, height: 400, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(1,84,134,0.1) 0%, transparent 70%)",
+        bottom: -50, left: -50, transform: `translateY(${-float}px)`,
+      }} />
 
-        {/* Title */}
-        <div style={{ opacity: titleOpacity, transform: `translateY(${titleY}px)`, textAlign: "center" }}>
-          <div style={{ fontSize: 72, fontWeight: 800, color: "white", lineHeight: 1.1, fontFamily: "sans-serif" }}>
-            Mesurez votre
-          </div>
-          <div style={{ fontSize: 80, fontWeight: 800, color: "#7DD3FC", lineHeight: 1.1, fontFamily: "sans-serif", marginTop: 8 }}>
-            Empreinte Eau
-          </div>
-        </div>
+      <div style={{ opacity: logoOpacity, transform: `scale(${logoScale}) translateY(${float}px)`, marginBottom: 30 }}>
+        <Img src={staticFile("images/logo.png")} style={{ height: 120, objectFit: "contain" }} />
+      </div>
 
-        {/* Subtitle */}
-        <div style={{ opacity: subtitleOpacity, fontSize: 24, color: "rgba(255,255,255,0.7)", marginTop: 40, textAlign: "center", fontFamily: "sans-serif", maxWidth: 700 }}>
-          La plateforme universelle de calcul d'empreinte eau pour tous les secteurs
-        </div>
+      <div style={{
+        opacity: titleOpacity, transform: `translateY(${titleY}px)`,
+        fontSize: 72, fontWeight: 800, color: "white", textAlign: "center",
+        fontFamily: "sans-serif", letterSpacing: -2,
+      }}>
+        Demo Walkthrough
+      </div>
 
-        {/* Tag */}
-        <div style={{ opacity: tagOpacity, transform: `scale(${tagScale})`, marginTop: 50, display: "flex", gap: 20 }}>
-          {["ISO 14046", "13 Secteurs", "500+ Coefficients"].map((t, i) => (
-            <div key={t} style={{
-              background: "rgba(255,255,255,0.1)",
-              border: "1px solid rgba(255,255,255,0.2)",
-              borderRadius: 30,
-              padding: "10px 24px",
-              color: "white",
-              fontSize: 16,
-              fontWeight: 600,
-              fontFamily: "sans-serif",
-              opacity: interpolate(frame, [95 + i * 8, 110 + i * 8], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
-            }}>
-              {t}
-            </div>
-          ))}
-        </div>
+      <div style={{
+        opacity: subtitleOpacity, transform: `translateY(${subtitleY}px)`,
+        fontSize: 28, color: "#94A3B8", textAlign: "center",
+        fontFamily: "sans-serif", marginTop: 16, maxWidth: 700,
+      }}>
+        Plateforme de calcul d'empreinte eau — ISO 14046
+      </div>
+
+      <div style={{
+        opacity: badgeOpacity, transform: `scale(${badgeScale})`, marginTop: 40,
+        background: "rgba(14,165,233,0.15)", border: "1px solid rgba(14,165,233,0.3)",
+        borderRadius: 50, padding: "10px 28px", fontSize: 16, color: "#0EA5E9",
+        fontWeight: 600, fontFamily: "sans-serif",
+      }}>
+        SaaS - React - TypeScript - Supabase
       </div>
     </AbsoluteFill>
   );

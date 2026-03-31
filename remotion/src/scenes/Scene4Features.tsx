@@ -1,54 +1,59 @@
-import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig } from "remotion";
-
-const items = [
-  { num: "13", label: "Secteurs couverts", sub: "Textile, Agriculture, Energie..." },
-  { num: "500+", label: "Coefficients WFN", sub: "Base de donnees integree" },
-  { num: "x10", label: "ROI client", sub: "Des la premiere annee" },
-  { num: "ISO", label: "14046 conforme", sub: "Standard international" },
-];
+import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Img, staticFile } from "remotion";
 
 export const Scene4Features = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-
-  const titleOp = interpolate(frame, [0, 25], [0, 1], { extrapolateRight: "clamp" });
+  const float = Math.sin(frame * 0.025) * 4;
 
   return (
-    <AbsoluteFill style={{ background: "linear-gradient(180deg, #0F1724 0%, #0D2137 100%)" }}>
-      <div style={{ position: "absolute", left: 0, top: 0, width: 6, height: "100%", background: "#0EA5E9" }} />
-
-      <div style={{ padding: "80px 120px", height: "100%", display: "flex", flexDirection: "column" }}>
-        <div style={{ opacity: titleOp, color: "#0EA5E9", fontSize: 14, fontWeight: 700, letterSpacing: 4, fontFamily: "sans-serif", marginBottom: 16 }}>
-          CHIFFRES CLES
+    <AbsoluteFill style={{
+      background: "linear-gradient(150deg, #0B1622 0%, #0F2035 100%)",
+      display: "flex", flexDirection: "row", alignItems: "center", padding: "60px 80px",
+    }}>
+      <div style={{ flex: "0 0 400px", display: "flex", flexDirection: "column", gap: 20 }}>
+        <div style={{
+          opacity: interpolate(frame, [0, 20], [0, 1], { extrapolateRight: "clamp" }),
+          fontSize: 14, fontWeight: 700, color: "#F59E0B", fontFamily: "sans-serif",
+          letterSpacing: 3, textTransform: "uppercase",
+        }}>
+          Fonctionnalites
         </div>
-        <div style={{ opacity: titleOp, fontSize: 48, fontWeight: 800, color: "white", fontFamily: "sans-serif", marginBottom: 60 }}>
-          Des resultats concrets
+        <div style={{
+          opacity: interpolate(frame, [10, 30], [0, 1], { extrapolateRight: "clamp" }),
+          transform: `translateY(${interpolate(spring({ frame: frame - 10, fps, config: { damping: 20 } }), [0, 1], [30, 0])}px)`,
+          fontSize: 40, fontWeight: 800, color: "white", fontFamily: "sans-serif",
+          lineHeight: 1.15, letterSpacing: -1,
+        }}>
+          6 outils pour mesurer et agir
+        </div>
+        <div style={{
+          opacity: interpolate(frame, [25, 45], [0, 1], { extrapolateRight: "clamp" }),
+          fontSize: 18, color: "#94A3B8", fontFamily: "sans-serif", lineHeight: 1.6,
+        }}>
+          De l'analyse au rapport certifie ISO, sans expertise technique.
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 30, flex: 1 }}>
-          {items.map((item, i) => {
-            const delay = 25 + i * 20;
-            const op = interpolate(frame, [delay, delay + 25], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-            const sc = spring({ frame: frame - delay, fps, config: { damping: 15 } });
-            const float = Math.sin((frame + i * 30) * 0.04) * 3;
-            return (
-              <div key={item.num} style={{
-                opacity: op,
-                transform: `scale(${sc}) translateY(${float}px)`,
-                background: "rgba(14,165,233,0.06)",
-                border: "1px solid rgba(14,165,233,0.15)",
-                borderRadius: 20,
-                padding: "40px 44px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}>
-                <div style={{ fontSize: 56, fontWeight: 800, color: "#0EA5E9", fontFamily: "sans-serif" }}>{item.num}</div>
-                <div style={{ fontSize: 22, fontWeight: 700, color: "white", marginTop: 8, fontFamily: "sans-serif" }}>{item.label}</div>
-                <div style={{ fontSize: 15, color: "rgba(255,255,255,0.5)", marginTop: 4, fontFamily: "sans-serif" }}>{item.sub}</div>
-              </div>
-            );
-          })}
+        {["Empreinte eau complete", "Carte stress hydrique", "Chaine d'approvisionnement", "Plan d'action IA", "Rapports PDF/Word", "Conformite ANPE et CSRD"].map((text, i) => (
+          <div key={i} style={{
+            opacity: interpolate(frame, [35 + i * 7, 50 + i * 7], [0, 1], { extrapolateRight: "clamp" }),
+            transform: `translateX(${interpolate(spring({ frame: frame - 35 - i * 7, fps, config: { damping: 18 } }), [0, 1], [20, 0])}px)`,
+            display: "flex", alignItems: "center", gap: 10,
+            fontSize: 15, color: "#CBD5E1", fontFamily: "sans-serif",
+          }}>
+            <span style={{ color: "#F59E0B" }}>&#10003;</span>
+            {text}
+          </div>
+        ))}
+      </div>
+
+      <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center", marginLeft: 40 }}>
+        <div style={{
+          opacity: interpolate(frame, [15, 35], [0, 1], { extrapolateRight: "clamp" }),
+          transform: `scale(${interpolate(spring({ frame: frame - 15, fps, config: { damping: 18 } }), [0, 1], [0.9, 1])}) translateY(${float}px)`,
+          borderRadius: 16, overflow: "hidden",
+          boxShadow: "0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)",
+        }}>
+          <Img src={staticFile("images/page-features.png")} style={{ width: 1200, display: "block" }} />
         </div>
       </div>
     </AbsoluteFill>
