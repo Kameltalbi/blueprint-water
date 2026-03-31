@@ -70,6 +70,13 @@ export default function Dashboard() {
     <div className="space-y-6">
       <PageMeta title="Tableau de bord — HydroScan" description="Suivez votre consommation d'eau et vos indicateurs de performance en temps réel." />
 
+      {isDemo && (
+        <div className="flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/5 px-4 py-2.5 text-sm text-primary">
+          <Info className="h-4 w-4 shrink-0" />
+          <span>Données de démonstration — Ajoutez vos propres données via <strong>Consommation Directe</strong> pour voir vos vrais indicateurs.</span>
+        </div>
+      )}
+
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="font-display text-2xl font-bold tracking-tight">Tableau de bord</h1>
