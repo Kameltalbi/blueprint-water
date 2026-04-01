@@ -7,7 +7,6 @@ import {
   Building2,
   Settings,
   LogOut,
-  Home,
 } from "lucide-react";
 import hydroscanLogoWhite from "@/assets/hydroscan-logo-white.png";
 import { NavLink } from "@/components/NavLink";
@@ -41,7 +40,6 @@ export function AppSidebar() {
   const navigate = useNavigate();
 
   const topItems = [
-    { title: t("sidebar.home"), url: "/", icon: Home },
     { title: t("sidebar.dashboard"), url: "/dashboard", icon: LayoutDashboard },
   ];
 
