@@ -90,7 +90,7 @@ export function HeroSection() {
         >
           <div className="relative">
             {/* Glow behind illustration */}
-            <div className="absolute inset-0 scale-90 rounded-3xl bg-gradient-to-br from-primary/10 via-[hsl(var(--green-water))]/10 to-[hsl(var(--sky))]/10 blur-2xl" />
+            <div className="absolute inset-0 scale-90 rounded-3xl bg-gradient-to-br from-primary/10 via-[hsl(var(--sky))]/10 to-[hsl(var(--ocean))]/10 blur-2xl" />
             <img
               src={waterIllustration}
               alt={fr ? "Illustration empreinte eau HydroScan" : "HydroScan water footprint illustration"}
