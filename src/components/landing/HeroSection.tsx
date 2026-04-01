@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useI18n } from "@/lib/i18n";
+import waterIllustration from "@/assets/hydroscan_water_illustration.svg";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
