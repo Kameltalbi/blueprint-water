@@ -4,7 +4,7 @@ import hydroscanLogo from "@/assets/logo_hydroscan.png";
 
 export function LandingFooter() {
   const { lang } = useI18n();
-  const fr = lang === "fr";
+  const t3 = (fr: string, en: string, ar: string) => lang === "fr" ? fr : lang === "ar" ? ar : en;
 
   return (
     <footer className="bg-foreground text-primary-foreground/50 py-12 px-[5%] flex justify-between items-center flex-wrap gap-6 text-xs">
@@ -12,10 +12,10 @@ export function LandingFooter() {
         <img src={hydroscanLogo} alt="HydroScan" className="h-8 object-contain brightness-0 invert" />
       </Link>
       <div className="flex gap-6 flex-wrap">
-        <a href="#" className="hover:text-primary-foreground transition-colors">{fr ? "Mentions légales" : "Legal"}</a>
-        <a href="#" className="hover:text-primary-foreground transition-colors">{fr ? "Confidentialité" : "Privacy"}</a>
-        <a href="#" className="hover:text-primary-foreground transition-colors">CGU</a>
-        <Link to="/contact" className="hover:text-primary-foreground transition-colors">Contact</Link>
+        <a href="#" className="hover:text-primary-foreground transition-colors">{t3("Mentions légales", "Legal", "معلومات قانونية")}</a>
+        <a href="#" className="hover:text-primary-foreground transition-colors">{t3("Confidentialité", "Privacy", "الخصوصية")}</a>
+        <a href="#" className="hover:text-primary-foreground transition-colors">{t3("CGU", "Terms", "شروط الاستخدام")}</a>
+        <Link to="/contact" className="hover:text-primary-foreground transition-colors">{t3("Contact", "Contact", "اتصل بنا")}</Link>
         <a href="#" className="hover:text-primary-foreground transition-colors">Blog</a>
         <a href="#" className="hover:text-primary-foreground transition-colors">API Docs</a>
       </div>

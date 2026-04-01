@@ -14,7 +14,7 @@ import { ProductPreviewSection } from "@/components/landing/ProductPreviewSectio
 
 export default function LandingPage() {
   const { lang } = useI18n();
-  const fr = lang === "fr";
+  const t3 = (fr: string, en: string, ar: string) => lang === "fr" ? fr : lang === "ar" ? ar : en;
 
   return (
     <div className="min-h-screen bg-card font-sans">
@@ -35,15 +35,17 @@ export default function LandingPage() {
       <section id="calculateur" className="py-24 px-[5%] bg-background">
         <div className="mx-auto max-w-[800px] text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 border border-emerald-200 text-green-water text-xs font-bold px-4 py-1 mb-5">
-            <span>✦</span> {fr ? "100 % Gratuit · Sans inscription" : "100% Free · No signup"}
+            <span>✦</span> {t3("100 % Gratuit · Sans inscription", "100% Free · No signup", "100% مجاني · بدون تسجيل")}
           </div>
           <h2 className="font-display text-[clamp(1.8rem,4vw,2.8rem)] font-extrabold text-foreground leading-tight mb-4">
-            {fr ? "Calculez votre Empreinte Eau" : "Calculate your Water Footprint"}
+            {t3("Calculez votre Empreinte Eau", "Calculate your Water Footprint", "احسب بصمتك المائية")}
           </h2>
           <p className="text-muted-foreground text-sm max-w-[520px] mx-auto mb-8">
-            {fr
-              ? "Analyse complète Eau Verte / Bleue / Grise en 4 étapes. Résultats instantanés, conformes à ISO 14046 et Water Footprint Network."
-              : "Complete Green / Blue / Grey Water analysis in 4 steps. Instant results, ISO 14046 and Water Footprint Network compliant."}
+            {t3(
+              "Analyse complète Eau Verte / Bleue / Grise en 4 étapes. Résultats instantanés, conformes à ISO 14046 et Water Footprint Network.",
+              "Complete Green / Blue / Grey Water analysis in 4 steps. Instant results, ISO 14046 and Water Footprint Network compliant.",
+              "تحليل كامل للمياه الخضراء والزرقاء والرمادية في 4 خطوات. نتائج فورية متوافقة مع ISO 14046."
+            )}
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link
@@ -51,24 +53,24 @@ export default function LandingPage() {
               className="inline-flex items-center gap-2 px-8 py-3.5 gradient-water text-primary-foreground rounded-[10px] font-bold text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all"
             >
               <Calculator className="h-4 w-4" />
-              {fr ? "Lancer le calculateur →" : "Launch calculator →"}
+              {t3("Lancer le calculateur →", "Launch calculator →", "تشغيل الآلة الحاسبة ←")}
             </Link>
             <Link
               to="/fonctionnalites"
               className="inline-flex items-center gap-2 px-8 py-3.5 text-white rounded-[10px] font-semibold text-sm hover:opacity-90 transition-all"
               style={{ backgroundColor: '#015486' }}
             >
-              {fr ? "En savoir plus" : "Learn more"}
+              {t3("En savoir plus", "Learn more", "اعرف أكثر")}
             </Link>
           </div>
           <div className="mt-10 grid grid-cols-3 gap-6 max-w-[480px] mx-auto">
             <div>
               <p className="font-display text-2xl font-extrabold text-primary">4</p>
-              <p className="text-xs text-muted-foreground">{fr ? "Étapes simples" : "Simple steps"}</p>
+              <p className="text-xs text-muted-foreground">{t3("Étapes simples", "Simple steps", "خطوات بسيطة")}</p>
             </div>
             <div>
               <p className="font-display text-2xl font-extrabold text-primary">500+</p>
-              <p className="text-xs text-muted-foreground">{fr ? "Coefficients WFN" : "WFN Coefficients"}</p>
+              <p className="text-xs text-muted-foreground">{t3("Coefficients WFN", "WFN Coefficients", "معاملات WFN")}</p>
             </div>
             <div>
               <p className="font-display text-2xl font-extrabold text-primary">ISO</p>
@@ -84,21 +86,23 @@ export default function LandingPage() {
       {/* ── CTA Final ── */}
       <section className="gradient-water py-24 px-[5%] text-center text-primary-foreground">
         <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-extrabold mb-4">
-          {fr ? "Prêt à connaître votre" : "Ready to know your"}
+          {t3("Prêt à connaître votre", "Ready to know your", "هل أنت مستعد لمعرفة")}
           <br />
-          {fr ? "impact sur l'eau ?" : "water impact?"}
+          {t3("impact sur l'eau ?", "water impact?", "أثرك على المياه؟")}
         </h2>
         <p className="opacity-85 max-w-[480px] mx-auto mb-10 text-sm">
-          {fr
-            ? "Commencez dès maintenant à piloter votre empreinte eau avec HydroScan."
-            : "Start managing your water footprint with HydroScan today."}
+          {t3(
+            "Commencez dès maintenant à piloter votre empreinte eau avec HydroScan.",
+            "Start managing your water footprint with HydroScan today.",
+            "ابدأ الآن في إدارة بصمتك المائية مع HydroScan."
+          )}
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <Link to="/calculateur" className="inline-block px-8 py-3.5 text-white rounded-[10px] font-bold text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all" style={{ backgroundColor: '#015486' }}>
-            💧 {fr ? "Calculer gratuitement" : "Calculate for free"}
+            💧 {t3("Calculer gratuitement", "Calculate for free", "احسب مجانًا")}
           </Link>
           <Link to="/tarifs" className="inline-block px-8 py-3.5 border-2 border-primary-foreground/50 text-primary-foreground rounded-[10px] font-semibold text-sm hover:border-primary-foreground hover:bg-primary-foreground/10 transition-all">
-            {fr ? "Voir les plans Pro" : "See Pro plans"}
+            {t3("Voir les plans Pro", "See Pro plans", "عرض الخطط الاحترافية")}
           </Link>
         </div>
       </section>

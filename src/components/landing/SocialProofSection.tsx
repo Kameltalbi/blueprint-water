@@ -25,7 +25,7 @@ const compliance = [
 
 export function SocialProofSection() {
   const { lang } = useI18n();
-  const fr = lang !== "en";
+  const t3 = (fr: string, en: string, ar: string) => lang === "fr" ? fr : lang === "ar" ? ar : en;
 
   return (
     <section className="py-16 px-[5%] bg-background border-y border-border/50">
@@ -40,7 +40,7 @@ export function SocialProofSection() {
             className="text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-6 flex items-center justify-center gap-2"
           >
             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-            {fr ? "Conformité aux standards internationaux" : "Compliant with international standards"}
+            {t3("Conformité aux standards internationaux", "Compliant with international standards", "متوافق مع المعايير الدولية")}
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -69,7 +69,7 @@ export function SocialProofSection() {
             viewport={{ once: true }}
             className="text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-6"
           >
-            {fr ? "Secteurs couverts" : "Sectors covered"}
+            {t3("Secteurs couverts", "Sectors covered", "القطاعات المشمولة")}
           </motion.p>
           <motion.div
             initial={{ opacity: 0 }}

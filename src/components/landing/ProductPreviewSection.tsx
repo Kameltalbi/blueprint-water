@@ -6,49 +6,49 @@ import { LayoutDashboard, Map, FileBarChart, Target, TrendingDown, ArrowRight } 
 const features = [
   {
     icon: LayoutDashboard,
-    labelFr: "Tableau de bord",
-    labelEn: "Dashboard",
+    labelFr: "Tableau de bord", labelEn: "Dashboard", labelAr: "لوحة القيادة",
     descFr: "KPIs, tendances N vs N-1, alertes intelligentes",
     descEn: "KPIs, N vs N-1 trends, smart alerts",
+    descAr: "مؤشرات الأداء، اتجاهات N مقابل N-1، تنبيهات ذكية",
     color: "text-primary bg-primary/10",
   },
   {
     icon: Map,
-    labelFr: "Carte de stress hydrique",
-    labelEn: "Water Stress Map",
+    labelFr: "Carte de stress hydrique", labelEn: "Water Stress Map", labelAr: "خريطة ضغط المياه",
     descFr: "WSI mondial, couches AWARE & rareté bleue",
     descEn: "Global WSI, AWARE & blue scarcity layers",
+    descAr: "WSI عالمي، طبقات AWARE وشح المياه الزرقاء",
     color: "text-emerald-600 bg-emerald-50",
   },
   {
     icon: Target,
-    labelFr: "Objectifs & cibles",
-    labelEn: "Targets & goals",
+    labelFr: "Objectifs & cibles", labelEn: "Targets & goals", labelAr: "الأهداف والغايات",
     descFr: "Suivi de réduction vs baseline en temps réel",
     descEn: "Real-time reduction tracking vs baseline",
+    descAr: "تتبع فوري للتخفيض مقارنةً بالخط القاعدي",
     color: "text-amber-600 bg-amber-50",
   },
   {
     icon: FileBarChart,
-    labelFr: "Rapports PDF",
-    labelEn: "PDF Reports",
+    labelFr: "Rapports PDF", labelEn: "PDF Reports", labelAr: "تقارير PDF",
     descFr: "ISO 14046, GRI 303, export CSV inclus",
     descEn: "ISO 14046, GRI 303, CSV export included",
+    descAr: "ISO 14046، GRI 303، تصدير CSV مدرج",
     color: "text-purple-600 bg-purple-50",
   },
   {
     icon: TrendingDown,
-    labelFr: "Plan d'action",
-    labelEn: "Action Plan",
+    labelFr: "Plan d'action", labelEn: "Action Plan", labelAr: "خطة العمل",
     descFr: "Recommandations WFN priorisées par potentiel",
     descEn: "WFN recommendations prioritized by potential",
+    descAr: "توصيات WFN مرتبة حسب الإمكانية",
     color: "text-rose-600 bg-rose-50",
   },
 ];
 
 export function ProductPreviewSection() {
   const { lang } = useI18n();
-  const fr = lang !== "en";
+  const t3 = (fr: string, en: string, ar: string) => lang === "fr" ? fr : lang === "ar" ? ar : en;
 
   return (
     <section className="py-24 px-[5%] bg-[hsl(var(--pale))]">
@@ -62,19 +62,21 @@ export function ProductPreviewSection() {
         >
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-semibold text-primary mb-5">
             <LayoutDashboard className="h-3.5 w-3.5" />
-            {fr ? "La plateforme complète" : "The complete platform"}
+            {t3("La plateforme complète", "The complete platform", "المنصة الكاملة")}
           </div>
           <h2 className="font-display text-[clamp(1.8rem,3.5vw,2.8rem)] font-extrabold text-foreground">
-            {fr ? "Tout ce dont vous avez besoin" : "Everything you need"}
+            {t3("Tout ce dont vous avez besoin", "Everything you need", "كل ما تحتاجه")}
             <br />
             <span className="bg-gradient-to-r from-primary to-[hsl(var(--sky))] bg-clip-text text-transparent">
-              {fr ? "dans une seule interface" : "in one interface"}
+              {t3("dans une seule interface", "in one interface", "في واجهة واحدة")}
             </span>
           </h2>
           <p className="mt-4 text-muted-foreground max-w-[520px] mx-auto text-sm">
-            {fr
-              ? "De la saisie des données à la génération du rapport, en passant par la carte de stress hydrique mondiale — HydroScan couvre tout le cycle de l'empreinte eau."
-              : "From data entry to report generation, including the global water stress map — HydroScan covers the entire water footprint cycle."}
+            {t3(
+              "De la saisie des données à la génération du rapport, en passant par la carte de stress hydrique mondiale — HydroScan couvre tout le cycle de l'empreinte eau.",
+              "From data entry to report generation, including the global water stress map — HydroScan covers the entire water footprint cycle.",
+              "من إدخال البيانات إلى إنشاء التقرير، مرورًا بخريطة ضغط المياه العالمية — يغطي HydroScan دورة البصمة المائية بالكامل."
+            )}
           </p>
         </motion.div>
 
@@ -96,8 +98,8 @@ export function ProductPreviewSection() {
                 <f.icon className="h-5 w-5" />
               </div>
               <div>
-                <p className="font-semibold text-sm">{fr ? f.labelFr : f.labelEn}</p>
-                <p className="mt-1 text-xs text-muted-foreground leading-relaxed">{fr ? f.descFr : f.descEn}</p>
+                <p className="font-semibold text-sm">{t3(f.labelFr, f.labelEn, f.labelAr)}</p>
+                <p className="mt-1 text-xs text-muted-foreground leading-relaxed">{t3(f.descFr, f.descEn, f.descAr)}</p>
               </div>
             </motion.div>
           ))}
@@ -108,16 +110,16 @@ export function ProductPreviewSection() {
             className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-primary/30 bg-primary/5 p-5 text-center"
           >
             <p className="text-sm font-semibold text-primary mb-1">
-              {fr ? "Et bien plus..." : "And much more..."}
+              {t3("Et bien plus...", "And much more...", "والمزيد...")}
             </p>
             <p className="text-xs text-muted-foreground mb-4">
-              {fr ? "Saisie multi-sites, chaîne d'approvisionnement, rejets" : "Multi-site entry, supply chain, effluents"}
+              {t3("Saisie multi-sites, chaîne d'approvisionnement, rejets", "Multi-site entry, supply chain, effluents", "إدخال متعدد المواقع، سلسلة التوريد، المخلفات")}
             </p>
             <Link
               to="/fonctionnalites"
               className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline"
             >
-              {fr ? "Voir toutes les fonctionnalités" : "See all features"}
+              {t3("Voir toutes les fonctionnalités", "See all features", "عرض جميع الميزات")}
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </motion.div>
@@ -173,7 +175,7 @@ export function ProductPreviewSection() {
 
               {/* Chart placeholder */}
               <div className="rounded-xl border border-border bg-background p-4">
-                <p className="text-xs font-semibold mb-3">{fr ? "Évolution mensuelle — 2026 vs 2025" : "Monthly trend — 2026 vs 2025"}</p>
+                <p className="text-xs font-semibold mb-3">{t3("Évolution mensuelle — 2026 vs 2025", "Monthly trend — 2026 vs 2025", "التطور الشهري — 2026 مقابل 2025")}</p>
                 <div className="flex items-end gap-1.5 h-16">
                   {[40, 55, 45, 70, 60, 80, 65, 90, 75, 85, 70, 60].map((h, i) => (
                     <div key={i} className="flex-1 flex flex-col gap-0.5 items-center">
@@ -187,17 +189,17 @@ export function ProductPreviewSection() {
               {/* Bottom row */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="rounded-xl border border-border bg-background p-3">
-                  <p className="text-[10px] text-muted-foreground mb-2">{fr ? "Objectif réduction" : "Reduction target"}</p>
+                  <p className="text-[10px] text-muted-foreground mb-2">{t3("Objectif réduction", "Reduction target", "هدف التخفيض")}</p>
                   <div className="h-2 rounded-full bg-muted overflow-hidden">
                     <div className="h-full w-[62%] rounded-full bg-amber-400" />
                   </div>
                   <p className="text-[10px] text-muted-foreground mt-1">62% / 15% cible</p>
                 </div>
                 <div className="rounded-xl border border-border bg-background p-3">
-                  <p className="text-[10px] text-muted-foreground mb-1">{fr ? "Alerte active" : "Active alert"}</p>
+                  <p className="text-[10px] text-muted-foreground mb-1">{t3("Alerte active", "Active alert", "تنبيه نشط")}</p>
                   <div className="flex items-center gap-1.5">
                     <div className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
-                    <p className="text-[10px] text-foreground">{fr ? "Mois en cours non renseigné" : "Current month missing"}</p>
+                    <p className="text-[10px] text-foreground">{t3("Mois en cours non renseigné", "Current month missing", "الشهر الحالي غير مسجّل")}</p>
                   </div>
                 </div>
               </div>
@@ -217,11 +219,11 @@ export function ProductPreviewSection() {
             to="/register"
             className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 font-bold text-sm text-primary-foreground gradient-water shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
           >
-            {fr ? "Essayer gratuitement" : "Try for free"}
+            {t3("Essayer gratuitement", "Try for free", "جرب مجانًا")}
             <ArrowRight className="h-4 w-4" />
           </Link>
           <p className="mt-3 text-xs text-muted-foreground">
-            {fr ? "Aucune carte bancaire requise · Accès immédiat" : "No credit card required · Instant access"}
+            {t3("Aucune carte bancaire requise · Accès immédiat", "No credit card required · Instant access", "لا يلزم بطاقة بنكية · وصول فوري")}
           </p>
         </motion.div>
       </div>
