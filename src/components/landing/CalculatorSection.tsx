@@ -328,17 +328,12 @@ export function CalculatorSection() {
                 }`}>
                   <span className="text-lg">💧</span>
                   <div>
-                    <strong>
-                      {wsiFactor >= 3.5
-                        ? (fr ? "Zone à eau très rare" : "Very water-scarce area")
-                        : wsiFactor >= 2.5
-                        ? (fr ? "Zone à tension hydrique" : "Water-stressed area")
-                        : (fr ? "Zone avec eau disponible" : "Area with available water")}
-                    </strong>
+                    <strong>WSI {wsiFactor}/5 — {fr ? wsiData.label : wsiData.labelEn}</strong>
                     {" — "}
                     {fr
                       ? `Chaque litre économisé ici a un impact ${wsiFactor >= 3.5 ? "critique" : wsiFactor >= 2.5 ? "important" : "positif"}`
                       : `Every liter saved here has a ${wsiFactor >= 3.5 ? "critical" : wsiFactor >= 2.5 ? "significant" : "positive"} impact`}
+                    <span className="block mt-1 opacity-70">{fr ? "WSI (Water Stress Index) = indice de stress hydrique local (0 = abondant · 5 = extrême)" : "WSI (Water Stress Index) = local water stress index (0 = abundant · 5 = extreme)"}</span>
                   </div>
                 </div>
                 {(!sector || !volume) && (
