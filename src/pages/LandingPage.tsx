@@ -86,8 +86,8 @@ export default function LandingPage() {
         </h2>
         <p className="opacity-85 max-w-[480px] mx-auto mb-10 text-sm">
           {fr
-            ? "Rejoignez 2 847 entreprises qui pilotent déjà leur empreinte eau avec HydroScan."
-            : "Join 2,847 companies already managing their water footprint with HydroScan."}
+            ? "Commencez dès maintenant à piloter votre empreinte eau avec HydroScan."
+            : "Start managing your water footprint with HydroScan today."}
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <Link to="/calculateur" className="inline-block px-8 py-3.5 text-white rounded-[10px] font-bold text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all" style={{ backgroundColor: '#015486' }}>

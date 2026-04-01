@@ -8,10 +8,10 @@ const fadeUp = {
 };
 
 const stats = [
-  { value: "2 847", labelFr: "Entreprises utilisatrices", labelEn: "Companies using it" },
   { value: "12", labelFr: "Secteurs couverts", labelEn: "Sectors covered" },
-  { value: "500+", labelFr: "Coefficients en base", labelEn: "Coefficients in database" },
+  { value: "500+", labelFr: "Coefficients WFN", labelEn: "WFN Coefficients" },
   { value: "15+", labelFr: "Pays & normes", labelEn: "Countries & standards" },
+  { value: "ISO", labelFr: "14046 conforme", labelEn: "14046 compliant" },
 ];
 
 export function HeroSection() {
