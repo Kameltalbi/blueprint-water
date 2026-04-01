@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useI18n } from "@/lib/i18n";
 import { ArrowRight, Droplets } from "lucide-react";
-import waterIllustration from "@/assets/hydroscan_water_illustration.svg";
+import heroIllustration from "@/assets/hydroscan_hero_illustration.png";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
