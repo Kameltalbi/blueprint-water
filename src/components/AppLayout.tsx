@@ -2,12 +2,23 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useUserRole, useOrganization } from "@/hooks/useOrgData";
+import { useAuth } from "@/hooks/useAuth";
 
 interface AppLayoutProps {
   children: React.ReactNode;
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
+  const { user } = useAuth();
+  const { data: userRole } = useUserRole();
+  const { data: org } = useOrganization(userRole?.organization_id);
+
+  const orgName = org?.name || "—";
+  const initials = user?.email
+    ? user.email.slice(0, 2).toUpperCase()
+    : "?";
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
@@ -16,9 +27,7 @@ export function AppLayout({ children }: AppLayoutProps) {
           <header className="h-14 flex items-center justify-between border-b bg-card px-4">
             <div className="flex items-center gap-2">
               <SidebarTrigger />
-              <span className="text-sm text-muted-foreground">
-                Agro-Tech Tunisie
-              </span>
+              <span className="text-sm text-muted-foreground">{orgName}</span>
             </div>
             <div className="flex items-center gap-2">
               <Button variant="ghost" size="icon" className="relative">
@@ -28,7 +37,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                 </span>
               </Button>
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
-                AT
+                {initials}
               </div>
             </div>
           </header>
