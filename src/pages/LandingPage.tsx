@@ -9,6 +9,8 @@ import { HeroSection } from "@/components/landing/HeroSection";
 import { SectorsSection } from "@/components/landing/SectorsSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { WhySection } from "@/components/landing/WhySection";
+import { SocialProofSection } from "@/components/landing/SocialProofSection";
+import { ProductPreviewSection } from "@/components/landing/ProductPreviewSection";
 
 export default function LandingPage() {
   const { lang } = useI18n();
@@ -25,6 +27,8 @@ export default function LandingPage() {
 
       {/* ── Sections ── */}
       <HeroSection />
+      <SocialProofSection />
+      <ProductPreviewSection />
       <SectorsSection />
 
       {/* ── Calculator CTA ── */}
