@@ -8,66 +8,66 @@ const fadeUp = {
 
 export function PricingSection() {
   const { lang } = useI18n();
-  const fr = lang === "fr";
+  const t3 = (fr: string, en: string, ar: string) => lang === "fr" ? fr : lang === "ar" ? ar : en;
 
   const plans = [
     {
-      name: fr ? "Calculateur" : "Calculator",
+      name: t3("Calculateur", "Calculator", "آلة حاسبة"),
       price: "0 DT",
       period: "",
-      desc: fr ? "Accès immédiat, sans inscription. Calculez votre empreinte en 5 minutes." : "Instant access, no signup. Calculate your footprint in 5 minutes.",
+      desc: t3("Accès immédiat, sans inscription. Calculez votre empreinte en 5 minutes.", "Instant access, no signup. Calculate your footprint in 5 minutes.", "وصول فوري بدون تسجيل. احسب بصمتك في 5 دقائق."),
       popular: false,
-      cta: fr ? "Calculer maintenant →" : "Calculate now →",
+      cta: t3("Calculer maintenant →", "Calculate now →", "احسب الآن ←"),
       ctaStyle: "outline" as const,
       features: [
-        { text: fr ? "Calculateur complet EV + EB + EG" : "Full calculator GW + BW + GW", included: true },
-        { text: fr ? "12 secteurs d'activité" : "12 industry sectors", included: true },
-        { text: fr ? "500+ matières en base de données" : "500+ materials in database", included: true },
-        { text: fr ? "Résultats & score instantanés" : "Instant results & score", included: true },
-        { text: fr ? "Recommandations basiques" : "Basic recommendations", included: true },
-        { text: fr ? "Rapports PDF / Word certifiés" : "Certified PDF / Word reports", included: false },
-        { text: fr ? "Benchmarks sectoriels détaillés" : "Detailed sector benchmarks", included: false },
-        { text: fr ? "Plan d'action IA" : "AI action plan", included: false },
-        { text: fr ? "Historique & suivi" : "History & tracking", included: false },
+        { text: t3("Calculateur complet EV + EB + EG", "Full calculator GW + BW + GW", "حاسبة كاملة EV + EB + EG"), included: true },
+        { text: t3("12 secteurs d'activité", "12 industry sectors", "12 قطاعًا"), included: true },
+        { text: t3("500+ matières en base de données", "500+ materials in database", "+500 مادة في قاعدة البيانات"), included: true },
+        { text: t3("Résultats & score instantanés", "Instant results & score", "نتائج وتقييم فوري"), included: true },
+        { text: t3("Recommandations basiques", "Basic recommendations", "توصيات أساسية"), included: true },
+        { text: t3("Rapports PDF / Word certifiés", "Certified PDF / Word reports", "تقارير PDF معتمدة"), included: false },
+        { text: t3("Benchmarks sectoriels détaillés", "Detailed sector benchmarks", "معايير قطاعية مفصلة"), included: false },
+        { text: t3("Plan d'action IA", "AI action plan", "خطة عمل ذكية"), included: false },
+        { text: t3("Historique & suivi", "History & tracking", "سجل وتتبع"), included: false },
       ],
     },
     {
       name: "Pro",
       price: "99 DT",
-      period: fr ? "/ mois" : "/ month",
-      desc: fr ? "Pour les PME qui veulent piloter et réduire leur empreinte durablement." : "For SMEs who want to manage and sustainably reduce their footprint.",
+      period: t3("/ mois", "/ month", "/ شهر"),
+      desc: t3("Pour les PME qui veulent piloter et réduire leur empreinte durablement.", "For SMEs who want to manage and sustainably reduce their footprint.", "للمؤسسات الصغيرة التي تريد إدارة بصمتها وتخفيضها."),
       popular: true,
-      cta: fr ? "Essai gratuit 14 jours" : "14-day free trial",
+      cta: t3("Essai gratuit 14 jours", "14-day free trial", "تجربة مجانية 14 يومًا"),
       ctaStyle: "primary" as const,
       features: [
-        { text: fr ? "Tout du plan Calculateur" : "Everything in Calculator plan", included: true },
-        { text: fr ? "Rapports PDF & Word certifiés" : "Certified PDF & Word reports", included: true },
-        { text: fr ? "Benchmarks sectoriels complets" : "Complete sector benchmarks", included: true },
-        { text: fr ? "Plan d'action IA personnalisé" : "Personalized AI action plan", included: true },
-        { text: fr ? "20 produits / activités" : "20 products / activities", included: true },
-        { text: fr ? "Historique 3 ans" : "3-year history", included: true },
-        { text: fr ? "Suivi conformité réglementaire" : "Regulatory compliance tracking", included: true },
-        { text: fr ? "Support prioritaire" : "Priority support", included: true },
-        { text: fr ? "Multi-sites & équipe étendue" : "Multi-sites & extended team", included: false },
+        { text: t3("Tout du plan Calculateur", "Everything in Calculator plan", "كل ميزات خطة الآلة الحاسبة"), included: true },
+        { text: t3("Rapports PDF & Word certifiés", "Certified PDF & Word reports", "تقارير PDF وWord معتمدة"), included: true },
+        { text: t3("Benchmarks sectoriels complets", "Complete sector benchmarks", "معايير قطاعية كاملة"), included: true },
+        { text: t3("Plan d'action IA personnalisé", "Personalized AI action plan", "خطة عمل ذكية مخصصة"), included: true },
+        { text: t3("20 produits / activités", "20 products / activities", "20 منتجًا / نشاطًا"), included: true },
+        { text: t3("Historique 3 ans", "3-year history", "سجل 3 سنوات"), included: true },
+        { text: t3("Suivi conformité réglementaire", "Regulatory compliance tracking", "تتبع الامتثال التنظيمي"), included: true },
+        { text: t3("Support prioritaire", "Priority support", "دعم ذو أولوية"), included: true },
+        { text: t3("Multi-sites & équipe étendue", "Multi-sites & extended team", "مواقع متعددة وفريق موسع"), included: false },
       ],
     },
     {
-      name: fr ? "Entreprise" : "Enterprise",
+      name: t3("Entreprise", "Enterprise", "مؤسسة"),
       price: "299 DT",
-      period: fr ? "/ mois" : "/ month",
-      desc: fr ? "Pour les grands groupes avec plusieurs sites et équipes multiples." : "For large groups with multiple sites and teams.",
+      period: t3("/ mois", "/ month", "/ شهر"),
+      desc: t3("Pour les grands groupes avec plusieurs sites et équipes multiples.", "For large groups with multiple sites and teams.", "للمجموعات الكبيرة ذات مواقع وفرق متعددة."),
       popular: false,
-      cta: fr ? "Demander une démo" : "Request a demo",
+      cta: t3("Demander une démo", "Request a demo", "طلب عرض توضيحي"),
       ctaStyle: "outline" as const,
       features: [
-        { text: fr ? "Tout du plan Pro" : "Everything in Pro plan", included: true },
-        { text: fr ? "Sites & produits illimités" : "Unlimited sites & products", included: true },
-        { text: fr ? "Équipe jusqu'à 20 utilisateurs" : "Team up to 20 users", included: true },
-        { text: fr ? "Intégration ERP (SAP, Odoo)" : "ERP integration (SAP, Odoo)", included: true },
-        { text: fr ? "API REST documentée" : "Documented REST API", included: true },
-        { text: fr ? "Dashboard multi-sites consolidé" : "Consolidated multi-site dashboard", included: true },
-        { text: fr ? "Accompagnement certification ISO" : "ISO certification support", included: true },
-        { text: fr ? "Account manager dédié" : "Dedicated account manager", included: true },
+        { text: t3("Tout du plan Pro", "Everything in Pro plan", "كل ميزات خطة Pro"), included: true },
+        { text: t3("Sites & produits illimités", "Unlimited sites & products", "مواقع ومنتجات غير محدودة"), included: true },
+        { text: t3("Équipe jusqu'à 20 utilisateurs", "Team up to 20 users", "فريق حتى 20 مستخدمًا"), included: true },
+        { text: t3("Intégration ERP (SAP, Odoo)", "ERP integration (SAP, Odoo)", "تكامل ERP (SAP، Odoo)"), included: true },
+        { text: t3("API REST documentée", "Documented REST API", "API REST موثقة"), included: true },
+        { text: t3("Dashboard multi-sites consolidé", "Consolidated multi-site dashboard", "لوحة موحدة متعددة المواقع"), included: true },
+        { text: t3("Accompagnement certification ISO", "ISO certification support", "دعم شهادة ISO"), included: true },
+        { text: t3("Account manager dédié", "Dedicated account manager", "مدير حساب مخصص"), included: true },
       ],
     },
   ];
@@ -76,17 +76,19 @@ export function PricingSection() {
     <section id="tarifs" className="py-24 px-[5%] bg-card">
       <div className="mx-auto max-w-[1160px]">
         <p className="text-xs font-bold tracking-[0.18em] uppercase text-primary mb-3">
-          {fr ? "Tarifs" : "Pricing"}
+          {t3("Tarifs", "Pricing", "الأسعار")}
         </p>
         <h2 className="font-display text-[clamp(1.9rem,3.5vw,2.8rem)] font-extrabold text-foreground leading-tight mb-3">
-          {fr ? "Simple, transparent," : "Simple, transparent,"}
+          {t3("Simple, transparent,", "Simple, transparent,", "بسيط، شفاف،")}
           <br />
-          {fr ? "sans surprise" : "no surprises"}
+          {t3("sans surprise", "no surprises", "بدون مفاجآت")}
         </h2>
         <p className="text-muted-foreground max-w-[520px] mb-12">
-          {fr
-            ? "Le calculateur est gratuit et sans inscription. Passez au plan Pro pour les rapports et le suivi avancé."
-            : "The calculator is free with no signup. Upgrade to Pro for reports and advanced tracking."}
+          {t3(
+            "Le calculateur est gratuit et sans inscription. Passez au plan Pro pour les rapports et le suivi avancé.",
+            "The calculator is free with no signup. Upgrade to Pro for reports and advanced tracking.",
+            "الحاسبة مجانية بدون تسجيل. انتقل إلى Pro للتقارير والتتبع المتقدم."
+          )}
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -101,7 +103,7 @@ export function PricingSection() {
             >
               {plan.popular && (
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 gradient-water text-primary-foreground text-xs font-bold px-4 py-1 rounded-full whitespace-nowrap">
-                  ⭐ {fr ? "Le plus populaire" : "Most popular"}
+                  ⭐ {t3("Le plus populaire", "Most popular", "الأكثر شيوعًا")}
                 </div>
               )}
               <p className="font-bold text-foreground mb-1">{plan.name}</p>

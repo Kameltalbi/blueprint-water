@@ -10,15 +10,15 @@ const fadeUp = {
 };
 
 const stats = [
-  { value: "12", labelFr: "Secteurs couverts", labelEn: "Sectors covered", icon: "🏭" },
-  { value: "500+", labelFr: "Coefficients WFN", labelEn: "WFN Coefficients", icon: "📊" },
-  { value: "15+", labelFr: "Pays & normes", labelEn: "Countries & standards", icon: "🌍" },
-  { value: "ISO", labelFr: "14046 conforme", labelEn: "14046 compliant", icon: "✅" },
+  { value: "12", labelFr: "Secteurs couverts", labelEn: "Sectors covered", labelAr: "قطاعات مشمولة", icon: "🏭" },
+  { value: "500+", labelFr: "Coefficients WFN", labelEn: "WFN Coefficients", labelAr: "معاملات WFN", icon: "📊" },
+  { value: "15+", labelFr: "Pays & normes", labelEn: "Countries & standards", labelAr: "دول ومعايير", icon: "🌍" },
+  { value: "ISO", labelFr: "14046 conforme", labelEn: "14046 compliant", labelAr: "متوافق 14046", icon: "✅" },
 ];
 
 export function HeroSection() {
   const { t, lang } = useI18n();
-  const fr = lang === "fr";
+  const t3 = (fr: string, en: string, ar: string) => lang === "fr" ? fr : lang === "ar" ? ar : en;
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-background via-background to-[hsl(var(--pale))] pt-32 pb-20 lg:pt-40 lg:pb-28">
@@ -42,7 +42,7 @@ export function HeroSection() {
             className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 backdrop-blur-sm px-4 py-1.5 text-xs font-semibold text-primary mb-6"
           >
             <Droplets className="h-3.5 w-3.5" />
-            {fr ? "Certifié ISO 14046 & Water Footprint Network" : "ISO 14046 & Water Footprint Network Certified"}
+            {t3("Certifié ISO 14046 & Water Footprint Network", "ISO 14046 & Water Footprint Network Certified", "معتمد وفق ISO 14046 وشبكة البصمة المائية")}
           </motion.div>
 
           <motion.h1
@@ -50,19 +50,21 @@ export function HeroSection() {
             variants={fadeUp}
             className="font-display text-[clamp(2.2rem,4.5vw,3.8rem)] font-extrabold leading-[1.08] text-foreground mb-6"
           >
-            {fr ? "Mesurez votre" : "Measure your"}
+            {t3("Mesurez votre", "Measure your", "قِس")}
             <br />
             <span className="bg-gradient-to-r from-primary to-[hsl(var(--sky))] bg-clip-text text-transparent">
-              {fr ? "Empreinte Eau" : "Water Footprint"}
+              {t3("Empreinte Eau", "Water Footprint", "بصمتك المائية")}
             </span>
             <br />
-            {fr ? "en 5 minutes" : "in 5 minutes"}
+            {t3("en 5 minutes", "in 5 minutes", "في 5 دقائق")}
           </motion.h1>
 
           <motion.p custom={2} variants={fadeUp} className="max-w-[480px] text-base text-muted-foreground leading-relaxed mb-8">
-            {fr
-              ? "La plateforme universelle de calcul d'empreinte eau pour tous les secteurs — agriculture, industrie, agroalimentaire, énergie et bien plus."
-              : "The universal water footprint calculation platform for all sectors — agriculture, industry, food processing, energy and more."}
+            {t3(
+              "La plateforme universelle de calcul d'empreinte eau pour tous les secteurs — agriculture, industrie, agroalimentaire, énergie et bien plus.",
+              "The universal water footprint calculation platform for all sectors — agriculture, industry, food processing, energy and more.",
+              "المنصة الشاملة لحساب البصمة المائية لجميع القطاعات — الزراعة، الصناعة، الغذاء، الطاقة وأكثر."
+            )}
           </motion.p>
 
           <motion.div custom={3} variants={fadeUp} className="flex gap-3 flex-wrap">
@@ -70,14 +72,14 @@ export function HeroSection() {
               to="/calculateur"
               className="group inline-flex items-center gap-2 rounded-xl px-7 py-3.5 font-semibold text-sm text-primary-foreground gradient-water shadow-[0_4px_20px_hsl(var(--ocean)/0.2)] hover:shadow-[0_8px_30px_hsl(var(--ocean)/0.35)] hover:-translate-y-0.5 transition-all duration-300"
             >
-              {fr ? "Calculer gratuitement" : "Calculate for free"}
+              {t3("Calculer gratuitement", "Calculate for free", "احسب مجانًا")}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
             <a
               href="#fonctionnalites"
               className="inline-flex items-center rounded-xl px-7 py-3.5 font-medium text-sm border-2 border-primary/20 text-foreground hover:border-primary/40 hover:bg-primary/5 transition-all duration-300"
             >
-              {fr ? "Découvrir la plateforme" : "Discover the platform"}
+              {t3("Découvrir la plateforme", "Discover the platform", "اكتشف المنصة")}
             </a>
           </motion.div>
         </div>
@@ -95,7 +97,7 @@ export function HeroSection() {
               src={heroIllustration}
               width={1024}
               height={768}
-              alt={fr ? "Illustration empreinte eau HydroScan" : "HydroScan water footprint illustration"}
+              alt={t3("Illustration empreinte eau HydroScan", "HydroScan water footprint illustration", "توضيح البصمة المائية HydroScan")}
               className="relative w-full max-w-[580px] h-auto rounded-2xl"
             />
             {/* Animated water droplets */}
@@ -150,7 +152,7 @@ export function HeroSection() {
             >
               <span className="text-lg mb-1">{s.icon}</span>
               <span className="font-display text-2xl font-bold text-primary leading-none">{s.value}</span>
-              <span className="text-[11px] text-muted-foreground text-center">{fr ? s.labelFr : s.labelEn}</span>
+              <span className="text-[11px] text-muted-foreground text-center">{t3(s.labelFr, s.labelEn, s.labelAr)}</span>
             </div>
           ))}
         </motion.div>
