@@ -1,5 +1,5 @@
 import "leaflet/dist/leaflet.css";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { PageMeta } from "@/components/PageMeta";
 import { useI18n } from "@/lib/i18n";
 import { useUserRole, useSites, useWaterConsumption } from "@/hooks/useOrgData";
@@ -79,8 +79,23 @@ function matchCountry(location: string): string | null {
   return null;
 }
 
-/* ── Heatmap data: spread points around each country centre ── */
-function buildHeatPoints(): [number, number, number][] {
+/* ── Per-layer intensity multipliers (relative to WSI baseline) ── */
+// Scarcity: arid/MENA regions amplified, temperate reduced
+const SCARCITY_MULT: Record<string, number> = {
+  tunisie: 1.2, maroc: 1.1, algerie: 1.0, egypte: 1.4, libye: 1.3,
+  jordanie: 1.5, arabie_saoudite: 1.6, inde: 1.1, chine: 0.9,
+  turquie: 0.9, france: 0.5, espagne: 1.0, italie: 0.8,
+  allemagne: 0.4, bresil: 0.3, usa: 0.7,
+};
+// AWARE: logarithmic amplification for already-stressed basins
+const AWARE_MULT: Record<string, number> = {
+  tunisie: 1.3, maroc: 1.2, algerie: 1.1, egypte: 1.6, libye: 1.4,
+  jordanie: 1.7, arabie_saoudite: 1.8, inde: 1.3, chine: 1.0,
+  turquie: 1.0, france: 0.4, espagne: 1.1, italie: 0.7,
+  allemagne: 0.3, bresil: 0.25, usa: 0.65,
+};
+
+function buildHeatPoints(layer: string): [number, number, number][] {
   const pts: [number, number, number][] = [];
   const offsets = [
     [0, 0], [3, 0], [-3, 0], [0, 4], [0, -4],
@@ -90,7 +105,10 @@ function buildHeatPoints(): [number, number, number][] {
   for (const [key, data] of Object.entries(wsiByCountry)) {
     const coords = countryCoords[key];
     if (!coords) continue;
-    const intensity = Math.min(data.wsi / 5, 1);
+    let mult = 1;
+    if (layer === "scarcity") mult = SCARCITY_MULT[key] ?? 1;
+    if (layer === "aware")    mult = AWARE_MULT[key] ?? 1;
+    const intensity = Math.min((data.wsi / 5) * mult, 1);
     for (const [dlat, dlng] of offsets) {
       pts.push([coords[0] + dlat, coords[1] + dlng, intensity]);
     }
@@ -98,7 +116,45 @@ function buildHeatPoints(): [number, number, number][] {
   return pts;
 }
 
-const HEAT_POINTS = buildHeatPoints();
+/* ── Per-layer gradient config ── */
+const LAYER_GRADIENT: Record<string, Record<string, string>> = {
+  wsi: {
+    0.0: "#22c55e", 0.3: "#84cc16", 0.5: "#eab308",
+    0.65: "#f97316", 0.8: "#ef4444", 1.0: "#7f1d1d",
+  },
+  scarcity: {
+    0.0: "#bfdbfe", 0.3: "#60a5fa", 0.5: "#eab308",
+    0.65: "#f97316", 0.8: "#ef4444", 1.0: "#7f1d1d",
+  },
+  aware: {
+    0.0: "#e9d5ff", 0.3: "#a855f7", 0.5: "#eab308",
+    0.65: "#f97316", 0.8: "#ef4444", 1.0: "#7f1d1d",
+  },
+};
+
+const LAYER_LEGEND: Record<string, { color: string; label: string }[]> = {
+  wsi: [
+    { color: "#22c55e", label: "< 1.5 — Faible" },
+    { color: "#84cc16", label: "1.5–2.5 — Modéré" },
+    { color: "#eab308", label: "2.5–3.5 — Moyen" },
+    { color: "#f97316", label: "3.5–4.5 — Élevé" },
+    { color: "#ef4444", label: "> 4.5 — Extrême" },
+  ],
+  scarcity: [
+    { color: "#bfdbfe", label: "< 0.1 — Négligeable" },
+    { color: "#60a5fa", label: "0.1–0.4 — Faible" },
+    { color: "#eab308", label: "0.4–1.0 — Modéré" },
+    { color: "#f97316", label: "1.0–2.0 — Élevé" },
+    { color: "#ef4444", label: "> 2.0 — Extrême" },
+  ],
+  aware: [
+    { color: "#e9d5ff", label: "< 1 — Référence" },
+    { color: "#a855f7", label: "1–10 — Faible" },
+    { color: "#eab308", label: "10–100 — Moyen" },
+    { color: "#f97316", label: "100–1000 — Élevé" },
+    { color: "#ef4444", label: "> 1000 — Extrême" },
+  ],
+};
 
 const LAYER_INFO: Record<string, { title: string; body: string }> = {
   wsi: {
@@ -122,6 +178,10 @@ export default function StressMap() {
   const { data: consumption = [] } = useWaterConsumption(userRole?.organization_id);
   const [selectedLayer, setSelectedLayer] = useState("wsi");
   const [showInfo, setShowInfo] = useState(true);
+
+  const heatPoints = useMemo(() => buildHeatPoints(selectedLayer), [selectedLayer]);
+  const heatGradient = LAYER_GRADIENT[selectedLayer];
+  const legendItems = LAYER_LEGEND[selectedLayer];
 
   /* ── Per-site analysis ── */
   const siteAnalysis = sites.map((site: any) => {
@@ -216,13 +276,7 @@ export default function StressMap() {
               <span>Risque extrême</span>
             </div>
             <div className="mt-2 space-y-1">
-              {[
-                { color: "#22c55e", label: "< 1.5 — Faible" },
-                { color: "#84cc16", label: "1.5–2.5 — Modéré" },
-                { color: "#eab308", label: "2.5–3.5 — Moyen" },
-                { color: "#f97316", label: "3.5–4.5 — Élevé" },
-                { color: "#ef4444", label: "> 4.5 — Extrême" },
-              ].map(({ color, label }) => (
+              {legendItems.map(({ color, label }) => (
                 <div key={label} className="flex items-center gap-2">
                   <span className="w-3 h-3 rounded-sm shrink-0" style={{ backgroundColor: color, opacity: 0.85 }} />
                   <span className="text-[0.68rem] text-muted-foreground">{label}</span>
@@ -305,7 +359,7 @@ export default function StressMap() {
             />
 
             {/* Heatmap layer */}
-            <HeatmapLayer points={HEAT_POINTS} radius={50} blur={35} maxZoom={5} />
+            <HeatmapLayer points={heatPoints} radius={50} blur={35} maxZoom={5} gradient={heatGradient} />
 
             {/* Labels on top */}
             <TileLayer
