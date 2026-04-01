@@ -298,20 +298,20 @@ export default function StressMap() {
             scrollWheelZoom
             zoomControl
           >
-            {/* ESRI Ocean basemap — blue water + beige continents */}
+            {/* Dark basemap — best contrast for heatmap */}
             <TileLayer
-              attribution="Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri"
-              url="https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+              url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"
             />
 
             {/* Heatmap layer */}
             <HeatmapLayer points={HEAT_POINTS} radius={50} blur={35} maxZoom={5} />
 
-            {/* Ocean reference overlay (labels + borders) */}
+            {/* Labels on top */}
             <TileLayer
-              url="https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}"
+              url="https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png"
               attribution=""
-              opacity={0.7}
+              opacity={0.8}
             />
 
             {/* User site markers */}
