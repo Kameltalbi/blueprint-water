@@ -96,7 +96,7 @@ export function HeroSection() {
               width={1024}
               height={768}
               alt={fr ? "Illustration empreinte eau HydroScan" : "HydroScan water footprint illustration"}
-              className="relative w-full max-w-[500px] h-auto rounded-2xl"
+              className="relative w-full max-w-[580px] h-auto rounded-2xl"
             />
           </div>
         </motion.div>
