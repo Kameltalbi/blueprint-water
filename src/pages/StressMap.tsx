@@ -3,7 +3,8 @@ import { useState, useMemo } from "react";
 import { PageMeta } from "@/components/PageMeta";
 import { useI18n } from "@/lib/i18n";
 import { useUserRole, useSites, useWaterConsumption } from "@/hooks/useOrgData";
-import { MapPin, Info, ChevronDown, ChevronUp, Layers } from "lucide-react";
+import { MapPin, Info, ChevronDown, ChevronUp, Layers, ExternalLink } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { wsiByCountry } from "@/lib/water-data";
 import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip } from "react-leaflet";
 import { HeatmapLayer } from "@/components/map/HeatmapLayer";
@@ -173,6 +174,7 @@ const LAYER_INFO: Record<string, { title: string; body: string }> = {
 
 export default function StressMap() {
   const { t } = useI18n();
+  const navigate = useNavigate();
   const { data: userRole } = useUserRole();
   const { data: sites = [] } = useSites(userRole?.organization_id);
   const { data: consumption = [] } = useWaterConsumption(userRole?.organization_id);
@@ -293,9 +295,21 @@ export default function StressMap() {
               <p className="text-xs font-semibold">Vos sites</p>
             </div>
             {siteAnalysis.length === 0 ? (
-              <p className="text-[0.7rem] text-muted-foreground">
-                Ajoutez des sites dans <strong>Sites & Localisation</strong> pour voir l'analyse.
-              </p>
+              <div className="space-y-2">
+                <p className="text-[0.7rem] text-muted-foreground">
+                  Aucun site enregistré. Ajoutez vos sites de production pour voir l'analyse WSI.
+                </p>
+                <button
+                  onClick={() => navigate("/organization")}
+                  className="flex items-center gap-1.5 text-[0.7rem] text-primary hover:underline font-medium"
+                >
+                  <ExternalLink className="h-3 w-3" />
+                  Sites & Localisation
+                </button>
+                <p className="text-[0.6rem] text-muted-foreground opacity-70">
+                  💡 Dans le champ localisation, indiquez le pays (ex: <em>Sfax, Tunisie</em>)
+                </p>
+              </div>
             ) : (
               <div className="space-y-3">
                 {siteAnalysis.sort((a, b) => b.wsiScore - a.wsiScore).map((item) => {
