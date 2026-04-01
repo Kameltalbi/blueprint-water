@@ -118,16 +118,17 @@ export const materialCategories = [
 ];
 
 /* ── Concrete equivalents ── */
-export function getEquivalents(totalM3: number, fr: boolean) {
+export function getEquivalents(totalM3: number, lang: string) {
+  const t3 = (fr: string, en: string, ar: string) => lang === "fr" ? fr : lang === "ar" ? ar : en;
   const bottles = Math.round(totalM3 * 1000 / 1.5);       // bouteilles 1.5L
   const pools = (totalM3 / 2500).toFixed(1);                // piscine olympique = 2500 m³
   const showers = Math.round(totalM3 * 1000 / 60);          // douche ≈ 60L
   const daysPerPerson = Math.round(totalM3 * 1000 / 150);   // conso domestique ≈ 150L/jour
 
   return [
-    { icon: "🧴", value: bottles.toLocaleString("fr-FR"), label: fr ? "bouteilles de 1,5L" : "1.5L bottles" },
-    { icon: "🏊", value: pools, label: fr ? "piscines olympiques" : "Olympic pools" },
-    { icon: "🚿", value: showers.toLocaleString("fr-FR"), label: fr ? "douches (5 min)" : "showers (5 min)" },
-    { icon: "👤", value: daysPerPerson.toLocaleString("fr-FR"), label: fr ? "jours conso. 1 personne" : "days for 1 person" },
+    { icon: "🧴", value: bottles.toLocaleString("fr-FR"), label: t3("bouteilles de 1,5L", "1.5L bottles", "زجاجة 1.5 لتر") },
+    { icon: "🏊", value: pools, label: t3("piscines olympiques", "Olympic pools", "حمام سباحة أولمبي") },
+    { icon: "🚿", value: showers.toLocaleString("fr-FR"), label: t3("douches (5 min)", "showers (5 min)", "دشة (5 دقائق)") },
+    { icon: "👤", value: daysPerPerson.toLocaleString("fr-FR"), label: t3("jours conso. 1 personne", "days for 1 person", "يوم لشخص واحد") },
   ];
 }
