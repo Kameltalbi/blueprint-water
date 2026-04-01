@@ -96,8 +96,8 @@ export function DataCompletenessWidget({ consumption, sitesCount, year }: Props)
         <div className="space-y-2">
           {checks.map((c) => (
             <div key={c.label} className="space-y-1">
-              <div className="flex items-center justify-between text-xs">
-                <div className="flex items-center gap-1.5">
+              <div className="flex items-center justify-between gap-2 text-xs min-w-0">
+                <div className="flex items-center gap-1.5 shrink-0">
                   {c.pct >= 75 ? (
                     <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
                   ) : c.pct >= 40 ? (
@@ -107,7 +107,7 @@ export function DataCompletenessWidget({ consumption, sitesCount, year }: Props)
                   )}
                   <span className="font-medium">{c.label}</span>
                 </div>
-                <span className="text-muted-foreground">{c.detail}</span>
+                <span className="text-muted-foreground truncate text-right">{c.detail}</span>
               </div>
               <div className="h-1.5 rounded-full bg-muted overflow-hidden">
                 <div

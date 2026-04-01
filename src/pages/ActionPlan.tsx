@@ -80,12 +80,12 @@ export default function ActionPlan() {
     <>
       <PageMeta title="Plan d'Action — HydroScan" description="Actions concrètes pour réduire votre empreinte eau" />
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">{t("actionPlan.title")}</h1>
             <p className="text-muted-foreground">{t("actionPlan.subtitle")}</p>
           </div>
-          <Button variant="outline" className="gap-2" onClick={() => setShowAddObj(!showAddObj)}>
+          <Button variant="outline" className="gap-2 self-start sm:self-auto" onClick={() => setShowAddObj(!showAddObj)}>
             <Plus className="h-4 w-4" /> Ajouter un objectif
           </Button>
         </div>
@@ -93,20 +93,22 @@ export default function ActionPlan() {
         {showAddObj && (
           <Card className="shadow-card">
             <CardContent className="p-4">
-              <div className="flex gap-3 items-end flex-wrap">
-                <div className="space-y-1 flex-1 min-w-[200px]">
+              <div className="grid gap-3 sm:flex sm:items-end sm:flex-wrap">
+                <div className="space-y-1 sm:flex-1 sm:min-w-[200px]">
                   <Label className="text-xs">Objectif</Label>
                   <Input placeholder="ex: Réduction eau bleue" value={newObjLabel} onChange={(e) => setNewObjLabel(e.target.value)} />
                 </div>
-                <div className="space-y-1 w-[110px]">
-                  <Label className="text-xs">Cible (%)</Label>
-                  <Input type="number" placeholder="ex: 20" value={newObjTarget} onChange={(e) => setNewObjTarget(e.target.value)} />
+                <div className="grid grid-cols-2 gap-3 sm:contents">
+                  <div className="space-y-1">
+                    <Label className="text-xs">Cible (%)</Label>
+                    <Input type="number" placeholder="ex: 20" value={newObjTarget} onChange={(e) => setNewObjTarget(e.target.value)} />
+                  </div>
+                  <div className="space-y-1">
+                    <Label className="text-xs">Baseline (m³)</Label>
+                    <Input type="number" placeholder={String(Math.round(totalM3) || 10000)} value={newObjBaseline} onChange={(e) => setNewObjBaseline(e.target.value)} />
+                  </div>
                 </div>
-                <div className="space-y-1 w-[140px]">
-                  <Label className="text-xs">Baseline (m³)</Label>
-                  <Input type="number" placeholder={String(Math.round(totalM3) || 10000)} value={newObjBaseline} onChange={(e) => setNewObjBaseline(e.target.value)} />
-                </div>
-                <Button size="sm" onClick={addObjective}>Ajouter</Button>
+                <Button size="sm" className="w-full sm:w-auto" onClick={addObjective}>Ajouter</Button>
               </div>
             </CardContent>
           </Card>

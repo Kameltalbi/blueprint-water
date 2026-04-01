@@ -80,21 +80,21 @@ export default function Reports() {
     <div className="space-y-6">
       <PageMeta title="Rapports — HydroScan" description="Générez et exportez vos rapports d'empreinte hydrique." />
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="font-display text-2xl font-bold tracking-tight">Rapports & Exports</h1>
           <p className="text-muted-foreground text-sm">
             Générez des rapports structurés conformes aux normes ISO 14046 et GRI 303
           </p>
         </div>
-        <Button variant="outline" className="gap-2" onClick={handleCSV} disabled={isLoading}>
+        <Button variant="outline" className="gap-2 self-start sm:self-auto" onClick={handleCSV} disabled={isLoading}>
           <FileSpreadsheet className="h-4 w-4" />
           Export CSV brut
         </Button>
       </div>
 
       {/* Stats bar */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {[
           { label: "Saisies disponibles", value: consumptionData.length, color: "text-primary" },
           { label: "Sites couverts", value: sites.length, color: "text-primary" },

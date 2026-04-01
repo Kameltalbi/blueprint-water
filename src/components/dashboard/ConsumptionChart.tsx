@@ -30,7 +30,7 @@ export function ConsumptionChart({ monthlyData, prevYearData = [], year = "2026"
   return (
     <Card className="shadow-card">
       <CardHeader className="pb-2">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <CardTitle className="text-base">Évolution mensuelle (m³)</CardTitle>
           {delta !== null && (
             <Badge
@@ -50,7 +50,7 @@ export function ConsumptionChart({ monthlyData, prevYearData = [], year = "2026"
             Aucune donnée disponible
           </div>
         ) : (
-          <div className="h-72">
+          <div className="h-56 sm:h-72">
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={combined}>
                 <defs>

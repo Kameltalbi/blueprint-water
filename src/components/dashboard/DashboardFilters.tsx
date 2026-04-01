@@ -19,11 +19,11 @@ const periods = [
 
 export function DashboardFilters({ site, setSite, period, setPeriod, sites }: DashboardFiltersProps) {
   return (
-    <div className="flex flex-wrap items-center gap-3">
-      <div className="flex items-center gap-2">
-        <Filter className="h-4 w-4 text-muted-foreground" />
+    <div className="flex flex-wrap items-center gap-2">
+      <div className="flex items-center gap-2 flex-1 min-w-0 sm:flex-none">
+        <Filter className="h-4 w-4 text-muted-foreground shrink-0" />
         <Select value={site} onValueChange={setSite}>
-          <SelectTrigger className="h-9 w-[160px] text-xs">
+          <SelectTrigger className="h-9 w-full sm:w-[160px] text-xs">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -34,7 +34,7 @@ export function DashboardFilters({ site, setSite, period, setPeriod, sites }: Da
         </Select>
       </div>
       <Select value={period} onValueChange={setPeriod}>
-        <SelectTrigger className="h-9 w-[120px] text-xs">
+        <SelectTrigger className="h-9 w-[100px] sm:w-[120px] text-xs">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -43,7 +43,7 @@ export function DashboardFilters({ site, setSite, period, setPeriod, sites }: Da
           ))}
         </SelectContent>
       </Select>
-      <Button variant="outline" size="sm" className="ml-auto h-9 text-xs gap-1.5">
+      <Button variant="outline" size="sm" className="hidden sm:flex h-9 text-xs gap-1.5">
         <Download className="h-3.5 w-3.5" />
         Export PDF
       </Button>

@@ -136,12 +136,12 @@ export default function DataEntry() {
     <div className="space-y-6">
       <PageMeta title="Saisie des données — HydroScan" description="Saisissez toutes vos données eau en un seul endroit." />
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="font-display text-2xl font-bold tracking-tight">Saisie des données</h1>
           <p className="text-muted-foreground text-sm">Consommation, approvisionnements et rejets — tout en un seul endroit</p>
         </div>
-        <Button variant="outline" className="gap-2">
+        <Button variant="outline" className="gap-2 self-start sm:self-auto">
           <Upload className="h-4 w-4" /> Importer CSV
         </Button>
       </div>
@@ -156,14 +156,17 @@ export default function DataEntry() {
 
       <Tabs defaultValue="consumption" className="space-y-4">
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="consumption" className="gap-2">
-            <Droplets className="h-4 w-4" /> Consommation directe
+          <TabsTrigger value="consumption" className="gap-1.5 text-xs sm:text-sm">
+            <Droplets className="h-4 w-4 shrink-0" />
+            <span className="hidden sm:inline">Consommation</span>
           </TabsTrigger>
-          <TabsTrigger value="supply" className="gap-2">
-            <Package className="h-4 w-4" /> Chaîne logistique
+          <TabsTrigger value="supply" className="gap-1.5 text-xs sm:text-sm">
+            <Package className="h-4 w-4 shrink-0" />
+            <span className="hidden sm:inline">Chaîne logistique</span>
           </TabsTrigger>
-          <TabsTrigger value="pollution" className="gap-2">
-            <FlaskConical className="h-4 w-4" /> Rejets & Qualité
+          <TabsTrigger value="pollution" className="gap-1.5 text-xs sm:text-sm">
+            <FlaskConical className="h-4 w-4 shrink-0" />
+            <span className="hidden sm:inline">Rejets & Qualité</span>
           </TabsTrigger>
         </TabsList>
 
