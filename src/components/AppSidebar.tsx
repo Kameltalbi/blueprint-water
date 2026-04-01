@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "react-router-dom";
 import { useI18n } from "@/lib/i18n";
-import { LangToggle } from "@/components/LangToggle";
 import {
   Sidebar,
   SidebarContent,
@@ -119,15 +118,6 @@ export function AppSidebar() {
 
       <SidebarFooter className="p-4">
         <div className="space-y-2">
-          {!collapsed && (
-            <>
-              <div className="rounded-lg bg-sidebar-accent p-3">
-                <p className="text-xs text-sidebar-foreground/70">{t("sidebar.plan")}</p>
-                <p className="text-sm font-medium text-sidebar-accent-foreground">{t("sidebar.planDesc")}</p>
-              </div>
-              <LangToggle />
-            </>
-          )}
           <Button
             variant="ghost"
             size={collapsed ? "icon" : "default"}
