@@ -271,6 +271,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "sidebar.home": { fr: "Accueil", en: "Home" },
   "sidebar.dashboard": { fr: "Tableau de Bord", en: "Dashboard" },
   "sidebar.measures": { fr: "MESURES", en: "MEASURES" },
+  "sidebar.dataEntry": { fr: "Saisie des données", en: "Data Entry" },
   "sidebar.directConsumption": { fr: "Consommation Directe", en: "Direct Consumption" },
   "sidebar.supplyChain": { fr: "Chaîne Logistique", en: "Supply Chain" },
   "sidebar.discharges": { fr: "Rejets & Qualité", en: "Discharges & Quality" },

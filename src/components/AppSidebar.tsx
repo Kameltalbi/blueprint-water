@@ -1,8 +1,6 @@
 import {
   LayoutDashboard,
   Droplets,
-  Package,
-  FlaskConical,
   MapPin,
   FileBarChart,
   Sprout,
@@ -48,9 +46,7 @@ export function AppSidebar() {
   ];
 
   const measureItems = [
-    { title: t("sidebar.directConsumption"), url: "/data-entry", icon: Droplets },
-    { title: t("sidebar.supplyChain"), url: "/supply-chain", icon: Package },
-    { title: t("sidebar.discharges"), url: "/pollution", icon: FlaskConical },
+    { title: t("sidebar.dataEntry"), url: "/data-entry", icon: Droplets },
   ];
 
   const analysisItems = [
