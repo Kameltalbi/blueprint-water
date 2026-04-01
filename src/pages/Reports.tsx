@@ -1,17 +1,20 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PageMeta } from "@/components/PageMeta";
-import { FileText, Download, Loader2 } from "lucide-react";
+import { FileText, Download, Loader2, FileSpreadsheet, CheckCircle2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { useUserRole, useWaterConsumption } from "@/hooks/useOrgData";
+import { useUserRole, useWaterConsumption, useSites, useOrganization } from "@/hooks/useOrgData";
+import { generateWaterReport } from "@/lib/generateWaterReport";
 
+/* ── CSV export ── */
 function downloadCSV(data: any[], filename: string) {
   if (!data.length) return;
   const headers = ["Date", "Volume (m³)", "Source", "Usage", "Période"];
   const rows = data.map((r) => [r.recorded_date, r.volume_m3, r.source, r.usage, r.period]);
   const csv = [headers, ...rows].map((r) => r.join(",")).join("\n");
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const blob = new Blob(["\uFEFF" + csv, { type: "text/csv;charset=utf-8;" }]);
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -20,121 +23,140 @@ function downloadCSV(data: any[], filename: string) {
   URL.revokeObjectURL(url);
 }
 
-function generatePDFContent(data: any[], title: string) {
-  const totalVolume = data.reduce((sum, r) => sum + Number(r.volume_m3), 0);
-  const sourceBreakdown = data.reduce((acc: Record<string, number>, r) => {
-    acc[r.source] = (acc[r.source] || 0) + Number(r.volume_m3);
-    return acc;
-  }, {});
-
-  let html = `<!DOCTYPE html><html><head><title>${title}</title>
-    <style>
-      body { font-family: system-ui, sans-serif; padding: 40px; color: #1a1a1a; }
-      h1 { color: #0e7490; border-bottom: 2px solid #0e7490; padding-bottom: 8px; }
-      h2 { color: #374151; margin-top: 24px; }
-      table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-      th, td { border: 1px solid #d1d5db; padding: 8px 12px; text-align: left; font-size: 14px; }
-      th { background: #f3f4f6; font-weight: 600; }
-      .summary { background: #f0fdfa; padding: 16px; border-radius: 8px; margin: 16px 0; }
-      .summary strong { color: #0e7490; }
-    </style></head><body>`;
-  html += `<h1>${title}</h1>`;
-  html += `<p>Généré le ${new Date().toLocaleDateString("fr-FR")}</p>`;
-  html += `<div class="summary"><strong>Volume total :</strong> ${totalVolume.toLocaleString("fr-FR")} m³</div>`;
-  html += `<h2>Répartition par source</h2><table><thead><tr><th>Source</th><th>Volume (m³)</th></tr></thead><tbody>`;
-  Object.entries(sourceBreakdown).forEach(([source, vol]) => {
-    html += `<tr><td>${source}</td><td>${(vol as number).toLocaleString("fr-FR")}</td></tr>`;
-  });
-  html += `</tbody></table>`;
-  html += `<h2>Détail des saisies</h2><table><thead><tr><th>Date</th><th>Volume</th><th>Source</th><th>Usage</th><th>Période</th></tr></thead><tbody>`;
-  data.forEach((r) => {
-    html += `<tr><td>${r.recorded_date}</td><td>${r.volume_m3}</td><td>${r.source}</td><td>${r.usage}</td><td>${r.period}</td></tr>`;
-  });
-  html += `</tbody></table></body></html>`;
-
-  const w = window.open("", "_blank");
-  if (w) {
-    w.document.write(html);
-    w.document.close();
-    w.print();
-  }
-}
-
 const reportTemplates = [
-  { id: "water-footprint", title: "Rapport Empreinte Hydrique", type: "Empreinte Hydrique" },
-  { id: "gri-303", title: "Rapport GRI 303", type: "GRI 303" },
-  { id: "iso-14046", title: "Rapport ISO 14046 simplifié", type: "ISO 14046" },
+  {
+    id: "water-footprint" as const,
+    title: "Rapport Empreinte Hydrique",
+    desc: "Rapport complet : consommation directe, empreinte pondérée WSI, analyse par site",
+    type: "ISO 14046 | GRI 303",
+    sections: ["Page de couverture", "Résumé exécutif", "Analyse par site (WSI)", "Détail des saisies", "Méthodologie"],
+  },
+  {
+    id: "gri-303" as const,
+    title: "Rapport GRI 303",
+    desc: "Reporting eau conforme au standard GRI 303 — Water and Effluents",
+    type: "GRI 303",
+    sections: ["Indicateurs GRI 303-1", "Consommation par source", "Analyse d'impact", "Méthodologie"],
+  },
+  {
+    id: "iso-14046" as const,
+    title: "Rapport ISO 14046",
+    desc: "Empreinte eau selon la norme internationale ISO 14046:2014",
+    type: "ISO 14046",
+    sections: ["Périmètre & objectifs", "Inventaire des flux", "Évaluation de l'impact", "Interprétation"],
+  },
 ];
 
 export default function Reports() {
+  const [generating, setGenerating] = useState<string | null>(null);
   const { data: userRole } = useUserRole();
   const { data: consumptionData = [], isLoading } = useWaterConsumption(userRole?.organization_id);
+  const { data: sites = [] } = useSites(userRole?.organization_id);
+  const { data: org } = useOrganization(userRole?.organization_id);
+
+  const orgName = org?.name || "Organisation";
 
   const handleCSV = () => {
-    if (!consumptionData.length) {
-      toast.info("Aucune donnée à exporter");
-      return;
-    }
+    if (!consumptionData.length) { toast.info("Aucune donnée à exporter"); return; }
     downloadCSV(consumptionData, `hydroscan-export-${new Date().toISOString().slice(0, 10)}.csv`);
     toast.success("Fichier CSV téléchargé");
   };
 
-  const handlePDF = (title: string) => {
-    if (!consumptionData.length) {
-      toast.info("Aucune donnée à exporter");
-      return;
+  const handlePDF = async (id: typeof reportTemplates[number]["id"]) => {
+    if (!consumptionData.length) { toast.info("Ajoutez des données avant de générer un rapport"); return; }
+    setGenerating(id);
+    try {
+      await new Promise((r) => setTimeout(r, 100)); // let UI update
+      generateWaterReport({ orgName, consumption: consumptionData, sites, reportType: id });
+      toast.success("Rapport PDF téléchargé !");
+    } catch (e) {
+      toast.error("Erreur lors de la génération du rapport");
+    } finally {
+      setGenerating(null);
     }
-    generatePDFContent(consumptionData, title);
   };
 
   return (
     <div className="space-y-6">
       <PageMeta title="Rapports — HydroScan" description="Générez et exportez vos rapports d'empreinte hydrique." />
+
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-2xl font-bold tracking-tight">Rapports</h1>
-          <p className="text-muted-foreground">
-            Générez et téléchargez vos rapports d'empreinte hydrique
+          <h1 className="font-display text-2xl font-bold tracking-tight">Rapports & Exports</h1>
+          <p className="text-muted-foreground text-sm">
+            Générez des rapports structurés conformes aux normes ISO 14046 et GRI 303
           </p>
         </div>
-        <Button className="gap-2" onClick={handleCSV}>
-          <Download className="h-4 w-4" />
-          Exporter CSV
+        <Button variant="outline" className="gap-2" onClick={handleCSV} disabled={isLoading}>
+          <FileSpreadsheet className="h-4 w-4" />
+          Export CSV brut
         </Button>
       </div>
 
+      {/* Stats bar */}
+      <div className="grid grid-cols-3 gap-3">
+        {[
+          { label: "Saisies disponibles", value: consumptionData.length, color: "text-primary" },
+          { label: "Sites couverts", value: sites.length, color: "text-primary" },
+          { label: "Volume total (m³)", value: consumptionData.reduce((s, r) => s + Number(r.volume_m3), 0).toLocaleString("fr-FR"), color: "text-primary" },
+        ].map((stat) => (
+          <Card key={stat.label} className="shadow-card">
+            <CardContent className="pt-4 pb-3 text-center">
+              <p className={`text-xl font-bold ${stat.color}`}>{stat.value}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{stat.label}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Report templates */}
       <div className="grid gap-4">
         {reportTemplates.map((report) => (
           <Card key={report.id} className="shadow-card">
-            <CardContent className="flex items-center justify-between p-5">
-              <div className="flex items-center gap-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                  <FileText className="h-5 w-5 text-primary" />
+            <CardHeader className="pb-3">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                    <FileText className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-base">{report.title}</CardTitle>
+                    <p className="text-sm text-muted-foreground mt-0.5">{report.desc}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-medium">{report.title}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {consumptionData.length} saisie(s) disponible(s)
-                  </p>
+                <div className="flex items-center gap-2 shrink-0">
+                  <Badge variant="secondary" className="text-xs">{report.type}</Badge>
+                  <Button
+                    size="sm"
+                    className="gap-2"
+                    onClick={() => handlePDF(report.id)}
+                    disabled={isLoading || generating === report.id}
+                  >
+                    {generating === report.id
+                      ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      : <Download className="h-3.5 w-3.5" />}
+                    {generating === report.id ? "Génération..." : "Télécharger PDF"}
+                  </Button>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <Badge variant="secondary">{report.type}</Badge>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="gap-2"
-                  onClick={() => handlePDF(report.title)}
-                  disabled={isLoading}
-                >
-                  {isLoading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Download className="h-3 w-3" />}
-                  PDF
-                </Button>
+            </CardHeader>
+            <CardContent className="pt-0">
+              <div className="flex flex-wrap gap-2">
+                {report.sections.map((s) => (
+                  <span key={s} className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <CheckCircle2 className="h-3 w-3 text-emerald-500" />
+                    {s}
+                  </span>
+                ))}
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
+
+      <p className="text-xs text-muted-foreground text-center">
+        Les rapports PDF sont générés localement dans votre navigateur. Aucune donnée n'est transmise à des tiers.
+      </p>
     </div>
   );
 }
