@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -43,6 +44,19 @@ const defaultPollutants = [
   { name: "Métaux lourds", ceff: "", cnat: "0", cmax: "0.5" },
 ];
 
+/* ── InfoTip ── */
+function InfoTip({ text }: { text: string }) {
+  return (
+    <span className="relative group inline-flex items-center ml-1 align-middle cursor-help">
+      <span className="text-muted-foreground/50 group-hover:text-primary text-[10px] border border-current rounded-full w-3.5 h-3.5 inline-flex items-center justify-center leading-none transition-colors">ℹ</span>
+      <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 bg-foreground text-primary-foreground text-[11px] rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 leading-relaxed shadow-xl whitespace-normal">
+        {text}
+        <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-foreground" />
+      </span>
+    </span>
+  );
+}
+
 /* ── Component ── */
 export function CalculatorSection() {
   const { lang } = useI18n();
@@ -50,6 +64,23 @@ export function CalculatorSection() {
   const { user } = useAuth();
   const [saving, setSaving] = useState(false);
   const [matCategory, setMatCategory] = useState("");
+  const [confirmRestart, setConfirmRestart] = useState(false);
+  const navigate = useNavigate();
+
+  const sectorToCategoryMap: Record<string, string> = {
+    agriculture: "agriculture",
+    agroalimentaire: "elevage",
+    textile: "textile",
+    energie: "energie",
+    industrie: "btp",
+    btp: "btp",
+    pharma: "energie",
+    hotellerie: "agriculture",
+    distribution: "agriculture",
+    collectivites: "btp",
+    electronique: "btp",
+    automobile: "btp",
+  };
 
   const [step, setStep] = useState(0);
 
@@ -251,22 +282,23 @@ export function CalculatorSection() {
             {step === 0 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
                 <h3 className="font-display text-xl font-bold flex items-center gap-2">
-                  🏭 {fr ? "Votre activité" : "Your activity"} <span className="text-xs font-sans font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">1 / 4</span>
+                  🏭 {fr ? "Décrivez votre activité" : "Describe your activity"} <span className="text-xs font-sans font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">1 / 4</span>
                 </h3>
+                <p className="text-xs text-muted-foreground">{fr ? "Un ordre de grandeur suffit — pas besoin de données précises." : "An approximation is enough — no exact data needed."}</p>
                 <div className="landing-field">
-                  <label>{fr ? "Secteur d'activité" : "Industry sector"} *</label>
+                  <label>{fr ? "Secteur d'activité" : "Industry sector"} *<InfoTip text={fr ? "Sélectionnez votre secteur d'activité" : "Select your industry sector"} /></label>
                   <select value={sector} onChange={(e) => setSector(e.target.value)}>
                     <option value="">{fr ? "— Sélectionnez votre secteur —" : "— Select your sector —"}</option>
                     {sectorOptions.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
                   </select>
                 </div>
                 <div className="landing-field">
-                  <label>{fr ? "Produit ou activité analysé(e)" : "Product or activity analyzed"} *</label>
+                  <label>{fr ? "Produit analysé" : "Product analyzed"}<InfoTip text={fr ? "Apparaîtra dans vos résultats." : "Will appear in your results."} /></label>
                   <input value={product} onChange={(e) => setProduct(e.target.value)} placeholder={fr ? "ex: T-shirt coton, Fromage, Ciment..." : "e.g. Cotton t-shirt, Cheese, Cement..."} />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="landing-field">
-                    <label>{fr ? "Volume de production / an" : "Production volume / year"} *</label>
+                    <label>{fr ? "Volume / an" : "Volume / year"} *<InfoTip text={fr ? "Un ordre de grandeur suffit." : "An approximation is fine."} /></label>
                     <input type="number" value={volume} onChange={(e) => setVolume(e.target.value)} placeholder="ex: 50000" />
                   </div>
                   <div className="landing-field">
@@ -281,14 +313,14 @@ export function CalculatorSection() {
                   </div>
                 </div>
                 <div className="landing-field">
-                  <label>{fr ? "Pays de production" : "Production country"} *</label>
+                  <label>{fr ? "Pays de production" : "Production country"} *<InfoTip text={fr ? "Influence les calculs selon la disponibilité locale de l'eau." : "Affects calculations based on local water availability."} /></label>
                   <select value={country} onChange={(e) => setCountry(e.target.value)}>
                     {countryOptions.map((c) => (
                       <option key={c} value={c.toLowerCase().replace(/[\s'é]/g, (ch) => ch === "é" ? "e" : ch === " " ? "_" : "")}>{c}</option>
                     ))}
                   </select>
                 </div>
-                {/* WSI indicator */}
+                {/* Water scarcity context */}
                 <div className={`flex items-center gap-3 rounded-lg p-3 text-xs border ${
                   wsiFactor >= 3.5 ? "bg-red-50 border-red-200 text-destructive" :
                   wsiFactor >= 2.5 ? "bg-amber-50 border-amber-200 text-amber-700" :
@@ -296,12 +328,33 @@ export function CalculatorSection() {
                 }`}>
                   <span className="text-lg">💧</span>
                   <div>
-                    <strong>WSI {wsiFactor}/5</strong> — {fr ? wsiData.label : wsiData.labelEn}
-                    <span className="block text-[0.65rem] opacity-75">{fr ? "Source : Aqueduct / World Resources Institute" : "Source: Aqueduct / World Resources Institute"}</span>
+                    <strong>
+                      {wsiFactor >= 3.5
+                        ? (fr ? "Zone à eau très rare" : "Very water-scarce area")
+                        : wsiFactor >= 2.5
+                        ? (fr ? "Zone à tension hydrique" : "Water-stressed area")
+                        : (fr ? "Zone avec eau disponible" : "Area with available water")}
+                    </strong>
+                    {" — "}
+                    {fr
+                      ? `Chaque litre économisé ici a un impact ${wsiFactor >= 3.5 ? "critique" : wsiFactor >= 2.5 ? "important" : "positif"}`
+                      : `Every liter saved here has a ${wsiFactor >= 3.5 ? "critical" : wsiFactor >= 2.5 ? "significant" : "positive"} impact`}
                   </div>
                 </div>
+                {(!sector || !volume) && (
+                  <p className="text-xs text-destructive">
+                    {fr ? "⚠ Veuillez renseigner votre secteur et votre volume de production pour continuer." : "⚠ Please fill in your sector and production volume to continue."}
+                  </p>
+                )}
                 <div className="flex justify-end pt-2">
-                  <button onClick={() => setStep(1)} disabled={!sector || !volume} className="flex-1 gradient-water text-primary-foreground rounded-lg py-3 font-semibold text-sm disabled:opacity-40 transition-all hover:opacity-90">
+                  <button
+                    onClick={() => {
+                      if (sectorToCategoryMap[sector]) setMatCategory(sectorToCategoryMap[sector]);
+                      setStep(1);
+                    }}
+                    disabled={!sector || !volume}
+                    className="flex-1 gradient-water text-primary-foreground rounded-lg py-3 font-semibold text-sm disabled:opacity-40 transition-all hover:opacity-90"
+                  >
                     {fr ? "Étape suivante →" : "Next step →"}
                   </button>
                 </div>
@@ -312,11 +365,9 @@ export function CalculatorSection() {
             {step === 1 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
                 <h3 className="font-display text-xl font-bold flex items-center gap-2">
-                  🟢 {fr ? "Eau Verte — Matières premières" : "Green Water — Raw materials"} <span className="text-xs font-sans font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">2 / 4</span>
+                  🌿 {fr ? "Vos matières premières" : "Your raw materials"} <span className="text-xs font-sans font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">2 / 4</span>
                 </h3>
-                <p className="text-xs text-muted-foreground bg-primary/5 border border-primary/10 rounded-lg p-3">
-                  {fr ? `${materials.length} matériaux disponibles · Coefficients WFN & Ecoinvent appliqués automatiquement.` : `${materials.length} materials available · WFN & Ecoinvent coefficients applied automatically.`}
-                </p>
+                <p className="text-xs text-muted-foreground">{fr ? "La plus grande part de l'empreinte est souvent cachée dans les matières premières." : "The largest share of the footprint is often hidden in raw materials."}</p>
                 {/* Category filter */}
                 <div className="landing-field">
                   <label>{fr ? "Filtrer par catégorie" : "Filter by category"}</label>
@@ -329,17 +380,17 @@ export function CalculatorSection() {
                   <label>{fr ? "Matière principale" : "Main material"} *</label>
                   <select value={mat1} onChange={(e) => setMat1(e.target.value)}>
                     <option value="">{fr ? "— Sélectionnez —" : "— Select —"}</option>
-                    {filteredMaterials.map((m) => <option key={m.value} value={m.value}>{m.label} ({fmt(m.coeff)} L/kg) · {m.source}</option>)}
+                    {filteredMaterials.map((m) => <option key={m.value} value={m.value}>{m.label} ({fmt(m.coeff)} L/kg)</option>)}
                   </select>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="landing-field">
-                    <label>{fr ? "Quantité (kg/an)" : "Quantity (kg/year)"} *</label>
+                    <label>{fr ? "Quantité (kg/an)" : "Quantity (kg/year)"} *<InfoTip text={fr ? "Estimez à partir de vos achats annuels si besoin." : "Estimate from annual purchases if needed."} /></label>
                     <input type="number" value={mat1Qty} onChange={(e) => setMat1Qty(e.target.value)} placeholder="ex: 10000" />
                   </div>
                   <div className="landing-field">
-                    <label>{fr ? "Coeff. eau verte (L/kg)" : "Green water coeff. (L/kg)"}</label>
-                    <input readOnly value={mat1Coeff ? fmt(mat1Coeff) : "—"} className="bg-muted/50" />
+                    <label>{fr ? "Eau contenue (L/kg)" : "Water content (L/kg)"}<InfoTip text={fr ? "Calculé automatiquement selon la matière choisie." : "Auto-calculated based on the chosen material."} /></label>
+                    <input readOnly value={mat1Coeff ? fmt(mat1Coeff) : "—"} className="bg-yellow-50 border-yellow-200" />
                   </div>
                 </div>
                 <div className="landing-field">
@@ -356,13 +407,13 @@ export function CalculatorSection() {
                       <input type="number" value={mat2Qty} onChange={(e) => setMat2Qty(e.target.value)} />
                     </div>
                     <div className="landing-field">
-                      <label>{fr ? "Coeff. (L/kg)" : "Coeff. (L/kg)"}</label>
-                      <input readOnly value={mat2Coeff ? fmt(mat2Coeff) : "—"} className="bg-muted/50" />
+                      <label>{fr ? "Eau contenue (L/kg)" : "Water content (L/kg)"}</label>
+                      <input readOnly value={mat2Coeff ? fmt(mat2Coeff) : "—"} className="bg-yellow-50 border-yellow-200" title={fr ? "Valeur de référence internationale — non modifiable" : "International reference value — read-only"} />
                     </div>
                   </div>
                 )}
-                <div className="text-sm font-semibold text-primary mt-2">
-                  💧 {fr ? "Eau Verte estimée" : "Estimated Green Water"} : {greenWater > 0 ? `${fmt(greenWater)} m³/an` : "— m³/an"}
+                <div className="text-sm font-semibold text-primary mt-2 bg-primary/5 border border-primary/10 rounded-lg p-3">
+                  💧 {fr ? "Eau liée à vos matières" : "Water from your materials"} : <span className="text-lg">{greenWater > 0 ? `${fmt(greenWater)} m³/an` : "—"}</span>
                 </div>
                 <div className="flex justify-between gap-3 pt-2">
                   <button onClick={() => setStep(0)} className="px-5 py-2.5 rounded-lg border border-border text-muted-foreground text-sm font-medium hover:border-primary hover:text-primary transition-all">
@@ -379,40 +430,41 @@ export function CalculatorSection() {
             {step === 2 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
                 <h3 className="font-display text-xl font-bold flex items-center gap-2">
-                  🔵 {fr ? "Eau Bleue — Processus industriels" : "Blue Water — Industrial processes"} <span className="text-xs font-sans font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">3 / 4</span>
+                  � {fr ? "Eau utilisée dans votre usine" : "Water used in your facility"} <span className="text-xs font-sans font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">3 / 4</span>
                 </h3>
-                <p className="text-xs text-muted-foreground">
-                  {fr ? "Consommation directe par poste. Eau recyclée/restituée = déduite automatiquement." : "Direct consumption per post. Recycled/returned water = deducted automatically."}
-                </p>
+                <p className="text-xs text-muted-foreground">{fr ? "Laissez à 0 les postes que vous ne connaissez pas." : "Leave at 0 any figures you don't have."}</p>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="landing-field">
-                    <label>{fr ? "Eau réseau / ville (m³/an)" : "Network / city water (m³/year)"}</label>
-                    <input type="number" value={blueNetwork} onChange={(e) => setBlueNetwork(e.target.value)} />
+                    <label>{fr ? "Réseau public (m³/an)" : "Public network (m³/year)"}<InfoTip text={fr ? "Eau facturée par votre fournisseur municipal." : "Water billed by your public water supplier."} /></label>
+                    <input type="number" value={blueNetwork} onChange={(e) => setBlueNetwork(e.target.value)} placeholder="0" />
                   </div>
                   <div className="landing-field">
-                    <label>{fr ? "Eau forage / puits (m³/an)" : "Well / borehole water (m³/year)"}</label>
-                    <input type="number" value={blueWell} onChange={(e) => setBlueWell(e.target.value)} />
+                    <label>{fr ? "Puits / forage (m³/an)" : "Well / borehole (m³/year)"}<InfoTip text={fr ? "Eau pompée directement depuis le sol." : "Water pumped directly from the ground."} /></label>
+                    <input type="number" value={blueWell} onChange={(e) => setBlueWell(e.target.value)} placeholder="0" />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="landing-field">
-                    <label>{fr ? "Processus principal (m³/an)" : "Main process (m³/year)"}</label>
-                    <input type="number" value={blueProcess} onChange={(e) => setBlueProcess(e.target.value)} />
+                    <label>{fr ? "Eau procédé (m³/an)" : "Process water (m³/year)"}<InfoTip text={fr ? "Eau incorporée dans le produit fini : cuisson, trempage..." : "Water incorporated into the finished product: cooking, soaking..."} /></label>
+                    <input type="number" value={blueProcess} onChange={(e) => setBlueProcess(e.target.value)} placeholder="0" />
                   </div>
                   <div className="landing-field">
-                    <label>{fr ? "Vapeur / chaudières (m³/an)" : "Steam / boilers (m³/year)"}</label>
-                    <input type="number" value={blueSteam} onChange={(e) => setBlueSteam(e.target.value)} />
+                    <label>{fr ? "Vapeur / chaudières (m³/an)" : "Steam / boilers (m³/year)"}<InfoTip text={fr ? "Eau transformée en vapeur pour vos équipements thermiques." : "Water converted to steam for your thermal equipment."} /></label>
+                    <input type="number" value={blueSteam} onChange={(e) => setBlueSteam(e.target.value)} placeholder="0" />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="landing-field">
-                    <label>{fr ? "Eau restituée après traitement (m³/an)" : "Returned after treatment (m³/year)"}</label>
-                    <input type="number" value={blueReturned} onChange={(e) => setBlueReturned(e.target.value)} />
+                    <label>{fr ? "Eau restituée (m³/an)" : "Water returned (m³/year)"}<InfoTip text={fr ? "Eau rejetée après traitement — sera déduite du total." : "Water discharged after treatment — will be deducted."} /></label>
+                    <input type="number" value={blueReturned} onChange={(e) => setBlueReturned(e.target.value)} placeholder="0" />
                   </div>
                   <div className="landing-field">
-                    <label>{fr ? "Eau recyclée en interne (m³/an)" : "Internally recycled water (m³/year)"}</label>
-                    <input type="number" value={blueRecycled} onChange={(e) => setBlueRecycled(e.target.value)} />
+                    <label>{fr ? "Eau recyclée (m³/an)" : "Recycled water (m³/year)"}<InfoTip text={fr ? "Eau réutilisée en interne — sera déduite du total." : "Internally reused water — will be deducted."} /></label>
+                    <input type="number" value={blueRecycled} onChange={(e) => setBlueRecycled(e.target.value)} placeholder="0" />
                   </div>
+                </div>
+                <div className="text-sm font-semibold text-primary mt-2 bg-primary/5 border border-primary/10 rounded-lg p-3">
+                  💧 {fr ? "Consommation directe estimée" : "Estimated direct water use"} : <span className="text-lg">{blueWater !== 0 ? `${fmt(blueWater)} m³/an` : "—"}</span>
                 </div>
                 <div className="flex justify-between gap-3 pt-2">
                   <button onClick={() => setStep(1)} className="px-5 py-2.5 rounded-lg border border-border text-muted-foreground text-sm font-medium hover:border-primary hover:text-primary transition-all">
@@ -429,33 +481,32 @@ export function CalculatorSection() {
             {step === 3 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
                 <h3 className="font-display text-xl font-bold flex items-center gap-2">
-                  ⚫ {fr ? "Eau Grise — Effluents" : "Grey Water — Effluents"} <span className="text-xs font-sans font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">4 / 4</span>
+                  🌊 {fr ? "Vos rejets dans l'eau" : "Your water discharges"} <span className="text-xs font-sans font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">4 / 4</span>
                 </h3>
-                <p className="text-xs text-muted-foreground">
-                  {fr ? "Résultats d'analyses laboratoire. Normes pré-remplies selon votre pays." : "Lab analysis results. Norms pre-filled per country."}
-                </p>
+                <p className="text-xs text-muted-foreground">{fr ? "Valeurs issues de vos analyses labo. Sans analyses, laissez à 0." : "Values from your lab analysis. No data? Leave at 0."}</p>
                 <div className="landing-field">
-                  <label>{fr ? "Volume total effluents rejetés (m³/an)" : "Total effluents discharged (m³/year)"}</label>
+                  <label>{fr ? "Volume effluents rejetés (m³/an)" : "Effluents discharged (m³/year)"}</label>
                   <input type="number" value={effluentVol} onChange={(e) => setEffluentVol(e.target.value)} placeholder="ex: 5000" />
                 </div>
 
                 <div className="grid gap-1.5 text-xs font-semibold text-muted-foreground" style={{ gridTemplateColumns: "1.6fr 1fr 1fr 1fr" }}>
-                  <span>{fr ? "Polluant" : "Pollutant"}</span>
-                  <span>Ceff (mg/L)</span>
-                  <span>Cnat</span>
-                  <span>{fr ? "Norme max" : "Max norm"}</span>
+                  <span>{fr ? "Substance" : "Substance"}</span>
+                  <span>{fr ? "Votre mesure (mg/L)" : "Your measure (mg/L)"}</span>
+                  <span>{fr ? "Naturel" : "Natural"}</span>
+                  <span>{fr ? "Limite" : "Limit"}</span>
                 </div>
                 {pollutants.map((p, i) => (
                   <div key={i} className="landing-poll-row">
                     <label>{p.name}</label>
                     <input type="number" value={p.ceff} onChange={(e) => updatePollutant(i, "ceff", e.target.value)} placeholder="0" />
-                    <input className="norm-input" value={p.cnat} readOnly />
-                    <input className="norm-input" value={p.cmax} readOnly />
+                    <input className="norm-input bg-yellow-50 border-yellow-200" value={p.cnat} readOnly title={fr ? "Concentration naturelle de référence (pré-remplie)" : "Natural reference concentration (pre-filled)"} />
+                    <input className="norm-input bg-yellow-50 border-yellow-200" value={p.cmax} readOnly title={fr ? "Norme réglementaire maximale (pré-remplie)" : "Maximum regulatory norm (pre-filled)"} />
                   </div>
                 ))}
-                <p className="text-xs text-muted-foreground italic">
-                  {fr ? "Cases jaunes = valeurs normatives pré-remplies. Modifiez selon votre pays." : "Yellow cells = pre-filled norms. Modify per country."}
-                </p>
+                <p className="text-xs text-muted-foreground italic">{fr ? "🟡 Cases jaunes = normes pré-remplies. Saisissez seulement votre mesure." : "🟡 Yellow = pre-filled norms. Only enter your measurement."}</p>
+                <div className="text-sm font-semibold text-primary mt-2 bg-primary/5 border border-primary/10 rounded-lg p-3">
+                  💧 {fr ? "Impact des rejets estimé" : "Estimated discharge impact"} : <span className="text-lg">{greyWater > 0 ? `${fmt(greyWater)} m³/an` : "—"}</span>
+                </div>
                 <div className="flex justify-between gap-3 pt-2">
                   <button onClick={() => setStep(2)} className="px-5 py-2.5 rounded-lg border border-border text-muted-foreground text-sm font-medium hover:border-primary hover:text-primary transition-all">
                     ← {fr ? "Retour" : "Back"}
@@ -475,22 +526,29 @@ export function CalculatorSection() {
             {step === 4 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
                 <h3 className="font-display text-xl font-bold">📊 {fr ? "Votre Empreinte Eau" : "Your Water Footprint"}</h3>
-                <p className="text-xs text-muted-foreground">{fr ? "Résultats selon ISO 14046 — pondérés par l'indice WSI local" : "Results per ISO 14046 — weighted by local WSI index"}</p>
+                {product && (
+                  <div className="text-xs text-muted-foreground bg-muted/50 rounded-lg p-3">
+                    📋 {fr ? "Analyse pour" : "Analysis for"} : <strong>{product}</strong>
+                    {volume && <> · {volume} {unit}/{fr ? "an" : "year"}</>}
+                    {" · "}{country.charAt(0).toUpperCase() + country.replace(/_/g, " ").slice(1)}
+                  </div>
+                )}
+                <p className="text-xs text-muted-foreground">{fr ? "Votre consommation d'eau ventilée par source, pondérée par la rarité locale" : "Your water consumption broken down by source, weighted by local scarcity"}</p>
 
                 {/* 3 cards */}
                 <div className="grid grid-cols-3 gap-3">
                   <div className="landing-rcard green">
-                    <p className="text-[0.65rem] font-bold uppercase tracking-wider text-green-water mb-1">🟢 {fr ? "Eau Verte" : "Green"}</p>
+                    <p className="text-[0.65rem] font-bold uppercase tracking-wider text-green-water mb-1">🌿 {fr ? "Matières premières" : "Raw materials"}</p>
                     <span className="font-display text-2xl font-bold block">{fmt(greenWater)}</span>
                     <span className="text-xs text-muted-foreground">m³/an</span>
                   </div>
                   <div className="landing-rcard blue">
-                    <p className="text-[0.65rem] font-bold uppercase tracking-wider text-primary mb-1">🔵 {fr ? "Eau Bleue" : "Blue"}</p>
+                    <p className="text-[0.65rem] font-bold uppercase tracking-wider text-primary mb-1">🏭 {fr ? "Processus direct" : "Direct process"}</p>
                     <span className="font-display text-2xl font-bold block">{fmt(blueWater)}</span>
                     <span className="text-xs text-muted-foreground">m³/an</span>
                   </div>
                   <div className="landing-rcard grey">
-                    <p className="text-[0.65rem] font-bold uppercase tracking-wider text-grey-water mb-1">⚫ {fr ? "Eau Grise" : "Grey"}</p>
+                    <p className="text-[0.65rem] font-bold uppercase tracking-wider text-grey-water mb-1">🌊 {fr ? "Rejets" : "Discharges"}</p>
                     <span className="font-display text-2xl font-bold block">{fmt(greyWater)}</span>
                     <span className="text-xs text-muted-foreground">m³/an</span>
                   </div>
@@ -514,12 +572,12 @@ export function CalculatorSection() {
                 <div className={`rounded-xl p-4 border ${wsiFactor >= 3.5 ? "bg-red-50 border-red-200" : wsiFactor >= 2.5 ? "bg-amber-50 border-amber-200" : "bg-emerald-50 border-emerald-200"}`}>
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-xs font-bold">{fr ? "Impact pondéré WSI" : "WSI-weighted impact"}</p>
+                      <p className="text-xs font-bold">{fr ? "Impact ajusté selon la rarité locale" : "Impact adjusted for local scarcity"}</p>
                       <span className="font-display text-xl font-bold">{fmt(totalWeighted)} m³<sub>eq</sub></span>
                     </div>
                     <div className="text-right text-xs text-muted-foreground">
-                      <p>WSI × {wsiFactor}</p>
-                      <p>{fr ? wsiData.label : wsiData.labelEn}</p>
+                      <p>{fr ? `Facteur rarité × ${wsiFactor}` : `Scarcity factor × ${wsiFactor}`}</p>
+                      <p>{wsiFactor >= 3.5 ? (fr ? "Eau très rare ici" : "Very scarce water here") : wsiFactor >= 2.5 ? (fr ? "Eau sous tension" : "Water under pressure") : (fr ? "Eau disponible" : "Water available")}</p>
                     </div>
                   </div>
                 </div>
@@ -543,7 +601,7 @@ export function CalculatorSection() {
                     {score.grade}
                   </div>
                   <div>
-                    <strong className="text-sm">{fr ? "Score de performance (ajusté WSI)" : "Performance score (WSI-adjusted)"}</strong>
+                    <strong className="text-sm">{fr ? "Score de performance globale" : "Overall performance score"}</strong>
                     <span className="text-xs text-muted-foreground block">{score.label}</span>
                   </div>
                 </div>
@@ -599,16 +657,39 @@ export function CalculatorSection() {
                       💾 {fr ? "Sauvegarder" : "Save"}
                     </button>
                   )}
-                  <button className="px-5 py-2.5 rounded-lg border border-primary text-primary text-xs font-semibold">
+                  <button
+                    onClick={() => navigate("/pricing")}
+                    className="px-5 py-2.5 rounded-lg border border-primary text-primary text-xs font-semibold hover:bg-primary/5 transition-colors"
+                  >
                     📄 {fr ? "Rapport complet (Pro)" : "Full report (Pro)"}
                   </button>
+                  {!user && (
+                    <button
+                      onClick={() => navigate("/auth")}
+                      className="px-5 py-2.5 rounded-lg bg-primary/10 border border-primary/20 text-primary text-xs font-semibold hover:bg-primary/20 transition-colors"
+                    >
+                      💾 {fr ? "Créer un compte pour sauvegarder" : "Create account to save results"}
+                    </button>
+                  )}
                   <button onClick={() => window.print()} className="px-5 py-2.5 rounded-lg border border-border text-muted-foreground text-xs font-semibold">
                     🖨️ {fr ? "Imprimer" : "Print"}
                   </button>
                 </div>
-                <button onClick={restart} className="block w-full text-center text-xs text-muted-foreground underline hover:text-primary mt-2">
-                  ↺ {fr ? "Nouveau calcul" : "New calculation"}
-                </button>
+                {confirmRestart ? (
+                  <div className="flex items-center justify-center gap-3 text-xs mt-2">
+                    <span className="text-muted-foreground">{fr ? "Effacer toutes les données ?" : "Clear all data?"}</span>
+                    <button onClick={() => { restart(); setConfirmRestart(false); }} className="text-destructive font-bold underline">
+                      {fr ? "Oui, recommencer" : "Yes, restart"}
+                    </button>
+                    <button onClick={() => setConfirmRestart(false)} className="text-muted-foreground underline">
+                      {fr ? "Annuler" : "Cancel"}
+                    </button>
+                  </div>
+                ) : (
+                  <button onClick={() => setConfirmRestart(true)} className="block w-full text-center text-xs text-muted-foreground underline hover:text-primary mt-2">
+                    ↺ {fr ? "Nouveau calcul" : "New calculation"}
+                  </button>
+                )}
               </motion.div>
             )}
           </div>
