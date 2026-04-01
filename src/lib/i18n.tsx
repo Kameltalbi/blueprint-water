@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 type Lang = "fr" | "en" | "ar";
 
@@ -351,14 +351,14 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     return translations[key]?.[lang] ?? key;
   };
 
-  // Apply RTL direction for Arabic
-  const dir = lang === "ar" ? "rtl" : "ltr";
+  useEffect(() => {
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   return (
     <I18nContext.Provider value={{ lang, setLang, t }}>
-      <div dir={dir} className={lang === "ar" ? "font-arabic" : ""}>
-        {children}
-      </div>
+      {children}
     </I18nContext.Provider>
   );
 }

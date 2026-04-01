@@ -15,11 +15,11 @@ import { toast } from "sonner";
 
 export function EstimateForm() {
   const { t, lang } = useI18n();
-  const fr = lang === "fr";
+  const t3 = (fr: string, en: string, ar: string) => lang === "fr" ? fr : lang === "ar" ? ar : en;
   const [sector, setSector] = useState("");
 
   const handleSubmit = () => {
-    toast.success(fr ? "Demande envoyée ! Nous vous recontacterons rapidement." : "Request sent! We'll get back to you shortly.");
+    toast.success(t3("Demande envoyée ! Nous vous recontacterons rapidement.", "Request sent! We'll get back to you shortly.", "تم إرسال طلبك! سنتواصل معك قريبًا."));
   };
 
   return (
@@ -30,14 +30,14 @@ export function EstimateForm() {
           <Label>{t("pricing.estimate.sector")}</Label>
           <Select value={sector} onValueChange={setSector}>
             <SelectTrigger>
-              <SelectValue placeholder={fr ? "Choisir..." : "Choose..."} />
+              <SelectValue placeholder={t3("Choisir...", "Choose...", "اختر...")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="industrie">{fr ? "Industrie" : "Industry"}</SelectItem>
-              <SelectItem value="agriculture">{fr ? "Agriculture" : "Agriculture"}</SelectItem>
-              <SelectItem value="agroalimentaire">{fr ? "Agroalimentaire" : "Food Processing"}</SelectItem>
-              <SelectItem value="hotellerie">{fr ? "Hôtellerie" : "Hospitality"}</SelectItem>
-              <SelectItem value="services">{fr ? "Services" : "Services"}</SelectItem>
+              <SelectItem value="industrie">{t3("Industrie", "Industry", "صناعة")}</SelectItem>
+              <SelectItem value="agriculture">{t3("Agriculture", "Agriculture", "زراعة")}</SelectItem>
+              <SelectItem value="agroalimentaire">{t3("Agroalimentaire", "Food Processing", "صناعة غذائية")}</SelectItem>
+              <SelectItem value="hotellerie">{t3("Hôtellerie", "Hospitality", "ضيافة")}</SelectItem>
+              <SelectItem value="services">{t3("Services", "Services", "خدمات")}</SelectItem>
             </SelectContent>
           </Select>
         </div>

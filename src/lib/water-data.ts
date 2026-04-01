@@ -4,24 +4,24 @@
  */
 
 /* ── WSI — Water Stress Index by country (Aqueduct/WRI) ── */
-export const wsiByCountry: Record<string, { wsi: number; label: string; labelEn: string }> = {
-  tunisie:        { wsi: 4.2, label: "Stress extrême",    labelEn: "Extreme stress" },
-  maroc:          { wsi: 3.8, label: "Stress extrême",    labelEn: "Extreme stress" },
-  algerie:        { wsi: 3.5, label: "Stress élevé",      labelEn: "High stress" },
-  arabie_saoudite:{ wsi: 5.0, label: "Stress extrême",    labelEn: "Extreme stress" },
-  egypte:         { wsi: 4.5, label: "Stress extrême",    labelEn: "Extreme stress" },
-  libye:          { wsi: 4.8, label: "Stress extrême",    labelEn: "Extreme stress" },
-  jordanie:       { wsi: 4.7, label: "Stress extrême",    labelEn: "Extreme stress" },
-  inde:           { wsi: 3.9, label: "Stress élevé",      labelEn: "High stress" },
-  chine:          { wsi: 2.8, label: "Stress moyen-élevé",labelEn: "Medium-high stress" },
-  turquie:        { wsi: 3.2, label: "Stress élevé",      labelEn: "High stress" },
-  france:         { wsi: 1.5, label: "Stress faible",     labelEn: "Low stress" },
-  espagne:        { wsi: 2.9, label: "Stress moyen-élevé",labelEn: "Medium-high stress" },
-  italie:         { wsi: 2.4, label: "Stress moyen",      labelEn: "Medium stress" },
-  allemagne:      { wsi: 1.2, label: "Stress faible",     labelEn: "Low stress" },
-  bresil:         { wsi: 1.3, label: "Stress faible",     labelEn: "Low stress" },
-  usa:            { wsi: 2.1, label: "Stress moyen",      labelEn: "Medium stress" },
-  autre:          { wsi: 2.0, label: "Stress moyen",      labelEn: "Medium stress" },
+export const wsiByCountry: Record<string, { wsi: number; label: string; labelEn: string; labelAr: string }> = {
+  tunisie:        { wsi: 4.2, label: "Stress extrême",    labelEn: "Extreme stress",      labelAr: "إجهاد شديد" },
+  maroc:          { wsi: 3.8, label: "Stress extrême",    labelEn: "Extreme stress",      labelAr: "إجهاد شديد" },
+  algerie:        { wsi: 3.5, label: "Stress élevé",      labelEn: "High stress",        labelAr: "إجهاد عالي" },
+  arabie_saoudite:{ wsi: 5.0, label: "Stress extrême",    labelEn: "Extreme stress",      labelAr: "إجهاد شديد" },
+  egypte:         { wsi: 4.5, label: "Stress extrême",    labelEn: "Extreme stress",      labelAr: "إجهاد شديد" },
+  libye:          { wsi: 4.8, label: "Stress extrême",    labelEn: "Extreme stress",      labelAr: "إجهاد شديد" },
+  jordanie:       { wsi: 4.7, label: "Stress extrême",    labelEn: "Extreme stress",      labelAr: "إجهاد شديد" },
+  inde:           { wsi: 3.9, label: "Stress élevé",      labelEn: "High stress",        labelAr: "إجهاد عالي" },
+  chine:          { wsi: 2.8, label: "Stress moyen-élevé",labelEn: "Medium-high stress",  labelAr: "إجهاد متوسط-عالي" },
+  turquie:        { wsi: 3.2, label: "Stress élevé",      labelEn: "High stress",        labelAr: "إجهاد عالي" },
+  france:         { wsi: 1.5, label: "Stress faible",     labelEn: "Low stress",         labelAr: "إجهاد منخفض" },
+  espagne:        { wsi: 2.9, label: "Stress moyen-élevé",labelEn: "Medium-high stress",  labelAr: "إجهاد متوسط-عالي" },
+  italie:         { wsi: 2.4, label: "Stress moyen",      labelEn: "Medium stress",      labelAr: "إجهاد متوسط" },
+  allemagne:      { wsi: 1.2, label: "Stress faible",     labelEn: "Low stress",         labelAr: "إجهاد منخفض" },
+  bresil:         { wsi: 1.3, label: "Stress faible",     labelEn: "Low stress",         labelAr: "إجهاد منخفض" },
+  usa:            { wsi: 2.1, label: "Stress moyen",      labelEn: "Medium stress",      labelAr: "إجهاد متوسط" },
+  autre:          { wsi: 2.0, label: "Stress moyen",      labelEn: "Medium stress",      labelAr: "إجهاد متوسط" },
 };
 
 export const countryOptions = [
@@ -110,11 +110,11 @@ export const materials: Material[] = [
 ];
 
 export const materialCategories = [
-  { value: "agriculture", label: "🌾 Agriculture & Cultures", labelEn: "🌾 Agriculture & Crops" },
-  { value: "elevage", label: "🐄 Élevage & Produits animaux", labelEn: "🐄 Livestock & Animal products" },
-  { value: "textile", label: "🧵 Textile & Fibres", labelEn: "🧵 Textile & Fibers" },
-  { value: "btp", label: "🏗️ Construction & BTP", labelEn: "🏗️ Construction & Building" },
-  { value: "energie", label: "⚡ Énergie & Chimie", labelEn: "⚡ Energy & Chemicals" },
+  { value: "agriculture", label: "🌾 Agriculture & Cultures", labelEn: "🌾 Agriculture & Crops",         labelAr: "🌾 الزراعة والمحاصيل" },
+  { value: "elevage",     label: "🐄 Élevage & Produits animaux", labelEn: "🐄 Livestock & Animal products", labelAr: "🐄 تربية ومنتجات حيوانية" },
+  { value: "textile",     label: "🧵 Textile & Fibres",          labelEn: "🧵 Textile & Fibers",            labelAr: "🧵 النسيج والألياف" },
+  { value: "btp",         label: "🏗️ Construction & BTP",       labelEn: "🏗️ Construction & Building",    labelAr: "🏗️ البناء والمواد" },
+  { value: "energie",     label: "⚡ Énergie & Chimie",           labelEn: "⚡ Energy & Chemicals",           labelAr: "⚡ الطاقة والكيمياء" },
 ];
 
 /* ── Concrete equivalents ── */

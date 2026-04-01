@@ -16,18 +16,18 @@ import {
 
 /* ── Data ── */
 const sectorOptions = [
-  { value: "agriculture", label: "🌾 Agriculture" },
-  { value: "agroalimentaire", label: "🍔 Agroalimentaire" },
-  { value: "textile", label: "🧵 Textile & Mode" },
-  { value: "energie", label: "⚡ Énergie" },
-  { value: "industrie", label: "⚙️ Industrie lourde" },
-  { value: "pharma", label: "💊 Pharmacie" },
-  { value: "electronique", label: "💻 Électronique" },
-  { value: "automobile", label: "🚗 Automobile" },
-  { value: "btp", label: "🏗️ BTP & Matériaux" },
-  { value: "hotellerie", label: "🏨 Hôtellerie & Tourisme" },
-  { value: "distribution", label: "🛒 Distribution" },
-  { value: "collectivites", label: "🏫 Collectivités" },
+  { value: "agriculture",    labelFr: "🌾 Agriculture",         labelEn: "🌾 Agriculture",        labelAr: "🌾 زراعة" },
+  { value: "agroalimentaire",labelFr: "🍔 Agroalimentaire",    labelEn: "🍔 Food Processing",    labelAr: "🍔 صناعة غذائية" },
+  { value: "textile",        labelFr: "🧵 Textile & Mode",     labelEn: "🧵 Textile & Fashion",  labelAr: "🧵 نسيج وموضة" },
+  { value: "energie",        labelFr: "⚡ Énergie",              labelEn: "⚡ Energy",               labelAr: "⚡ طاقة" },
+  { value: "industrie",      labelFr: "⚙️ Industrie lourde",   labelEn: "⚙️ Heavy Industry",     labelAr: "⚙️ صناعة ثقيلة" },
+  { value: "pharma",         labelFr: "💊 Pharmacie",           labelEn: "💊 Pharma",              labelAr: "💊 صيدلة" },
+  { value: "electronique",   labelFr: "💻 Électronique",       labelEn: "💻 Electronics",         labelAr: "💻 إلكترونيات" },
+  { value: "automobile",     labelFr: "🚗 Automobile",          labelEn: "🚗 Automotive",           labelAr: "🚗 سيارات" },
+  { value: "btp",            labelFr: "🏗️ BTP & Matériaux",  labelEn: "🏗️ Construction",      labelAr: "🏗️ بناء ومواد" },
+  { value: "hotellerie",     labelFr: "🏨 Hôtellerie & Tourisme",labelEn: "🏨 Hospitality",         labelAr: "🏨 ضيافة" },
+  { value: "distribution",   labelFr: "🛒 Distribution",       labelEn: "🛒 Retail",               labelAr: "🛒 توزيع" },
+  { value: "collectivites",  labelFr: "🏫 Collectivités",      labelEn: "🏫 Public Sector",       labelAr: "🏫 قطاع عام" },
 ];
 
 const steps = [
@@ -293,7 +293,7 @@ export function CalculatorSection() {
                   <label>{t3("Secteur d'activité", "Industry sector", "القطاع")} *<InfoTip text={t3("Sélectionnez votre secteur d'activité", "Select your industry sector", "اختر قطاعك")} /></label>
                   <select value={sector} onChange={(e) => setSector(e.target.value)}>
                     <option value="">{t3("— Sélectionnez votre secteur —", "— Select your sector —", "— اختر قطاعك —")}</option>
-                    {sectorOptions.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+                    {sectorOptions.map((s) => <option key={s.value} value={s.value}>{t3(s.labelFr, s.labelEn, s.labelAr)}</option>)}
                   </select>
                 </div>
                 <div className="landing-field">
@@ -332,7 +332,7 @@ export function CalculatorSection() {
                 }`}>
                   <span className="text-lg">💧</span>
                   <div>
-                    <strong>WSI {wsiFactor}/5 — {t3(wsiData.label, wsiData.labelEn, wsiData.labelEn)}</strong>
+                    <strong>WSI {wsiFactor}/5 — {t3(wsiData.label, wsiData.labelEn, wsiData.labelAr)}</strong>
                     {" — "}
                     {t3(
                       `Chaque litre économisé ici a un impact ${wsiFactor >= 3.5 ? "critique" : wsiFactor >= 2.5 ? "important" : "positif"}`,
@@ -374,7 +374,7 @@ export function CalculatorSection() {
                   <label>{t3("Filtrer par catégorie", "Filter by category", "تصفية حسب الفئة")}</label>
                   <select value={matCategory} onChange={(e) => setMatCategory(e.target.value)}>
                     <option value="">{t3("— Tous les matériaux —", "— All materials —", "— جميع المواد —")}</option>
-                    {materialCategories.map((c) => <option key={c.value} value={c.value}>{t3(c.label, c.labelEn, c.labelEn)}</option>)}
+                    {materialCategories.map((c) => <option key={c.value} value={c.value}>{t3(c.label, c.labelEn, c.labelAr)}</option>)}
                   </select>
                 </div>
                 <div className="landing-field">
