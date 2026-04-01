@@ -98,6 +98,36 @@ export function HeroSection() {
               alt={fr ? "Illustration empreinte eau HydroScan" : "HydroScan water footprint illustration"}
               className="relative w-full max-w-[580px] h-auto rounded-2xl"
             />
+            {/* Animated water droplets */}
+            {[
+              { left: "58%", top: "38%", delay: 0, size: 6 },
+              { left: "55%", top: "42%", delay: 0.4, size: 5 },
+              { left: "61%", top: "40%", delay: 0.8, size: 4 },
+              { left: "57%", top: "36%", delay: 1.2, size: 5 },
+              { left: "60%", top: "44%", delay: 1.6, size: 3 },
+            ].map((drop, i) => (
+              <motion.div
+                key={i}
+                className="absolute rounded-full bg-[hsl(var(--sky))]/60"
+                style={{
+                  left: drop.left,
+                  top: drop.top,
+                  width: drop.size,
+                  height: drop.size,
+                }}
+                animate={{
+                  y: [0, 60, 120],
+                  opacity: [0, 0.8, 0],
+                  scale: [0.5, 1, 0.3],
+                }}
+                transition={{
+                  duration: 1.8,
+                  delay: drop.delay,
+                  repeat: Infinity,
+                  ease: "easeIn",
+                }}
+              />
+            ))}
           </div>
         </motion.div>
       </motion.div>
