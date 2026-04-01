@@ -25,7 +25,7 @@ export function HeroSection() {
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute -bottom-20 -left-20 w-[400px] h-[400px] rounded-full bg-[hsl(var(--green-water))]/5 blur-3xl" />
+        <div className="absolute -bottom-20 -left-20 w-[400px] h-[400px] rounded-full bg-primary/5 blur-3xl" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[hsl(var(--sky))]/5 blur-3xl" />
       </div>
 
@@ -52,7 +52,7 @@ export function HeroSection() {
           >
             {fr ? "Mesurez votre" : "Measure your"}
             <br />
-            <span className="bg-gradient-to-r from-primary to-[hsl(var(--green-water))] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary to-[hsl(var(--sky))] bg-clip-text text-transparent">
               {fr ? "Empreinte Eau" : "Water Footprint"}
             </span>
             <br />
@@ -90,7 +90,7 @@ export function HeroSection() {
         >
           <div className="relative">
             {/* Glow behind illustration */}
-            <div className="absolute inset-0 scale-90 rounded-3xl bg-gradient-to-br from-primary/10 via-[hsl(var(--green-water))]/10 to-[hsl(var(--sky))]/10 blur-2xl" />
+            <div className="absolute inset-0 scale-90 rounded-3xl bg-gradient-to-br from-primary/10 via-[hsl(var(--sky))]/10 to-[hsl(var(--ocean))]/10 blur-2xl" />
             <img
               src={waterIllustration}
               alt={fr ? "Illustration empreinte eau HydroScan" : "HydroScan water footprint illustration"}
