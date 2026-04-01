@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Globe } from "lucide-react";
 
 const CYCLE: Record<string, "fr" | "en" | "ar"> = { fr: "en", en: "ar", ar: "fr" };
-const LABEL: Record<string, string> = { fr: "EN", en: "AR", ar: "FR" };
+const LABEL: Record<string, string> = { fr: "FR", en: "EN", ar: "AR" };
 
 export function LangToggle() {
   const { lang, setLang } = useI18n();
