@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useI18n } from "@/lib/i18n";
 import { ArrowRight, Droplets } from "lucide-react";
-import waterIllustration from "@/assets/hydroscan_water_illustration.svg";
+import heroIllustration from "@/assets/hydroscan_hero_illustration.png";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -92,7 +92,9 @@ export function HeroSection() {
             {/* Glow behind illustration */}
             <div className="absolute inset-0 scale-90 rounded-3xl bg-gradient-to-br from-primary/10 via-[hsl(var(--sky))]/10 to-[hsl(var(--ocean))]/10 blur-2xl" />
             <img
-              src={waterIllustration}
+              src={heroIllustration}
+              width={1024}
+              height={1024}
               alt={fr ? "Illustration empreinte eau HydroScan" : "HydroScan water footprint illustration"}
               className="relative w-full max-w-[500px] h-auto rounded-2xl"
             />
