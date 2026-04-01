@@ -27,25 +27,49 @@ export default function ActionPlan() {
     return recs;
   }, [totalM3]);
 
-  const [objectives, setObjectives] = useState([
-    { label: "Réduction consommation totale", target: 15, current: 0, unit: "%" },
-    { label: "Recyclage eau industrielle", target: 30, current: 0, unit: "%" },
-  ]);
-  const [completedActions, setCompletedActions] = useState<number[]>([]);
+  const [objectives, setObjectives] = useState(() => {
+    try {
+      const saved = localStorage.getItem("hs_ap_objectives");
+      return saved ? JSON.parse(saved) : [
+        { label: "Réduction consommation totale", target: 15, baselineM3: 28000, unit: "%" },
+        { label: "Recyclage eau industrielle", target: 30, baselineM3: 10000, unit: "%" },
+      ];
+    } catch { return []; }
+  });
+  const [completedActions, setCompletedActions] = useState<number[]>(() => {
+    try {
+      const saved = localStorage.getItem("hs_ap_done");
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
+  });
   const [showAddObj, setShowAddObj] = useState(false);
   const [newObjLabel, setNewObjLabel] = useState("");
   const [newObjTarget, setNewObjTarget] = useState("");
+  const [newObjBaseline, setNewObjBaseline] = useState("");
+
+  const saveObjectives = (objs: typeof objectives) => {
+    setObjectives(objs);
+    localStorage.setItem("hs_ap_objectives", JSON.stringify(objs));
+  };
 
   const addObjective = () => {
     if (!newObjLabel.trim() || !newObjTarget) return;
-    setObjectives([...objectives, { label: newObjLabel.trim(), target: parseFloat(newObjTarget), current: 0, unit: "%" }]);
-    setNewObjLabel("");
-    setNewObjTarget("");
+    saveObjectives([...objectives, {
+      label: newObjLabel.trim(),
+      target: parseFloat(newObjTarget),
+      baselineM3: parseFloat(newObjBaseline) || totalM3 || 10000,
+      unit: "%",
+    }]);
+    setNewObjLabel(""); setNewObjTarget(""); setNewObjBaseline("");
     setShowAddObj(false);
   };
 
   const toggleAction = (id: number) => {
-    setCompletedActions((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
+    setCompletedActions((prev) => {
+      const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
+      localStorage.setItem("hs_ap_done", JSON.stringify(next));
+      return next;
+    });
   };
 
   if (isLoading) {
@@ -74,9 +98,13 @@ export default function ActionPlan() {
                   <Label className="text-xs">Objectif</Label>
                   <Input placeholder="ex: Réduction eau bleue" value={newObjLabel} onChange={(e) => setNewObjLabel(e.target.value)} />
                 </div>
-                <div className="space-y-1 w-[120px]">
+                <div className="space-y-1 w-[110px]">
                   <Label className="text-xs">Cible (%)</Label>
                   <Input type="number" placeholder="ex: 20" value={newObjTarget} onChange={(e) => setNewObjTarget(e.target.value)} />
+                </div>
+                <div className="space-y-1 w-[140px]">
+                  <Label className="text-xs">Baseline (m³)</Label>
+                  <Input type="number" placeholder={String(Math.round(totalM3) || 10000)} value={newObjBaseline} onChange={(e) => setNewObjBaseline(e.target.value)} />
                 </div>
                 <Button size="sm" onClick={addObjective}>Ajouter</Button>
               </div>
@@ -85,17 +113,32 @@ export default function ActionPlan() {
         )}
 
         <div className="grid gap-4 md:grid-cols-3">
-          {objectives.map((obj, i) => {
-            const progress = obj.target > 0 ? Math.round((obj.current / obj.target) * 100) : 0;
+          {objectives.map((obj: any, i: number) => {
+            const baseline = obj.baselineM3 || 1;
+            const targetM3 = baseline * (1 - obj.target / 100);
+            const reduction = baseline - totalM3;
+            const needed = baseline - targetM3;
+            const progress = needed > 0 ? Math.min(Math.max(Math.round((reduction / needed) * 100), 0), 100) : 0;
+            const color = progress >= 75 ? "bg-emerald-500" : progress >= 40 ? "bg-amber-400" : "bg-destructive";
             return (
               <Card key={i}>
                 <CardHeader className="pb-2">
-                  <CardDescription>{obj.label}</CardDescription>
-                  <CardTitle className="text-xl">{obj.current}{obj.unit} <span className="text-sm font-normal text-muted-foreground">/ {obj.target}{obj.unit}</span></CardTitle>
+                  <div className="flex items-start justify-between gap-2">
+                    <CardDescription className="flex-1">{obj.label}</CardDescription>
+                    <button
+                      onClick={() => saveObjectives(objectives.filter((_: any, j: number) => j !== i))}
+                      className="text-muted-foreground hover:text-destructive shrink-0"
+                    >
+                      <span className="text-xs">✕</span>
+                    </button>
+                  </div>
+                  <CardTitle className="text-xl">{progress}% <span className="text-sm font-normal text-muted-foreground">/ {obj.target}% cible</span></CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <Progress value={progress} className="h-2" />
-                  <p className="text-xs text-muted-foreground mt-1">{progress}% atteint</p>
+                <CardContent className="space-y-1">
+                  <Progress value={progress} className={`h-2 [&>div]:${color}`} />
+                  <p className="text-xs text-muted-foreground">
+                    Baseline : {(obj.baselineM3 || 0).toLocaleString("fr-FR")} m³ · Actuel : {Math.round(totalM3).toLocaleString("fr-FR")} m³
+                  </p>
                 </CardContent>
               </Card>
             );

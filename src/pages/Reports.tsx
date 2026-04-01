@@ -14,7 +14,7 @@ function downloadCSV(data: any[], filename: string) {
   const headers = ["Date", "Volume (m³)", "Source", "Usage", "Période"];
   const rows = data.map((r) => [r.recorded_date, r.volume_m3, r.source, r.usage, r.period]);
   const csv = [headers, ...rows].map((r) => r.join(",")).join("\n");
-  const blob = new Blob(["\uFEFF" + csv, { type: "text/csv;charset=utf-8;" }]);
+  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
