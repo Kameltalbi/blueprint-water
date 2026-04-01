@@ -94,7 +94,7 @@ export function HeroSection() {
             <img
               src={heroIllustration}
               width={1024}
-              height={1024}
+              height={768}
               alt={fr ? "Illustration empreinte eau HydroScan" : "HydroScan water footprint illustration"}
               className="relative w-full max-w-[500px] h-auto rounded-2xl"
             />
