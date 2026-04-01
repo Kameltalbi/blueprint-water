@@ -9,9 +9,27 @@ import { ObjectivesWidget } from "@/components/dashboard/ObjectivesWidget";
 import { AlertsWidget } from "@/components/dashboard/AlertsWidget";
 import { BenchmarkWidget } from "@/components/dashboard/BenchmarkWidget";
 import { ConsumptionChart } from "@/components/dashboard/ConsumptionChart";
+import { DataCompletenessWidget } from "@/components/dashboard/DataCompletenessWidget";
 import { useUserRole, useSites, useWaterConsumption } from "@/hooks/useOrgData";
 import { Loader2, Info } from "lucide-react";
-import { demoConsumption, demoSites } from "@/lib/demo-data";
+import { demoConsumption, demoSites, demoPrevConsumption } from "@/lib/demo-data";
+
+/* ── Helper: extract year from period string ── */
+function yearFromPeriod(period: string): string {
+  const match = period.match(/(\d{4})/);
+  return match ? match[1] : new Date().getFullYear().toString();
+}
+
+function monthlyBreakdown(data: any[], year: string) {
+  const labels = ["Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jul", "Aoû", "Sep", "Oct", "Nov", "Déc"];
+  const byMonth: Record<number, number> = {};
+  for (const c of data) {
+    if (!c.recorded_date?.startsWith(year)) continue;
+    const m = new Date(c.recorded_date).getMonth();
+    byMonth[m] = (byMonth[m] || 0) + Number(c.volume_m3);
+  }
+  return labels.map((m, i) => ({ month: m, volume: byMonth[i] || 0 }));
+}
 
 export default function Dashboard() {
   const [site, setSite] = useState("all");
@@ -20,41 +38,36 @@ export default function Dashboard() {
   const { data: realSites = [] } = useSites(userRole?.organization_id);
   const { data: realConsumption = [], isLoading: dataLoading } = useWaterConsumption(userRole?.organization_id);
 
-  // Use demo data if no real data
   const isDemo = realConsumption.length === 0;
-  const rawConsumption = isDemo ? demoConsumption : realConsumption;
+  const allConsumption = isDemo ? [...demoConsumption, ...demoPrevConsumption] : realConsumption;
   const sites = isDemo ? demoSites : realSites;
 
-  // Filter consumption by selected site
-  const consumption = site === "all"
-    ? rawConsumption
-    : rawConsumption.filter((c) => c.site_id === site);
+  const year = yearFromPeriod(period);
+  const prevYear = String(Number(year) - 1);
 
-  // Compute totals
-  const totalVolume = consumption.reduce((s, c) => s + Number(c.volume_m3), 0);
+  // Filter by site and current year
+  const filtered = (site === "all" ? allConsumption : allConsumption.filter((c) => c.site_id === site))
+    .filter((c) => c.recorded_date?.startsWith(year));
 
-  // Group by source for mix donut
-  const bySource = consumption.reduce((acc: Record<string, number>, c) => {
+  // All consumption for alerts and completeness (current year, all sites)
+  const yearConsumption = allConsumption.filter((c) => c.recorded_date?.startsWith(year));
+
+  const totalVolume = filtered.reduce((s, c) => s + Number(c.volume_m3), 0);
+
+  const bySource = filtered.reduce((acc: Record<string, number>, c) => {
     acc[c.source] = (acc[c.source] || 0) + Number(c.volume_m3);
     return acc;
   }, {});
 
-  // Group by site for breakdown chart
-  const bySite = consumption.reduce((acc: Record<string, number>, c) => {
+  const bySite = filtered.reduce((acc: Record<string, number>, c) => {
     const siteObj = sites.find((s: any) => s.id === c.site_id);
     const name = siteObj ? siteObj.name : "Non assigné";
     acc[name] = (acc[name] || 0) + Number(c.volume_m3);
     return acc;
   }, {});
 
-  // Group by month for consumption chart
-  const months = ["Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jul", "Aoû", "Sep", "Oct", "Nov", "Déc"];
-  const byMonth = consumption.reduce((acc: Record<number, number>, c) => {
-    const month = new Date(c.recorded_date).getMonth();
-    acc[month] = (acc[month] || 0) + Number(c.volume_m3);
-    return acc;
-  }, {});
-  const monthlyData = months.map((m, i) => ({ month: m, volume: byMonth[i] || 0 }));
+  const monthlyData = monthlyBreakdown(site === "all" ? allConsumption : allConsumption.filter((c) => c.site_id === site), year);
+  const prevYearData = monthlyBreakdown(site === "all" ? allConsumption : allConsumption.filter((c) => c.site_id === site), prevYear);
 
   const siteList = [{ id: "all", name: "Tous les sites" }, ...sites.map((s: any) => ({ id: s.id, name: s.name }))];
 
@@ -87,7 +100,7 @@ export default function Dashboard() {
         <DashboardFilters site={site} setSite={setSite} period={period} setPeriod={setPeriod} sites={siteList} />
       </div>
 
-      <KpiCards totalVolume={totalVolume} consumption={consumption} />
+      <KpiCards totalVolume={totalVolume} consumption={filtered} />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <WaterMixDonut bySource={bySource} totalVolume={totalVolume} />
@@ -97,15 +110,16 @@ export default function Dashboard() {
       <WaterHeatmap />
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <ObjectivesWidget />
+        <ObjectivesWidget totalM3={totalVolume} />
         <div className="lg:col-span-2">
-          <ConsumptionChart monthlyData={monthlyData} />
+          <ConsumptionChart monthlyData={monthlyData} prevYearData={prevYearData} year={year} />
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-3">
+        <DataCompletenessWidget consumption={yearConsumption} sitesCount={sites.length} year={year} />
         <BenchmarkWidget />
-        <AlertsWidget />
+        <AlertsWidget consumption={allConsumption} year={year} />
       </div>
     </div>
   );
