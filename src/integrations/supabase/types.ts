@@ -164,6 +164,59 @@ export type Database = {
         }
         Relationships: []
       }
+      discharge_entries: {
+        Row: {
+          c_max: number
+          c_nat: number
+          concentration: number
+          created_at: string
+          discharge_type: string
+          id: string
+          organization_id: string
+          pollutant: string
+          unit: string
+          user_id: string
+          volume_m3: number
+          wf_grey: number
+        }
+        Insert: {
+          c_max?: number
+          c_nat?: number
+          concentration?: number
+          created_at?: string
+          discharge_type: string
+          id?: string
+          organization_id: string
+          pollutant: string
+          unit?: string
+          user_id: string
+          volume_m3?: number
+          wf_grey?: number
+        }
+        Update: {
+          c_max?: number
+          c_nat?: number
+          concentration?: number
+          created_at?: string
+          discharge_type?: string
+          id?: string
+          organization_id?: string
+          pollutant?: string
+          unit?: string
+          user_id?: string
+          volume_m3?: number
+          wf_grey?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "discharge_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       impact_factors: {
         Row: {
           blue_water_factor: number
@@ -297,6 +350,53 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "sites_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      supply_chain_entries: {
+        Row: {
+          country: string | null
+          created_at: string
+          id: string
+          material: string
+          organization_id: string
+          quantity: number
+          supplier: string | null
+          unit: string
+          user_id: string
+          water_factor: number
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          material: string
+          organization_id: string
+          quantity?: number
+          supplier?: string | null
+          unit?: string
+          user_id: string
+          water_factor?: number
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          material?: string
+          organization_id?: string
+          quantity?: number
+          supplier?: string | null
+          unit?: string
+          user_id?: string
+          water_factor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "supply_chain_entries_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
