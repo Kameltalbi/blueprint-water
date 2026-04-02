@@ -15,18 +15,7 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { toast } from "sonner";
-
-interface DischargeEntry {
-  id: number;
-  type: string;
-  pollutant: string;
-  cEff: number;      // concentration in effluent
-  volumeM3: number;
-  cMax: number;       // max acceptable
-  cNat: number;       // natural background
-  unit: string;
-  wfGrey: number;     // calculated WF_grey = Ceff × V / (Cmax - Cnat)
-}
+import { useDischargeEntries, useAddDischargeEntry, useDeleteDischargeEntry } from "@/hooks/useDischargeEntries";
 
 const pollutants = [
   { name: "DBO5", cMax: 30, cNat: 2, unit: "mg/L" },
@@ -46,7 +35,10 @@ const dischargeTypes = [
 
 export default function Pollution() {
   const { t } = useI18n();
-  const [entries, setEntries] = useState<DischargeEntry[]>([]);
+  const { data: entries = [], isLoading } = useDischargeEntries();
+  const addMutation = useAddDischargeEntry();
+  const deleteMutation = useDeleteDischargeEntry();
+
   const [showForm, setShowForm] = useState(false);
   const [dischargeType, setDischargeType] = useState("");
   const [pollutant, setPollutant] = useState("");
@@ -65,36 +57,31 @@ export default function Pollution() {
     const cNatVal = pol?.cNat || 0;
     const denom = cMaxVal - cNatVal;
     const wfGrey = denom > 0 ? (cEffVal * volVal) / denom : 0;
-    setEntries([...entries, {
-      id: Date.now(),
-      type: dischargeType,
+
+    addMutation.mutate({
+      discharge_type: dischargeType,
       pollutant,
-      cEff: cEffVal,
-      volumeM3: volVal,
-      cMax: cMaxVal,
-      cNat: cNatVal,
+      concentration: cEffVal,
+      volume_m3: volVal,
+      c_max: cMaxVal,
+      c_nat: cNatVal,
       unit: pol?.unit || "mg/L",
-      wfGrey: Math.round(wfGrey * 100) / 100,
-    }]);
-    setDischargeType("");
-    setPollutant("");
-    setConcentration("");
-    setVolume("");
-    toast.success("Rejet enregistré");
+      wf_grey: Math.round(wfGrey * 100) / 100,
+    }, {
+      onSuccess: () => {
+        setDischargeType("");
+        setPollutant("");
+        setConcentration("");
+        setVolume("");
+      }
+    });
   };
 
-  const removeEntry = (id: number) => {
-    setEntries(entries.filter((e) => e.id !== id));
-  };
-
-  // WFN Grey water: WF_grey = Ceff × V / (Cmax - Cnat) — retain critical pollutant
-  // Total = sum of all entries (each entry is one pollutant measurement)
-  const totalGreyWater = entries.reduce((s, e) => s + e.wfGrey, 0);
-  const nonCompliant = entries.filter((e) => e.cEff > e.cMax).length;
+  const totalGreyWater = entries.reduce((s, e) => s + e.wf_grey, 0);
+  const nonCompliant = entries.filter((e) => e.concentration > e.c_max).length;
   const complianceRate = entries.length > 0 ? Math.round(((entries.length - nonCompliant) / entries.length) * 100) : 0;
-  // Critical pollutant (WFN: the one with highest WF_grey)
   const criticalPollutant = entries.length > 0
-    ? entries.reduce((max, e) => e.wfGrey > max.wfGrey ? e : max)
+    ? entries.reduce((max, e) => e.wf_grey > max.wf_grey ? e : max)
     : null;
 
   return (
@@ -126,7 +113,7 @@ export default function Pollution() {
               </p>
               {criticalPollutant && (
                 <p className="text-xs mt-1 font-medium text-destructive">
-                  Polluant critique : {criticalPollutant.pollutant} ({criticalPollutant.wfGrey.toLocaleString("fr-FR")} m³)
+                  Polluant critique : {criticalPollutant.pollutant} ({criticalPollutant.wf_grey.toLocaleString("fr-FR")} m³)
                 </p>
               )}
             </CardContent>
@@ -196,15 +183,19 @@ export default function Pollution() {
                   <Input type="number" placeholder="ex: 500" value={volume} onChange={(e) => setVolume(e.target.value)} />
                 </div>
               </div>
-              <Button onClick={addEntry} className="gap-2">
+              <Button onClick={addEntry} disabled={addMutation.isPending} className="gap-2">
                 <Plus className="h-4 w-4" />
-                Enregistrer
+                {addMutation.isPending ? "Enregistrement..." : "Enregistrer"}
               </Button>
             </CardContent>
           </Card>
         )}
 
-        {entries.length === 0 ? (
+        {isLoading ? (
+          <Card className="flex items-center justify-center py-16">
+            <p className="text-muted-foreground">Chargement…</p>
+          </Card>
+        ) : entries.length === 0 ? (
           <Card className="flex flex-col items-center justify-center py-16">
             <FlaskConical className="h-12 w-12 text-muted-foreground/40 mb-4" />
             <h3 className="font-semibold text-lg mb-1">{t("pollution.emptyTitle")}</h3>
@@ -239,21 +230,21 @@ export default function Pollution() {
                   <tbody>
                     {entries.map((e) => (
                       <tr key={e.id} className="border-b last:border-0">
-                        <td className="px-4 py-3">{e.type}</td>
+                        <td className="px-4 py-3">{e.discharge_type}</td>
                         <td className="px-4 py-3 font-medium">{e.pollutant}</td>
-                        <td className="px-4 py-3">{e.cEff} {e.unit}</td>
-                        <td className="px-4 py-3 text-muted-foreground">{e.cMax} / {e.cNat} {e.unit}</td>
-                        <td className="px-4 py-3">{e.volumeM3} m³</td>
-                        <td className="px-4 py-3 font-medium">{e.wfGrey.toLocaleString("fr-FR")} m³</td>
+                        <td className="px-4 py-3">{e.concentration} {e.unit}</td>
+                        <td className="px-4 py-3 text-muted-foreground">{e.c_max} / {e.c_nat} {e.unit}</td>
+                        <td className="px-4 py-3">{e.volume_m3} m³</td>
+                        <td className="px-4 py-3 font-medium">{e.wf_grey.toLocaleString("fr-FR")} m³</td>
                         <td className="px-4 py-3">
-                          {e.cEff > e.cMax ? (
+                          {e.concentration > e.c_max ? (
                             <Badge variant="destructive" className="text-xs">Dépassement</Badge>
                           ) : (
                             <Badge variant="secondary" className="text-xs">Conforme</Badge>
                           )}
                         </td>
                         <td className="px-4 py-3 text-right">
-                          <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive" onClick={() => removeEntry(e.id)}>
+                          <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive" onClick={() => deleteMutation.mutate(e.id)}>
                             <Trash2 className="h-3.5 w-3.5" />
                           </Button>
                         </td>

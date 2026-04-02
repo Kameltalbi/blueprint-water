@@ -1,6 +1,6 @@
 import { PageMeta } from "@/components/PageMeta";
 import { useI18n } from "@/lib/i18n";
-import { Package, Upload, Plus, Loader2, Trash2 } from "lucide-react";
+import { Package, Upload, Plus, Trash2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,16 +14,7 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { toast } from "sonner";
-
-interface SupplyEntry {
-  id: number;
-  material: string;
-  supplier: string;
-  country: string;
-  quantity: number;
-  unit: string;
-  waterFactor: number;
-}
+import { useSupplyChainEntries, useAddSupplyChainEntry, useDeleteSupplyChainEntry } from "@/hooks/useSupplyChain";
 
 // Water footprint factors (m³/ton) for common materials
 const materialFactors: Record<string, number> = {
@@ -42,7 +33,10 @@ const materialFactors: Record<string, number> = {
 
 export default function SupplyChain() {
   const { t } = useI18n();
-  const [entries, setEntries] = useState<SupplyEntry[]>([]);
+  const { data: entries = [], isLoading } = useSupplyChainEntries();
+  const addMutation = useAddSupplyChainEntry();
+  const deleteMutation = useDeleteSupplyChainEntry();
+
   const [material, setMaterial] = useState("");
   const [supplier, setSupplier] = useState("");
   const [country, setCountry] = useState("");
@@ -56,29 +50,25 @@ export default function SupplyChain() {
     }
     const factor = materialFactors[material] || 1000;
     const qty = parseFloat(quantity);
-    setEntries([...entries, {
-      id: Date.now(),
+    addMutation.mutate({
       material,
-      supplier: supplier || "—",
-      country: country || "—",
+      supplier: supplier || "",
+      country: country || "",
       quantity: qty,
-      unit: "tonnes",
-      waterFactor: factor,
-    }]);
-    setMaterial("");
-    setSupplier("");
-    setCountry("");
-    setQuantity("");
-    toast.success("Entrée ajoutée");
+      water_factor: factor,
+    }, {
+      onSuccess: () => {
+        setMaterial("");
+        setSupplier("");
+        setCountry("");
+        setQuantity("");
+      }
+    });
   };
 
-  const removeEntry = (id: number) => {
-    setEntries(entries.filter((e) => e.id !== id));
-  };
-
-  const totalVirtualWater = entries.reduce((s, e) => s + (e.quantity * e.waterFactor), 0);
+  const totalVirtualWater = entries.reduce((s, e) => s + (e.quantity * e.water_factor), 0);
   const uniqueMaterials = new Set(entries.map((e) => e.material)).size;
-  const uniqueSuppliers = new Set(entries.filter((e) => e.supplier !== "—").map((e) => e.supplier)).size;
+  const uniqueSuppliers = new Set(entries.filter((e) => e.supplier).map((e) => e.supplier)).size;
 
   return (
     <>
@@ -171,15 +161,19 @@ export default function SupplyChain() {
                   Facteur eau virtuelle : {(materialFactors[material] || 1000).toLocaleString("fr-FR")} m³/tonne (source: Water Footprint Network)
                 </p>
               )}
-              <Button onClick={addEntry} className="gap-2">
+              <Button onClick={addEntry} disabled={addMutation.isPending} className="gap-2">
                 <Plus className="h-4 w-4" />
-                Ajouter
+                {addMutation.isPending ? "Ajout..." : "Ajouter"}
               </Button>
             </CardContent>
           </Card>
         )}
 
-        {entries.length === 0 ? (
+        {isLoading ? (
+          <Card className="flex items-center justify-center py-16">
+            <p className="text-muted-foreground">Chargement…</p>
+          </Card>
+        ) : entries.length === 0 ? (
           <Card className="flex flex-col items-center justify-center py-16">
             <Package className="h-12 w-12 text-muted-foreground/40 mb-4" />
             <h3 className="font-semibold text-lg mb-1">{t("supply.emptyTitle")}</h3>
@@ -214,11 +208,11 @@ export default function SupplyChain() {
                       <tr key={e.id} className="border-b last:border-0">
                         <td className="px-4 py-3 font-medium">{e.material}</td>
                         <td className="px-4 py-3">{e.quantity} t</td>
-                        <td className="px-4 py-3 text-muted-foreground">{e.supplier}</td>
-                        <td className="px-4 py-3 text-muted-foreground">{e.country}</td>
-                        <td className="px-4 py-3 font-medium text-primary">{(e.quantity * e.waterFactor).toLocaleString("fr-FR")} m³</td>
+                        <td className="px-4 py-3 text-muted-foreground">{e.supplier || "—"}</td>
+                        <td className="px-4 py-3 text-muted-foreground">{e.country || "—"}</td>
+                        <td className="px-4 py-3 font-medium text-primary">{(e.quantity * e.water_factor).toLocaleString("fr-FR")} m³</td>
                         <td className="px-4 py-3 text-right">
-                          <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive" onClick={() => removeEntry(e.id)}>
+                          <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive" onClick={() => deleteMutation.mutate(e.id)}>
                             <Trash2 className="h-3.5 w-3.5" />
                           </Button>
                         </td>
