@@ -12,7 +12,7 @@ import hydroscanLogo from "@/assets/logo_hydroscan.png";
 
 export default function Login() {
   const { lang } = useI18n();
-  const fr = lang === "fr";
+  const t3 = (fr: string, en: string, ar: string) => lang === "fr" ? fr : lang === "ar" ? ar : en;
   const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as { from?: string })?.from || "/dashboard";
@@ -30,7 +30,7 @@ export default function Login() {
     if (error) {
       toast({
         variant: "destructive",
-        title: fr ? "Erreur de connexion" : "Login error",
+        title: t3("Erreur de connexion", "Login error", "خطأ في تسجيل الدخول"),
         description: error.message,
       });
     } else {
@@ -47,10 +47,10 @@ export default function Login() {
             <img src={hydroscanLogo} alt="HydroScan" className="h-12 mx-auto object-contain" />
           </Link>
           <h1 className="mt-4 font-display text-3xl font-bold text-foreground">
-            {fr ? "Connexion" : "Login"}
+            {t3("Connexion", "Login", "تسجيل الدخول")}
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            {fr ? "Accédez à votre tableau de bord" : "Access your dashboard"}
+            {t3("Accédez à votre tableau de bord", "Access your dashboard", "ادخل إلى لوحة التحكم الخاصة بك")}
           </p>
         </div>
 
@@ -67,7 +67,7 @@ export default function Login() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">{fr ? "Mot de passe" : "Password"}</Label>
+            <Label htmlFor="password">{t3("Mot de passe", "Password", "كلمة المرور")}</Label>
             <Input
               id="password"
               type="password"
@@ -79,26 +79,26 @@ export default function Login() {
           </div>
           <Button type="submit" className="w-full gradient-water text-primary-foreground" disabled={loading}>
             {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-            {fr ? "Se connecter" : "Log in"}
+            {t3("Se connecter", "Log in", "تسجيل الدخول")}
           </Button>
         </form>
 
         <div className="text-center space-y-2">
           <p className="text-sm text-muted-foreground">
             <Link to="/forgot-password" className="font-semibold text-primary hover:underline">
-              {fr ? "Mot de passe oublié ?" : "Forgot password?"}
+              {t3("Mot de passe oublié ?", "Forgot password?", "نسيت كلمة المرور؟")}
             </Link>
           </p>
           <p className="text-sm text-muted-foreground">
-            {fr ? "Pas encore de compte ?" : "Don't have an account?"}{" "}
+            {t3("Pas encore de compte ?", "Don't have an account?", "ليس لديك حساب؟")}{" "}
             <Link to="/register" className="font-semibold text-primary hover:underline">
-              {fr ? "Créer un compte" : "Sign up"}
+              {t3("Créer un compte", "Sign up", "إنشاء حساب")}
             </Link>
           </p>
         </div>
         <p className="text-center text-sm text-muted-foreground">
           <Link to="/" className="font-semibold text-primary hover:underline">
-            {fr ? "← Retour à l'accueil" : "← Back to home"}
+            {t3("← Retour à l'accueil", "← Back to home", "العودة إلى الرئيسية →")}
           </Link>
         </p>
       </div>

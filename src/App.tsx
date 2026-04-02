@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { I18nProvider } from "@/lib/i18n";
 import { AuthProvider } from "@/hooks/useAuth";
+import { CountryModeProvider } from "@/contexts/CountryMode";
 import { AppLayout } from "@/components/AppLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import LandingPage from "@/pages/LandingPage";
@@ -30,6 +31,11 @@ import ActionPlan from "@/pages/ActionPlan";
 import Recommendations from "@/pages/Recommendations";
 import Organization from "@/pages/Organization";
 import Settings from "@/pages/Settings";
+import OnasPenalties from "@/pages/OnasPenalties";
+import RoiSimulator from "@/pages/RoiSimulator";
+import SonedRisks from "@/pages/SonedRisks";
+import ProductFootprint from "@/pages/ProductFootprint";
+import FinancingTemplate from "@/pages/FinancingTemplate";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -59,6 +65,11 @@ function AppRoutes() {
       <Route path="/recommendations" element={<ProtectedRoute><AppLayout><Recommendations /></AppLayout></ProtectedRoute>} />
       <Route path="/organization" element={<ProtectedRoute><AppLayout><Organization /></AppLayout></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
+      <Route path="/onas-penalties" element={<ProtectedRoute><AppLayout><OnasPenalties /></AppLayout></ProtectedRoute>} />
+      <Route path="/roi-simulator" element={<ProtectedRoute><AppLayout><RoiSimulator /></AppLayout></ProtectedRoute>} />
+      <Route path="/soned-risks" element={<ProtectedRoute><AppLayout><SonedRisks /></AppLayout></ProtectedRoute>} />
+      <Route path="/product-footprint" element={<ProtectedRoute><AppLayout><ProductFootprint /></AppLayout></ProtectedRoute>} />
+      <Route path="/financing-template" element={<ProtectedRoute><AppLayout><FinancingTemplate /></AppLayout></ProtectedRoute>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
@@ -68,6 +79,7 @@ const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
+        <CountryModeProvider>
         <AuthProvider>
           <TooltipProvider>
             <Toaster />
@@ -77,6 +89,7 @@ const App = () => (
             </BrowserRouter>
           </TooltipProvider>
         </AuthProvider>
+        </CountryModeProvider>
       </I18nProvider>
     </QueryClientProvider>
   </HelmetProvider>

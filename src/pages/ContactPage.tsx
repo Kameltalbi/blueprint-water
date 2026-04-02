@@ -16,7 +16,7 @@ const fadeUp = {
 
 export default function ContactPage() {
   const { lang } = useI18n();
-  const fr = lang === "fr";
+  const t3 = (fr: string, en: string, ar: string) => lang === "fr" ? fr : lang === "ar" ? ar : en;
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -33,8 +33,8 @@ export default function ContactPage() {
   return (
     <>
       <PageMeta
-        title={fr ? "Contact — HydroScan" : "Contact — HydroScan"}
-        description={fr ? "Contactez l'équipe HydroScan pour toute question sur l'empreinte eau." : "Contact HydroScan for any question about water footprint."}
+        title={t3("Contact — HydroScan", "Contact — HydroScan", "اتصل بنا — HydroScan")}
+        description={t3("Contactez l'équipe HydroScan pour toute question sur l'empreinte eau.", "Contact HydroScan for any question about water footprint.", "تواصل مع HydroScan لأي سؤال حول البصمة المائية.")}
       />
       <LandingHeader activePage="contact" />
 
@@ -47,7 +47,7 @@ export default function ContactPage() {
             animate="visible"
             className="text-4xl md:text-5xl font-bold text-foreground mb-4"
           >
-            {fr ? "Contactez-nous" : "Contact Us"}
+            {t3("Contactez-nous", "Contact Us", "تواصل معنا")}
           </motion.h1>
           <motion.p
             variants={fadeUp}
@@ -56,9 +56,7 @@ export default function ContactPage() {
             transition={{ delay: 0.1 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto"
           >
-            {fr
-              ? "Une question, une demande de démonstration ou un projet ? Notre équipe vous répond rapidement."
-              : "A question, a demo request or a project? Our team will get back to you quickly."}
+            {t3("Une question, une demande de démonstration ou un projet ? Notre équipe vous répond rapidement.", "A question, a demo request or a project? Our team will get back to you quickly.", "سؤال أو طلب عرض توضيحي أو مشروع؟ فريقنا يرد عليك سريعًا.")}
           </motion.p>
         </section>
 
@@ -73,7 +71,7 @@ export default function ContactPage() {
           >
             <div>
               <h2 className="text-xl font-semibold text-foreground mb-6">
-                {fr ? "Nos coordonnées" : "Our details"}
+                {t3("Nos coordonnées", "Our details", "معلومات الاتصال")}
               </h2>
               <div className="space-y-5">
                 <a
@@ -92,15 +90,15 @@ export default function ContactPage() {
                 >
                   <Phone className="w-5 h-5 mt-0.5 text-primary" />
                   <div>
-                    <p className="text-sm font-medium text-foreground">{fr ? "Téléphone" : "Phone"}</p>
+                    <p className="text-sm font-medium text-foreground">{t3("Téléphone", "Phone", "هاتف")}</p>
                     <p className="text-sm group-hover:text-primary transition-colors">+216 55 053 505</p>
                   </div>
                 </a>
                 <div className="flex items-start gap-3 text-muted-foreground">
                   <MapPin className="w-5 h-5 mt-0.5 text-primary" />
                   <div>
-                    <p className="text-sm font-medium text-foreground">{fr ? "Localisation" : "Location"}</p>
-                    <p className="text-sm">{fr ? "Tunisie" : "Tunisia"}</p>
+                    <p className="text-sm font-medium text-foreground">{t3("Localisation", "Location", "الموقع")}</p>
+                    <p className="text-sm">{t3("Tunisie", "Tunisia", "تونس")}</p>
                   </div>
                 </div>
               </div>
@@ -108,9 +106,7 @@ export default function ContactPage() {
 
             <div className="rounded-xl border border-border bg-card p-5">
               <p className="text-sm text-muted-foreground leading-relaxed">
-                {fr
-                  ? "Nous répondons généralement sous 24 à 48 heures ouvrées. Pour les demandes urgentes, privilégiez le téléphone."
-                  : "We typically respond within 24–48 business hours. For urgent requests, please call us."}
+                {t3("Nous répondons généralement sous 24 à 48 heures ouvrables. Pour les demandes urgentes, privilégiez le téléphone.", "We typically respond within 24–48 business hours. For urgent requests, please call us.", "نرد عادةً خلال 24 إلى 48 ساعة عمل. للطلبات العاجلة، يُفضّل الاتصال هاتفيًا.")}
               </p>
             </div>
           </motion.div>
@@ -129,12 +125,10 @@ export default function ContactPage() {
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <CheckCircle className="w-12 h-12 text-primary mb-4" />
                   <h3 className="text-xl font-semibold text-foreground mb-2">
-                    {fr ? "Message envoyé !" : "Message sent!"}
+                    {t3("Message envoyé !", "Message sent!", "تم إرسال الرسالة!")}
                   </h3>
                   <p className="text-muted-foreground text-sm max-w-sm">
-                    {fr
-                      ? "Merci pour votre message. Notre équipe vous répondra dans les plus brefs délais."
-                      : "Thank you for your message. Our team will get back to you shortly."}
+                    {t3("Merci pour votre message. Notre équipe vous répondra dans les plus brefs délais.", "Thank you for your message. Our team will get back to you shortly.", "شكرًا لرسالتك. سيرد عليك فريقنا في أقرب وقت.")}
                   </p>
                 </div>
               ) : (
@@ -142,9 +136,9 @@ export default function ContactPage() {
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="text-sm font-medium text-foreground mb-1.5 block">
-                        {fr ? "Nom complet" : "Full name"} *
+                        {t3("Nom complet", "Full name", "الاسم الكامل")} *
                       </label>
-                      <Input required name="name" maxLength={100} placeholder={fr ? "Votre nom" : "Your name"} />
+                      <Input required name="name" maxLength={100} placeholder={t3("Votre nom", "Your name", "اسمك")} />
                     </div>
                     <div>
                       <label className="text-sm font-medium text-foreground mb-1.5 block">
@@ -155,15 +149,15 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <label className="text-sm font-medium text-foreground mb-1.5 block">
-                      {fr ? "Entreprise" : "Company"}
+                      {t3("Entreprise", "Company", "الشركة")}
                     </label>
-                    <Input name="company" maxLength={100} placeholder={fr ? "Nom de votre entreprise" : "Your company name"} />
+                    <Input name="company" maxLength={100} placeholder={t3("Nom de votre entreprise", "Your company name", "اسم شركتك")} />
                   </div>
                   <div>
                     <label className="text-sm font-medium text-foreground mb-1.5 block">
-                      {fr ? "Sujet" : "Subject"} *
+                      {t3("Sujet", "Subject", "الموضوع")} *
                     </label>
-                    <Input required name="subject" maxLength={150} placeholder={fr ? "L'objet de votre message" : "Subject of your message"} />
+                    <Input required name="subject" maxLength={150} placeholder={t3("L'objet de votre message", "Subject of your message", "موضوع رسالتك")} />
                   </div>
                   <div>
                     <label className="text-sm font-medium text-foreground mb-1.5 block">
@@ -174,19 +168,19 @@ export default function ContactPage() {
                       name="message"
                       maxLength={2000}
                       rows={5}
-                      placeholder={fr ? "Décrivez votre demande..." : "Describe your request..."}
+                      placeholder={t3("Décrivez votre demande...", "Describe your request...", "صف طلبك...")}
                     />
                   </div>
                   <Button type="submit" disabled={loading} className="w-full gradient-water text-primary-foreground">
                     {loading ? (
                       <span className="flex items-center gap-2">
                         <span className="animate-spin h-4 w-4 border-2 border-primary-foreground border-t-transparent rounded-full" />
-                        {fr ? "Envoi..." : "Sending..."}
+                        {t3("Envoi...", "Sending...", "جاري الإرسال...")}
                       </span>
                     ) : (
                       <span className="flex items-center gap-2">
                         <Send className="w-4 h-4" />
-                        {fr ? "Envoyer le message" : "Send message"}
+                        {t3("Envoyer le message", "Send message", "إرسال الرسالة")}
                       </span>
                     )}
                   </Button>

@@ -7,7 +7,7 @@ import { PageMeta } from "@/components/PageMeta";
 
 export default function CalculatorPage() {
   const { lang } = useI18n();
-  const fr = lang === "fr";
+  const t3 = (fr: string, en: string, ar: string) => lang === "fr" ? fr : lang === "ar" ? ar : en;
 
   return (
     <div className="min-h-screen bg-card font-sans">
@@ -22,19 +22,17 @@ export default function CalculatorPage() {
       {/* CTA */}
       <section className="gradient-water py-16 px-[5%] text-center text-primary-foreground">
         <h2 className="font-display text-[clamp(1.5rem,3vw,2.2rem)] font-extrabold mb-3">
-          {fr ? "Besoin d'aller plus loin ?" : "Need to go further?"}
+          {t3("Besoin d'aller plus loin ?", "Need to go further?", "هل تحتاج إلى المزيد؟")}
         </h2>
         <p className="opacity-85 max-w-[420px] mx-auto mb-8 text-sm">
-          {fr
-            ? "Accédez au tableau de bord complet pour suivre votre empreinte eau en continu."
-            : "Access the full dashboard to continuously monitor your water footprint."}
+          {t3("Accédez au tableau de bord complet pour suivre votre empreinte eau en continu.", "Access the full dashboard to continuously monitor your water footprint.", "ادخل إلى لوحة التحكم الكاملة لمتابعة بصمتك المائية باستمرار.")}
         </p>
         <Link
           to="/dashboard"
           className="inline-block px-8 py-3.5 text-white rounded-[10px] font-bold text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all"
           style={{ backgroundColor: '#015486' }}
         >
-          {fr ? "Accéder au tableau de bord →" : "Go to dashboard →"}
+          {t3("Accéder au tableau de bord →", "Go to dashboard →", "انتقل إلى لوحة التحكم ←")}
         </Link>
       </section>
 

@@ -11,7 +11,7 @@ import hydroscanLogo from "@/assets/logo_hydroscan.png";
 
 export default function ResetPassword() {
   const { lang } = useI18n();
-  const fr = lang === "fr";
+  const t3 = (fr: string, en: string, ar: string) => lang === "fr" ? fr : lang === "ar" ? ar : en;
   const navigate = useNavigate();
   const { toast } = useToast();
   const [password, setPassword] = useState("");
@@ -27,8 +27,8 @@ export default function ResetPassword() {
       toast({ variant: "destructive", title: "Erreur", description: error.message });
     } else {
       toast({
-        title: fr ? "Mot de passe mis à jour" : "Password updated",
-        description: fr ? "Vous pouvez maintenant vous connecter." : "You can now log in.",
+        title: t3("Mot de passe mis à jour", "Password updated", "تم تحديث كلمة المرور"),
+        description: t3("Vous pouvez maintenant vous connecter.", "You can now log in.", "يمكنك الآن تسجيل الدخول."),
       });
       navigate("/dashboard");
     }
@@ -42,13 +42,13 @@ export default function ResetPassword() {
             <img src={hydroscanLogo} alt="HydroScan" className="h-12 mx-auto object-contain" />
           </Link>
           <h1 className="mt-4 font-display text-3xl font-bold text-foreground">
-            {fr ? "Nouveau mot de passe" : "New password"}
+            {t3("Nouveau mot de passe", "New password", "كلمة مرور جديدة")}
           </h1>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5 bg-card p-8 rounded-2xl border border-border shadow-sm">
           <div className="space-y-2">
-            <Label htmlFor="password">{fr ? "Nouveau mot de passe" : "New password"}</Label>
+            <Label htmlFor="password">{t3("Nouveau mot de passe", "New password", "كلمة مرور جديدة")}</Label>
             <Input
               id="password"
               type="password"
@@ -61,7 +61,7 @@ export default function ResetPassword() {
           </div>
           <Button type="submit" className="w-full gradient-water text-primary-foreground" disabled={loading}>
             {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-            {fr ? "Mettre à jour" : "Update password"}
+            {t3("Mettre à jour", "Update password", "تحديث كلمة المرور")}
           </Button>
         </form>
       </div>

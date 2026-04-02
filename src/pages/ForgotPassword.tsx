@@ -10,7 +10,7 @@ import { Loader2, ArrowLeft } from "lucide-react";
 
 export default function ForgotPassword() {
   const { lang } = useI18n();
-  const fr = lang === "fr";
+  const t3 = (fr: string, en: string, ar: string) => lang === "fr" ? fr : lang === "ar" ? ar : en;
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -40,20 +40,20 @@ export default function ForgotPassword() {
             Hydro<em className="not-italic text-primary">Scan</em>
           </Link>
           <h1 className="mt-4 font-display text-3xl font-bold text-foreground">
-            {fr ? "Mot de passe oublié" : "Forgot password"}
+            {t3("Mot de passe oublié", "Forgot password", "نسيت كلمة المرور")}
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            {fr ? "Entrez votre email pour recevoir un lien de réinitialisation" : "Enter your email to receive a reset link"}
+            {t3("Entrez votre email pour recevoir un lien de réinitialisation", "Enter your email to receive a reset link", "أدخل بريدك الإلكتروني لاستقبال رابط إعادة التعيين")}
           </p>
         </div>
 
         {sent ? (
           <div className="bg-card p-8 rounded-2xl border border-border shadow-sm text-center space-y-4">
             <p className="text-foreground font-medium">
-              {fr ? "Email envoyé !" : "Email sent!"}
+              {t3("Email envoyé !", "Email sent!", "تم إرسال البريد الإلكتروني!")}
             </p>
             <p className="text-sm text-muted-foreground">
-              {fr ? "Vérifiez votre boîte de réception et cliquez sur le lien." : "Check your inbox and click the link."}
+              {t3("Vérifiez votre boîte de réception et cliquez sur le lien.", "Check your inbox and click the link.", "تحقق من صندوق الوارد وانقر على الرابط.")}
             </p>
           </div>
         ) : (
@@ -71,7 +71,7 @@ export default function ForgotPassword() {
             </div>
             <Button type="submit" className="w-full gradient-water text-primary-foreground" disabled={loading}>
               {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-              {fr ? "Envoyer le lien" : "Send reset link"}
+              {t3("Envoyer le lien", "Send reset link", "إرسال الرابط")}
             </Button>
           </form>
         )}
@@ -79,7 +79,7 @@ export default function ForgotPassword() {
         <p className="text-center text-sm text-muted-foreground">
           <Link to="/login" className="inline-flex items-center gap-1 font-semibold text-primary hover:underline">
             <ArrowLeft className="h-3 w-3" />
-            {fr ? "Retour à la connexion" : "Back to login"}
+            {t3("Retour à la connexion", "Back to login", "العودة إلى تسجيل الدخول")}
           </Link>
         </p>
       </div>

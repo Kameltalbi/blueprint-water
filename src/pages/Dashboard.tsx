@@ -3,6 +3,7 @@ import { PageMeta } from "@/components/PageMeta";
 import { DashboardFilters } from "@/components/dashboard/DashboardFilters";
 import { KpiCards } from "@/components/dashboard/KpiCards";
 import { WaterMixDonut } from "@/components/dashboard/WaterMixDonut";
+import { ProcessBreakdownChart } from "@/components/dashboard/ProcessBreakdownChart";
 import { SiteBreakdownChart } from "@/components/dashboard/SiteBreakdownChart";
 import { WaterHeatmap } from "@/components/dashboard/WaterHeatmap";
 import { ObjectivesWidget } from "@/components/dashboard/ObjectivesWidget";
@@ -10,6 +11,7 @@ import { AlertsWidget } from "@/components/dashboard/AlertsWidget";
 import { BenchmarkWidget } from "@/components/dashboard/BenchmarkWidget";
 import { ConsumptionChart } from "@/components/dashboard/ConsumptionChart";
 import { DataCompletenessWidget } from "@/components/dashboard/DataCompletenessWidget";
+import { EfficiencyWidget } from "@/components/dashboard/EfficiencyWidget";
 import { useUserRole, useSites, useWaterConsumption } from "@/hooks/useOrgData";
 import { Loader2, Info } from "lucide-react";
 import { demoConsumption, demoSites, demoPrevConsumption } from "@/lib/demo-data";
@@ -102,8 +104,12 @@ export default function Dashboard() {
 
       <KpiCards totalVolume={totalVolume} consumption={filtered} />
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-3">
         <WaterMixDonut bySource={bySource} totalVolume={totalVolume} />
+        <ProcessBreakdownChart consumption={filtered} />
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
         <SiteBreakdownChart bySite={bySite} />
       </div>
 
@@ -116,10 +122,11 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-6 lg:grid-cols-4">
         <DataCompletenessWidget consumption={yearConsumption} sitesCount={sites.length} year={year} />
         <BenchmarkWidget />
         <AlertsWidget consumption={allConsumption} year={year} />
+        <EfficiencyWidget totalVolume={totalVolume} period={period} />
       </div>
     </div>
   );

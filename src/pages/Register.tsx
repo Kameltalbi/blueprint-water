@@ -11,7 +11,7 @@ import hydroscanLogo from "@/assets/logo_hydroscan.png";
 
 export default function Register() {
   const { lang } = useI18n();
-  const fr = lang === "fr";
+  const t3 = (fr: string, en: string, ar: string) => lang === "fr" ? fr : lang === "ar" ? ar : en;
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -34,10 +34,8 @@ export default function Register() {
     if (!orgName.trim() || !orgAddress.trim() || !orgEmail.trim() || !orgPhone.trim()) {
       toast({
         variant: "destructive",
-        title: fr ? "Champs requis" : "Required fields",
-        description: fr
-          ? "Veuillez remplir tous les champs de l'organisation."
-          : "Please fill in all organization fields.",
+        title: t3("Champs requis", "Required fields", "حقول مطلوبة"),
+        description: t3("Veuillez remplir tous les champs de l'organisation.", "Please fill in all organization fields.", "يرجى ملء جميع حقول المؤسسة."),
       });
       return;
     }
@@ -58,7 +56,7 @@ export default function Register() {
       setLoading(false);
       toast({
         variant: "destructive",
-        title: fr ? "Erreur d'inscription" : "Signup error",
+        title: t3("Erreur d'inscription", "Signup error", "خطأ في التسجيل"),
         description: signUpError.message,
       });
       return;
@@ -84,10 +82,8 @@ export default function Register() {
 
     setLoading(false);
     toast({
-      title: fr ? "Compte créé !" : "Account created!",
-      description: fr
-        ? "Vérifiez votre email pour confirmer votre compte."
-        : "Check your email to confirm your account.",
+      title: t3("Compte créé !", "Account created!", "تم إنشاء الحساب!"),
+      description: t3("Vérifiez votre email pour confirmer votre compte.", "Check your email to confirm your account.", "تحقق من بريدك الإلكتروني لتأكيد حسابك."),
     });
     navigate("/login");
   };
@@ -100,10 +96,10 @@ export default function Register() {
             <img src={hydroscanLogo} alt="HydroScan" className="h-12 mx-auto object-contain" />
           </Link>
           <h1 className="font-display text-3xl font-bold text-foreground">
-            {fr ? "Créer un compte" : "Create account"}
+            {t3("Créer un compte", "Create account", "إنشاء حساب")}
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            {fr ? "Commencez à piloter votre empreinte eau" : "Start managing your water footprint"}
+            {t3("Commencez à piloter votre empreinte eau", "Start managing your water footprint", "ابدأ في إدارة بصمتك المائية")}
           </p>
         </div>
 
@@ -111,14 +107,14 @@ export default function Register() {
           {/* Informations personnelles */}
           <div>
             <h2 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wide">
-              {fr ? "Informations personnelles" : "Personal information"}
+              {t3("Informations personnelles", "Personal information", "المعلومات الشخصية")}
             </h2>
             <div className="space-y-3">
               <div className="space-y-2">
-                <Label htmlFor="fullName">{fr ? "Nom complet" : "Full name"} *</Label>
+                <Label htmlFor="fullName">{t3("Nom complet", "Full name", "الاسم الكامل")} *</Label>
                 <Input
                   id="fullName"
-                  placeholder={fr ? "Jean Dupont" : "John Doe"}
+                  placeholder={t3("Jean Dupont", "John Doe", "محمد السالم")}
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
@@ -126,7 +122,7 @@ export default function Register() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email">{fr ? "Email personnel" : "Personal email"} *</Label>
+                <Label htmlFor="email">{t3("Email personnel", "Personal email", "البريد الشخصي")} *</Label>
                 <Input
                   id="email"
                   type="email"
@@ -138,7 +134,7 @@ export default function Register() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password">{fr ? "Mot de passe" : "Password"} *</Label>
+                <Label htmlFor="password">{t3("Mot de passe", "Password", "كلمة المرور")} *</Label>
                 <Input
                   id="password"
                   type="password"
@@ -155,14 +151,14 @@ export default function Register() {
           {/* Organisation */}
           <div className="border-t border-border pt-5">
             <h2 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wide">
-              {fr ? "Organisation" : "Organization"}
+              {t3("Organisation", "Organization", "المؤسسة")}
             </h2>
             <div className="space-y-3">
               <div className="space-y-2">
-                <Label htmlFor="orgName">{fr ? "Nom de l'organisation" : "Organization name"} *</Label>
+                <Label htmlFor="orgName">{t3("Nom de l'organisation", "Organization name", "اسم المؤسسة")} *</Label>
                 <Input
                   id="orgName"
-                  placeholder={fr ? "ex: SARL AquaTech" : "e.g. AquaTech Ltd"}
+                  placeholder={t3("ex: SARL AquaTech", "e.g. AquaTech Ltd", "مثال: AquaTech SARL")}
                   value={orgName}
                   onChange={(e) => setOrgName(e.target.value)}
                   required
@@ -170,10 +166,10 @@ export default function Register() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="orgAddress">{fr ? "Adresse" : "Address"} *</Label>
+                <Label htmlFor="orgAddress">{t3("Adresse", "Address", "العنوان")} *</Label>
                 <Input
                   id="orgAddress"
-                  placeholder={fr ? "ex: Zone industrielle, Sfax" : "e.g. Industrial zone, Sfax"}
+                  placeholder={t3("ex: Zone industrielle, Sfax", "e.g. Industrial zone, Sfax", "مثال: المنطقة الصناعية، صفاقس")}
                   value={orgAddress}
                   onChange={(e) => setOrgAddress(e.target.value)}
                   required
@@ -182,7 +178,7 @@ export default function Register() {
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="orgEmail">{fr ? "Email organisation" : "Organization email"} *</Label>
+                  <Label htmlFor="orgEmail">{t3("Email organisation", "Organization email", "بريد المؤسسة")} *</Label>
                   <Input
                     id="orgEmail"
                     type="email"
@@ -194,11 +190,11 @@ export default function Register() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="orgPhone">{fr ? "Téléphone" : "Phone"} *</Label>
+                  <Label htmlFor="orgPhone">{t3("Téléphone", "Phone", "الهاتف")} *</Label>
                   <Input
                     id="orgPhone"
                     type="tel"
-                    placeholder={fr ? "ex: +216 71 000 000" : "e.g. +216 71 000 000"}
+                    placeholder={t3("ex: +216 71 000 000", "e.g. +216 71 000 000", "مثال: +216 71 000 000")}
                     value={orgPhone}
                     onChange={(e) => setOrgPhone(e.target.value)}
                     required
@@ -211,19 +207,19 @@ export default function Register() {
 
           <Button type="submit" className="w-full gradient-water text-primary-foreground" disabled={loading}>
             {loading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
-            {fr ? "Créer mon compte" : "Create account"}
+            {t3("Créer mon compte", "Create account", "إنشاء حسابي")}
           </Button>
         </form>
 
         <p className="text-center text-sm text-muted-foreground">
-          {fr ? "Déjà un compte ?" : "Already have an account?"}{" "}
+          {t3("Déjà un compte ?", "Already have an account?", "لديك حساب بالفعل؟")}{" "}
           <Link to="/login" className="font-semibold text-primary hover:underline">
-            {fr ? "Se connecter" : "Log in"}
+            {t3("Se connecter", "Log in", "تسجيل الدخول")}
           </Link>
         </p>
         <p className="text-center text-sm text-muted-foreground">
           <Link to="/" className="font-semibold text-primary hover:underline">
-            {fr ? "← Retour à l'accueil" : "← Back to home"}
+            {t3("← Retour à l'accueil", "← Back to home", "العودة إلى الرئيسية →")}
           </Link>
         </p>
       </div>

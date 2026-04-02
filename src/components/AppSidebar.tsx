@@ -7,6 +7,11 @@ import {
   Building2,
   Settings,
   LogOut,
+  FlaskConical,
+  TrendingDown,
+  ShieldAlert,
+  Package,
+  FileCheck,
 } from "lucide-react";
 import hydroscanLogoWhite from "@/assets/hydroscan-logo-white.png";
 import { NavLink } from "@/components/NavLink";
@@ -15,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "react-router-dom";
 import { useI18n } from "@/lib/i18n";
+import { useCountryMode } from "@/contexts/CountryMode";
 import {
   Sidebar,
   SidebarContent,
@@ -37,6 +43,7 @@ export function AppSidebar() {
   const { t } = useI18n();
   const { signOut } = useAuth();
   const navigate = useNavigate();
+  const { mode, setMode, isTunisia } = useCountryMode();
 
   const topItems = [
     { title: t("sidebar.dashboard"), url: "/dashboard", icon: LayoutDashboard },
@@ -50,6 +57,14 @@ export function AppSidebar() {
     { title: t("sidebar.stressMap"), url: "/stress-map", icon: MapPin },
     { title: t("sidebar.reportsExports"), url: "/reports", icon: FileBarChart },
     { title: t("sidebar.actionPlan"), url: "/action-plan", icon: Sprout },
+  ];
+
+  const tuniItems = [
+    { title: "Pénalités ONAS", url: "/onas-penalties", icon: FlaskConical },
+    { title: "Simulateur ROI", url: "/roi-simulator", icon: TrendingDown },
+    { title: "Risques SONEDE", url: "/soned-risks", icon: ShieldAlert },
+    { title: "Empreinte produit", url: "/product-footprint", icon: Package },
+    { title: "Dossier financement", url: "/financing-template", icon: FileCheck },
   ];
 
   const settingsItems = [
@@ -110,6 +125,17 @@ export function AppSidebar() {
 
         <SidebarSeparator />
 
+        {isTunisia && (
+          <>
+            <SidebarGroup>
+              <SidebarGroupLabel>Outils Tunisie 🇹🇳</SidebarGroupLabel>
+              {renderItems(tuniItems)}
+            </SidebarGroup>
+            <SidebarSeparator />
+          </>
+        )}
+
+
         <SidebarGroup>
           <SidebarGroupLabel>{t("sidebar.settingsSection")}</SidebarGroupLabel>
           {renderItems(settingsItems)}
@@ -118,6 +144,40 @@ export function AppSidebar() {
 
       <SidebarFooter className="p-4">
         <div className="space-y-2">
+          {/* Country mode toggle */}
+          {!collapsed && (
+            <div className="flex rounded-lg border border-border overflow-hidden text-xs">
+              <button
+                className={`flex-1 py-1.5 flex items-center justify-center gap-1 transition-colors ${
+                  mode === "tn"
+                    ? "bg-primary text-primary-foreground font-semibold"
+                    : "bg-background text-muted-foreground hover:bg-muted"
+                }`}
+                onClick={() => setMode("tn")}
+              >
+                🇹🇳 Tunisie
+              </button>
+              <button
+                className={`flex-1 py-1.5 flex items-center justify-center gap-1 transition-colors ${
+                  mode === "int"
+                    ? "bg-primary text-primary-foreground font-semibold"
+                    : "bg-background text-muted-foreground hover:bg-muted"
+                }`}
+                onClick={() => setMode("int")}
+              >
+                🌍 International
+              </button>
+            </div>
+          )}
+          {collapsed && (
+            <button
+              title={mode === "tn" ? "Mode Tunisie — cliquer pour International" : "Mode International — cliquer pour Tunisie"}
+              className="w-full flex items-center justify-center text-lg py-1 rounded hover:bg-muted transition-colors"
+              onClick={() => setMode(mode === "tn" ? "int" : "tn")}
+            >
+              {mode === "tn" ? "🇹🇳" : "🌍"}
+            </button>
+          )}
           <Button
             variant="ghost"
             size={collapsed ? "icon" : "default"}

@@ -19,11 +19,50 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserRole, useSites, useWaterConsumption } from "@/hooks/useOrgData";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCountryMode } from "@/contexts/CountryMode";
 
 /* ── Constants ── */
-const sources = ["Réseau municipal", "Puits / Eau souterraine", "Eau de pluie", "Eau recyclée"];
-const usages = ["Processus industriel", "Sanitaire", "Irrigation", "Refroidissement", "Nettoyage"];
-const periods = ["Mensuel", "Trimestriel", "Annuel"];
+const sourcesTunisia = [
+  "SONEDE (Réseau municipal)",
+  "Forage / Puits privé",
+  "Eau de pluie récupérée",
+  "Eau recyclée / REUT",
+  "Camion-citerne (SONEDE)",
+  "Source / Oued",
+];
+
+const sourcesInternational = [
+  "Réseau municipal",
+  "Eau souterraine (forage)",
+  "Eau de surface (rivière, lac)",
+  "Eau de pluie récupérée",
+  "Eau recyclée / réutilisée",
+  "Eau dessalée",
+  "Livraison / camion-citerne",
+  "Autre source",
+];
+const usages = [
+  "Processus industriel",
+  "Refroidissement",
+  "Nettoyage / Lavage",
+  "Rinçage",
+  "Chaudière / Vapeur",
+  "Irrigation",
+  "Sanitaire",
+  "Transport pneumatique",
+  "Autre usage",
+];
+const periods = [
+  "Janvier 2025", "Février 2025", "Mars 2025", "Avril 2025",
+  "Mai 2025", "Juin 2025", "Juillet 2025", "Août 2025",
+  "Septembre 2025", "Octobre 2025", "Novembre 2025", "Décembre 2025",
+  "Janvier 2026", "Février 2026", "Mars 2026", "Avril 2026",
+  "Mai 2026", "Juin 2026", "Juillet 2026", "Août 2026",
+  "Septembre 2026", "Octobre 2026", "Novembre 2026", "Décembre 2026",
+  "T1 2025", "T2 2025", "T3 2025", "T4 2025",
+  "T1 2026", "T2 2026", "T3 2026", "T4 2026",
+  "Annuel 2024", "Annuel 2025", "Annuel 2026",
+];
 
 const materialFactors: Record<string, number> = {
   "Coton": 10000, "Cuir": 17000, "Blé": 1800, "Sucre": 1500,
@@ -51,6 +90,8 @@ export default function DataEntry() {
   const { data: userRole } = useUserRole();
   const { data: sites = [] } = useSites(userRole?.organization_id);
   const { data: entries = [], isLoading } = useWaterConsumption(userRole?.organization_id);
+  const { isTunisia } = useCountryMode();
+  const sources = isTunisia ? sourcesTunisia : sourcesInternational;
 
   /* ── Tab 1: Consommation directe ── */
   const [volume, setVolume] = useState("");
@@ -59,6 +100,7 @@ export default function DataEntry() {
   const [period, setPeriod] = useState("");
   const [siteId, setSiteId] = useState("");
   const [recordedDate, setRecordedDate] = useState(new Date().toISOString().slice(0, 10));
+  const [referenceFacture, setReferenceFacture] = useState("");
 
   const insertMutation = useMutation({
     mutationFn: async () => {
@@ -215,6 +257,12 @@ export default function DataEntry() {
                   <Label>Date</Label>
                   <Input type="date" value={recordedDate} onChange={(e) => setRecordedDate(e.target.value)} />
                 </div>
+                {isTunisia && (
+                  <div className="space-y-2">
+                    <Label>Réf. facture / compteur <span className="text-muted-foreground text-xs">(optionnel)</span></Label>
+                    <Input placeholder="ex: SONEDE-2026-04-001" value={referenceFacture} onChange={(e) => setReferenceFacture(e.target.value)} />
+                  </div>
+                )}
               </div>
               <Button onClick={() => { if (!volume || !source || !usage || !period) { toast.error("Remplissez les champs obligatoires"); return; } insertMutation.mutate(); }} className="gap-2" disabled={insertMutation.isPending || noOrg}>
                 {insertMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}

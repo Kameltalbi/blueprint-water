@@ -10,6 +10,22 @@ import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip } from "react-lea
 import { HeatmapLayer } from "@/components/map/HeatmapLayer";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
+/* ── Tunisian watersheds with AWARE factors ── */
+const tunisianBasins = [
+  { id: "medjerda",   name: "Médjerda",          coords: [36.5, 9.2]  as [number,number], wsi: 4.8, aware: 4200, label: "Critique",  crda: "Béja / Jendouba" },
+  { id: "ichkeul",   name: "Ichkeul",            coords: [37.1, 9.7]  as [number,number], wsi: 4.5, aware: 3800, label: "Critique",  crda: "Bizerte" },
+  { id: "capbon",    name: "Cap Bon",            coords: [36.7, 10.9] as [number,number], wsi: 4.2, aware: 2900, label: "Élevé",    crda: "Nabeul" },
+  { id: "bizerte",   name: "Bizerte",           coords: [37.3, 9.9]  as [number,number], wsi: 3.2, aware: 1200, label: "Moyen",    crda: "Bizerte" },
+  { id: "tunis",     name: "Grand Tunis",       coords: [36.8, 10.2] as [number,number], wsi: 4.0, aware: 2600, label: "Élevé",    crda: "Ariana / Ben Arous" },
+  { id: "sahel",     name: "Sahel / Enfidha",   coords: [36.1, 10.5] as [number,number], wsi: 4.3, aware: 3200, label: "Élevé",    crda: "Sousse" },
+  { id: "kairouan",  name: "Kairouan",          coords: [35.7, 10.1] as [number,number], wsi: 4.3, aware: 3500, label: "Élevé",    crda: "Kairouan" },
+  { id: "sfax",      name: "Sfax",              coords: [34.7, 10.7] as [number,number], wsi: 5.0, aware: 8500, label: "Extrême", crda: "Sfax" },
+  { id: "gabes",     name: "Gabès",             coords: [33.9, 9.8]  as [number,number], wsi: 4.7, aware: 5200, label: "Critique", crda: "Gabès" },
+  { id: "sidi_bouzid",name: "Sidi Bouzid",     coords: [35.0, 9.5]  as [number,number], wsi: 4.9, aware: 6800, label: "Critique", crda: "Sidi Bouzid" },
+  { id: "gafsa",     name: "Gafsa",             coords: [34.4, 8.8]  as [number,number], wsi: 5.0, aware: 9200, label: "Extrême", crda: "Gafsa" },
+  { id: "tataouine", name: "Tataouine / Médenine",coords: [33.0, 10.4] as [number,number], wsi: 5.0, aware: 12000, label: "Extrême", crda: "Médenine / Tataouine" },
+];
+
 /* ── Country coordinates for WSI visualization ── */
 const countryCoords: Record<string, [number, number]> = {
   tunisie:         [33.8, 9.5],
@@ -180,6 +196,7 @@ export default function StressMap() {
   const { data: consumption = [] } = useWaterConsumption(userRole?.organization_id);
   const [selectedLayer, setSelectedLayer] = useState("wsi");
   const [showInfo, setShowInfo] = useState(true);
+  const [showTunisiaBasins, setShowTunisiaBasins] = useState(false);
 
   const heatPoints = useMemo(() => buildHeatPoints(selectedLayer), [selectedLayer]);
   const heatGradient = LAYER_GRADIENT[selectedLayer];
@@ -234,6 +251,7 @@ export default function StressMap() {
                 <SelectItem value="wsi">Stress Hydrique (WSI)</SelectItem>
                 <SelectItem value="scarcity">Rareté eau bleue</SelectItem>
                 <SelectItem value="aware">Facteur AWARE</SelectItem>
+                <SelectItem value="tunisia-aware">Bassins versants tunisiens (AWARE)</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -286,6 +304,37 @@ export default function StressMap() {
               ))}
             </div>
             <p className="text-[0.6rem] text-muted-foreground mt-2 opacity-60">Source : Aqueduct / WRI</p>
+          </div>
+
+          {/* ── Tunisia basins panel ── */}
+          <div className="px-4 py-3 border-b border-border">
+            <button
+              className="flex items-center justify-between w-full text-xs font-bold text-orange-500 uppercase tracking-wide"
+              onClick={() => setShowTunisiaBasins(!showTunisiaBasins)}
+            >
+              <span className="flex items-center gap-1.5">
+                <MapPin className="h-3.5 w-3.5" />
+                Bassins versants tunisiens
+              </span>
+              {showTunisiaBasins ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+            </button>
+            {showTunisiaBasins && (
+              <div className="mt-2 space-y-1.5">
+                {tunisianBasins.sort((a,b) => b.wsi - a.wsi).map((b) => (
+                  <div key={b.id} className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <div className={`w-2 h-2 rounded-full shrink-0 ${wsiTailwind(b.wsi)}`} />
+                      <span className="text-[0.68rem] font-medium truncate max-w-[100px]">{b.name}</span>
+                    </div>
+                    <div className="text-right">
+                      <span className={`text-[0.65rem] font-bold ${wsiTextColor(b.wsi)}`}>WSI {b.wsi}</span>
+                      <p className="text-[0.58rem] text-muted-foreground">AWARE ×{b.aware.toLocaleString("fr-FR")}</p>
+                    </div>
+                  </div>
+                ))}
+                <p className="text-[0.6rem] text-muted-foreground mt-1 opacity-70">Sources : CRDA / Ministère Agriculture Tunisie · AWARE WFN</p>
+              </div>
+            )}
           </div>
 
           {/* Site analysis */}
@@ -381,6 +430,34 @@ export default function StressMap() {
               attribution=""
               opacity={0.8}
             />
+
+            {/* Tunisian basin markers — always visible when showTunisiaBasins */}
+            {showTunisiaBasins && tunisianBasins.map((basin) => (
+              <CircleMarker
+                key={basin.id}
+                center={basin.coords}
+                radius={7}
+                pathOptions={{
+                  color: "#f97316",
+                  fillColor: wsiColor(basin.wsi),
+                  fillOpacity: 0.85,
+                  weight: 2,
+                }}
+              >
+                <Tooltip direction="top" offset={[0, -6]}>
+                  <span className="text-xs font-bold">{basin.name}</span>
+                </Tooltip>
+                <Popup>
+                  <div className="text-sm space-y-1 min-w-[180px]">
+                    <p className="font-bold">{basin.name}</p>
+                    <p className="text-xs text-gray-500">CRDA : {basin.crda}</p>
+                    <p>WSI : <strong style={{color: wsiColor(basin.wsi)}}>{basin.wsi}/5</strong> — {basin.label}</p>
+                    <p>Facteur AWARE : <strong>×{basin.aware.toLocaleString("fr-FR")}</strong></p>
+                    <p className="text-xs text-gray-400">1 m³ consommé ici = {basin.aware.toLocaleString("fr-FR")} m³eq d'impact relatif</p>
+                  </div>
+                </Popup>
+              </CircleMarker>
+            ))}
 
             {/* User site markers */}
             {siteAnalysis.filter((s) => s.coords).map((site) => (
