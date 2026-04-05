@@ -12,6 +12,8 @@ import {
   ShieldAlert,
   Package,
   FileCheck,
+  UserCog,
+  BarChart3,
 } from "lucide-react";
 import hydroscanLogoWhite from "@/assets/hydroscan-logo-white.png";
 import { NavLink } from "@/components/NavLink";
@@ -49,6 +51,7 @@ export function AppSidebar() {
 
   const topItems = [
     { title: t("sidebar.dashboard"), url: "/dashboard", icon: LayoutDashboard },
+    { title: "Profil & Unité Fonctionnelle", url: "/org-profile", icon: UserCog },
   ];
 
   const measureItems = [
@@ -59,6 +62,7 @@ export function AppSidebar() {
     { title: t("sidebar.stressMap"), url: "/stress-map", icon: MapPin },
     { title: t("sidebar.reportsExports"), url: "/reports", icon: FileBarChart },
     { title: t("sidebar.actionPlan"), url: "/action-plan", icon: Sprout },
+    { title: "Benchmark & Risques", url: "/benchmark-risks", icon: BarChart3 },
   ];
 
   const tuniItems = [

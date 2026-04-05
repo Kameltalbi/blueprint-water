@@ -33,6 +33,8 @@ import Recommendations from "@/pages/Recommendations";
 import Organization from "@/pages/Organization";
 import Settings from "@/pages/Settings";
 import OnasPenalties from "@/pages/OnasPenalties";
+import OrgProfilePage from "@/pages/OrgProfilePage";
+import BenchmarkRisks from "@/pages/BenchmarkRisks";
 import RoiSimulator from "@/pages/RoiSimulator";
 import SonedRisks from "@/pages/SonedRisks";
 import ProductFootprint from "@/pages/ProductFootprint";
@@ -66,6 +68,8 @@ function AppRoutes() {
       <Route path="/recommendations" element={<ProtectedRoute><AppLayout><Recommendations /></AppLayout></ProtectedRoute>} />
       <Route path="/organization" element={<ProtectedRoute><AppLayout><Organization /></AppLayout></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><AppLayout><Settings /></AppLayout></ProtectedRoute>} />
+      <Route path="/org-profile" element={<ProtectedRoute><AppLayout><OrgProfilePage /></AppLayout></ProtectedRoute>} />
+      <Route path="/benchmark-risks" element={<ProtectedRoute><AppLayout><BenchmarkRisks /></AppLayout></ProtectedRoute>} />
       <Route path="/onas-penalties" element={<ProtectedRoute><AppLayout><OnasPenalties /></AppLayout></ProtectedRoute>} />
       <Route path="/roi-simulator" element={<ProtectedRoute><AppLayout><RoiSimulator /></AppLayout></ProtectedRoute>} />
       <Route path="/soned-risks" element={<ProtectedRoute><AppLayout><SonedRisks /></AppLayout></ProtectedRoute>} />
