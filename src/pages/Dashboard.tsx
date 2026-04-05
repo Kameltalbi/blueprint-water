@@ -12,6 +12,8 @@ import { BenchmarkWidget } from "@/components/dashboard/BenchmarkWidget";
 import { ConsumptionChart } from "@/components/dashboard/ConsumptionChart";
 import { DataCompletenessWidget } from "@/components/dashboard/DataCompletenessWidget";
 import { EfficiencyWidget } from "@/components/dashboard/EfficiencyWidget";
+import { StressGaugeWidget } from "@/components/dashboard/StressGaugeWidget";
+import { OnboardingTutorial, useShouldShowTutorial } from "@/components/OnboardingTutorial";
 import { useUserRole, useSites, useWaterConsumption } from "@/hooks/useOrgData";
 import { Loader2, Info } from "lucide-react";
 import { demoConsumption, demoSites, demoPrevConsumption } from "@/lib/demo-data";
@@ -36,6 +38,7 @@ function monthlyBreakdown(data: any[], year: string) {
 export default function Dashboard() {
   const [site, setSite] = useState("all");
   const [period, setPeriod] = useState("2026");
+  const [showTutorial, setShowTutorial] = useState(() => useShouldShowTutorial());
   const { data: userRole, isLoading: roleLoading } = useUserRole();
   const { data: realSites = [] } = useSites(userRole?.organization_id);
   const { data: realConsumption = [], isLoading: dataLoading } = useWaterConsumption(userRole?.organization_id);
@@ -107,6 +110,7 @@ export default function Dashboard() {
       <div className="grid gap-6 lg:grid-cols-3">
         <WaterMixDonut bySource={bySource} totalVolume={totalVolume} />
         <ProcessBreakdownChart consumption={filtered} />
+        <StressGaugeWidget />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -128,6 +132,7 @@ export default function Dashboard() {
         <AlertsWidget consumption={allConsumption} year={year} />
         <EfficiencyWidget totalVolume={totalVolume} period={period} />
       </div>
+      {showTutorial && <OnboardingTutorial onClose={() => setShowTutorial(false)} />}
     </div>
   );
 }
