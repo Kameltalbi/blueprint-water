@@ -6,11 +6,10 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TrendingDown, Droplets, Sun, FlaskConical, Info } from "lucide-react";
+import { useCurrency } from "@/contexts/Currency";
 
-/* ── helpers ── */
-function fmt(n: number, decimals = 0) {
-  return n.toLocaleString("fr-FR", { maximumFractionDigits: decimals });
-}
+const fmtVol = (n: number) => Math.round(n).toLocaleString("fr-FR");
+
 function PaybackBar({ years, maxYears = 15 }: { years: number; maxYears?: number }) {
   const pct = Math.min((years / maxYears) * 100, 100);
   const color = years <= 3 ? "bg-emerald-500" : years <= 6 ? "bg-amber-400" : years <= 10 ? "bg-orange-500" : "bg-red-500";
@@ -30,6 +29,7 @@ function PaybackBar({ years, maxYears = 15 }: { years: number; maxYears?: number
    STEP — Station d'épuration interne
 ───────────────────────────────────────────── */
 function StepSimulator() {
+  const { format, symbol } = useCurrency();
   const [volumeM3Day, setVolumeM3Day]   = useState("80");
   const [daysYear, setDaysYear]         = useState("250");
   const [onasTariff, setOnasTariff]     = useState("4.5");      // DT/m³
@@ -81,19 +81,19 @@ function StepSimulator() {
                 <Input type="number" min="1" max="365" value={daysYear} onChange={e => setDaysYear(e.target.value)} placeholder="250" />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Tarif ONAS actuel (DT/m³)</Label>
+                <Label className="text-xs">Tarif ONAS actuel ({symbol}/m³)</Label>
                 <Input type="number" step="0.1" min="0" value={onasTariff} onChange={e => setOnasTariff(e.target.value)} placeholder="4.5" />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Pénalités ONAS actuelles (DT/an)</Label>
+                <Label className="text-xs">Pénalités ONAS actuelles ({symbol}/an)</Label>
                 <Input type="number" min="0" value={penaltyYear} onChange={e => setPenaltyYear(e.target.value)} placeholder="45000" />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Coût investissement STEP (DT)</Label>
+                <Label className="text-xs">Coût investissement STEP ({symbol})</Label>
                 <Input type="number" min="0" value={stepCost} onChange={e => setStepCost(e.target.value)} placeholder="280000" />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Coût exploitation STEP (DT/an)</Label>
+                <Label className="text-xs">Coût exploitation STEP ({symbol}/an)</Label>
                 <Input type="number" min="0" value={opexYear} onChange={e => setOpexYear(e.target.value)} placeholder="18000" />
               </div>
               <div className="space-y-1.5 sm:col-span-2">
@@ -126,7 +126,7 @@ function StepSimulator() {
             <Card>
               <CardHeader className="pb-1">
                 <CardDescription className="text-xs">Économies totales / an</CardDescription>
-                <CardTitle className="text-xl text-emerald-600">{fmt(r.totalAnnualSavings)} DT</CardTitle>
+                <CardTitle className="text-xl text-emerald-600">{format(r.totalAnnualSavings)}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-xs text-muted-foreground">net des charges exploitation</p>
@@ -136,7 +136,7 @@ function StepSimulator() {
               <CardHeader className="pb-1">
                 <CardDescription className="text-xs">VAN à 10 ans (taux 5%)</CardDescription>
                 <CardTitle className={`text-xl ${r.npv10 >= 0 ? "text-emerald-600" : "text-destructive"}`}>
-                  {fmt(r.npv10)} DT
+                  {format(r.npv10)}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -161,21 +161,21 @@ function StepSimulator() {
                     <tr key={String(label)} className="border-b last:border-0">
                       <td className="py-1.5 text-muted-foreground">{String(label)}</td>
                       <td className={`py-1.5 text-right font-medium ${color === "red" ? "text-destructive" : "text-emerald-600"}`}>
-                        {Number(val) >= 0 ? "+" : ""}{fmt(Number(val))} DT
+                        {Number(val) >= 0 ? "+" : ""}{format(Number(val))}
                       </td>
                     </tr>
                   ))}
                   <tr className="font-bold">
                     <td className="pt-2">Total net</td>
                     <td className={`pt-2 text-right ${r.totalAnnualSavings >= 0 ? "text-emerald-600" : "text-destructive"}`}>
-                      {fmt(r.totalAnnualSavings)} DT/an
+                      {format(r.totalAnnualSavings)}/an
                     </td>
                   </tr>
                 </tbody>
               </table>
               <p className="text-xs text-muted-foreground mt-3 border-t pt-2">
-                Volume REUT : <strong>{fmt(r.reutVolume)} m³/an</strong> récupérés sur{" "}
-                <strong>{fmt(r.annualVol)} m³/an</strong> traités
+                Volume REUT : <strong>{fmtVol(r.reutVolume)} m³/an</strong> récupérés sur{" "}
+                <strong>{fmtVol(r.annualVol)} m³/an</strong> traités
               </p>
             </CardContent>
           </Card>
@@ -189,6 +189,7 @@ function StepSimulator() {
    REUT — Réutilisation eaux traitées existantes
 ───────────────────────────────────────────── */
 function ReutSimulator() {
+  const { format, symbol } = useCurrency();
   const [volumeReut, setVolumeReut]     = useState("5000");   // m³/an disponibles
   const [sonesPrice, setSonesPrice]     = useState("2.8");    // DT/m³ SONEDE actuel
   const [reutCost, setReutCost]         = useState("0.4");    // DT/m³ traitement supplémentaire
@@ -232,15 +233,15 @@ function ReutSimulator() {
                 <Input type="number" min="0" value={volumeReut} onChange={e => setVolumeReut(e.target.value)} placeholder="5000" />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Tarif SONEDE actuel (DT/m³)</Label>
+                <Label className="text-xs">Tarif SONEDE actuel ({symbol}/m³)</Label>
                 <Input type="number" step="0.1" min="0" value={sonesPrice} onChange={e => setSonesPrice(e.target.value)} placeholder="2.8" />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Coût traitement REUT additionnel (DT/m³)</Label>
+                <Label className="text-xs">Coût traitement REUT additionnel ({symbol}/m³)</Label>
                 <Input type="number" step="0.05" min="0" value={reutCost} onChange={e => setReutCost(e.target.value)} placeholder="0.4" />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs">Investissement réseau REUT (DT)</Label>
+                <Label className="text-xs">Investissement réseau REUT ({symbol})</Label>
                 <Input type="number" min="0" value={investReut} onChange={e => setInvestReut(e.target.value)} placeholder="35000" />
               </div>
               <div className="space-y-1.5 sm:col-span-2">
@@ -278,13 +279,13 @@ function ReutSimulator() {
             <Card>
               <CardHeader className="pb-1">
                 <CardDescription className="text-xs">Économie annuelle</CardDescription>
-                <CardTitle className="text-lg text-emerald-600">{fmt(r.annualSaving)} DT</CardTitle>
+                <CardTitle className="text-lg text-emerald-600">{format(r.annualSaving)}</CardTitle>
               </CardHeader>
             </Card>
             <Card>
               <CardHeader className="pb-1">
                 <CardDescription className="text-xs">Volume substitué</CardDescription>
-                <CardTitle className="text-lg">{fmt(r.effectiveVol)} m³</CardTitle>
+                <CardTitle className="text-lg">{fmtVol(r.effectiveVol)} m³</CardTitle>
               </CardHeader>
             </Card>
             <Card>
@@ -304,12 +305,13 @@ function ReutSimulator() {
    Collecte eau de pluie
 ───────────────────────────────────────────── */
 function RainwaterSimulator() {
+  const { format, symbol } = useCurrency();
   const [roofArea, setRoofArea]         = useState("2000");  // m²
   const [rainfall, setRainfall]         = useState("450");   // mm/an (Tunis ~480, Sfax ~220)
   const [runoffCoeff, setRunoffCoeff]   = useState("0.80");  // coefficient ruissellement
   const [tankVolume, setTankVolume]     = useState("200");   // m³ cuve
-  const [investCost, setInvestCost]     = useState("45000"); // DT
-  const [sonesPrice, setSonesPrice2]    = useState("2.8");   // DT/m³
+  const [investCost, setInvestCost]     = useState("45000"); // currency
+  const [sonesPrice, setSonesPrice2]    = useState("2.8");   // currency/m³
   const [city, setCity]                 = useState("tunis");
 
   const cityRainfall: Record<string, number> = {
@@ -417,19 +419,19 @@ function RainwaterSimulator() {
             <Card>
               <CardHeader className="pb-1">
                 <CardDescription className="text-xs">Volume récupérable / an</CardDescription>
-                <CardTitle className="text-lg">{fmt(r.usableVolume)} m³</CardTitle>
+                <CardTitle className="text-lg">{fmtVol(r.usableVolume)} m³</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-xs text-muted-foreground">sur {fmt(r.rawVolume)} m³ bruts collectés</p>
+                <p className="text-xs text-muted-foreground">sur {fmtVol(r.rawVolume)} m³ bruts collectés</p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="pb-1">
                 <CardDescription className="text-xs">Économie SONEDE / an</CardDescription>
-                <CardTitle className="text-lg text-emerald-600">{fmt(r.annualSaving)} DT</CardTitle>
+                <CardTitle className="text-lg text-emerald-600">{format(r.annualSaving)}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-xs text-muted-foreground">{fmt(r.waterStressSaved)} m³ de moins prélevés</p>
+                <p className="text-xs text-muted-foreground">{fmtVol(r.waterStressSaved)} m³ de moins prélevés</p>
               </CardContent>
             </Card>
           </div>

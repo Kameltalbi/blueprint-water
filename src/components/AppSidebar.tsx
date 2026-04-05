@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { useLocation } from "react-router-dom";
 import { useI18n } from "@/lib/i18n";
 import { useCountryMode } from "@/contexts/CountryMode";
+import { useCurrency, type Currency } from "@/contexts/Currency";
 import {
   Sidebar,
   SidebarContent,
@@ -44,6 +45,7 @@ export function AppSidebar() {
   const { signOut } = useAuth();
   const navigate = useNavigate();
   const { mode, setMode, isTunisia } = useCountryMode();
+  const { currency, setCurrency } = useCurrency();
 
   const topItems = [
     { title: t("sidebar.dashboard"), url: "/dashboard", icon: LayoutDashboard },
@@ -167,6 +169,24 @@ export function AppSidebar() {
               >
                 🌍 International
               </button>
+            </div>
+          )}
+          {/* Currency selector */}
+          {!collapsed && (
+            <div className="flex rounded-lg border border-border overflow-hidden text-xs">
+              {(["DT", "EUR", "USD"] as Currency[]).map((c) => (
+                <button
+                  key={c}
+                  className={`flex-1 py-1.5 transition-colors ${
+                    currency === c
+                      ? "bg-primary text-primary-foreground font-semibold"
+                      : "bg-background text-muted-foreground hover:bg-muted"
+                  }`}
+                  onClick={() => setCurrency(c)}
+                >
+                  {c === "DT" ? "DT" : c === "EUR" ? "€ EUR" : "$ USD"}
+                </button>
+              ))}
             </div>
           )}
           {collapsed && (

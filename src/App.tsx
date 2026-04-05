@@ -7,6 +7,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { I18nProvider } from "@/lib/i18n";
 import { AuthProvider } from "@/hooks/useAuth";
 import { CountryModeProvider } from "@/contexts/CountryMode";
+import { CurrencyProvider } from "@/contexts/Currency";
 import { AppLayout } from "@/components/AppLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import LandingPage from "@/pages/LandingPage";
@@ -80,6 +81,7 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
         <CountryModeProvider>
+        <CurrencyProvider>
         <AuthProvider>
           <TooltipProvider>
             <Toaster />
@@ -89,6 +91,7 @@ const App = () => (
             </BrowserRouter>
           </TooltipProvider>
         </AuthProvider>
+        </CurrencyProvider>
         </CountryModeProvider>
       </I18nProvider>
     </QueryClientProvider>

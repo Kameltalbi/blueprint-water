@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useCurrency } from "@/contexts/Currency";
 import { PageMeta } from "@/components/PageMeta";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -96,6 +97,7 @@ interface PollutantEntry {
 }
 
 export default function OnasPenalties() {
+  const { format, symbol } = useCurrency();
   const [volumeJour, setVolumeJour] = useState("50");
   const [joursAn, setJoursAn] = useState("250");
   const [entries, setEntries] = useState<Record<string, PollutantEntry>>(
@@ -163,14 +165,14 @@ export default function OnasPenalties() {
               <CardDescription>Pénalité estimée / an</CardDescription>
               <CardTitle className={`text-2xl ${totalAnnualPenalty > 0 ? "text-destructive" : ""}`}>
                 {totalAnnualPenalty > 0
-                  ? `${Math.round(totalAnnualPenalty).toLocaleString("fr-FR")} DT`
-                  : filledCount === 0 ? "—" : "0 DT ✓"}
+                  ? format(Math.round(totalAnnualPenalty))
+                  : filledCount === 0 ? "—" : `0 ${symbol} ✓`}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-xs text-muted-foreground">
                 {totalAnnualPenalty > 0
-                  ? `${Math.round(totalAnnualPenalty / 12).toLocaleString("fr-FR")} DT/mois`
+                  ? `${format(Math.round(totalAnnualPenalty / 12))}/mois`
                   : "Renseignez les concentrations"}
               </p>
             </CardContent>
@@ -217,7 +219,7 @@ export default function OnasPenalties() {
             <CardContent>
               {worstPollutant && (
                 <p className="text-xs text-destructive font-medium">
-                  {Math.round(worstPollutant.annualPenalty).toLocaleString("fr-FR")} DT/an
+                  {format(Math.round(worstPollutant.annualPenalty))}/an
                 </p>
               )}
             </CardContent>
@@ -335,11 +337,11 @@ export default function OnasPenalties() {
                       <td className="px-4 py-3 text-right font-medium">
                         {pol.annualPenalty > 0 ? (
                           <span className="text-destructive">
-                            {Math.round(pol.annualPenalty).toLocaleString("fr-FR")} DT
+                            {format(Math.round(pol.annualPenalty))}
                           </span>
                         ) : pol.cEff > 0 ? (
                           <span className="text-emerald-600 flex items-center justify-end gap-1">
-                            <CheckCircle2 className="h-3.5 w-3.5" /> 0 DT
+                            <CheckCircle2 className="h-3.5 w-3.5" /> 0 {symbol}
                           </span>
                         ) : (
                           <span className="text-muted-foreground">—</span>
@@ -355,7 +357,7 @@ export default function OnasPenalties() {
                         Total pénalités estimées / an
                       </td>
                       <td className="px-4 py-3 text-right font-bold text-destructive text-base">
-                        {Math.round(totalAnnualPenalty).toLocaleString("fr-FR")} DT
+                        {format(Math.round(totalAnnualPenalty))}
                       </td>
                     </tr>
                   </tfoot>
