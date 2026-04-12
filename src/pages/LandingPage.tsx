@@ -11,6 +11,7 @@ import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { WhySection } from "@/components/landing/WhySection";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { ProductPreviewSection } from "@/components/landing/ProductPreviewSection";
+import { EcosystemSection } from "@/components/landing/EcosystemSection";
 
 export default function LandingPage() {
   const { lang } = useI18n();
