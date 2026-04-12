@@ -81,6 +81,7 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <EcosystemSection />
       <WhySection />
       <FeaturesSection />
 
